@@ -6,10 +6,10 @@ const Listing = require("./models/listing.js");
 const methodOverride = require("method-override");
 const wrapAsync = require("./utils/wrapAsync.js");
 const ExpressError = require("./utils/ExpressError.js");
+const {listingSchema} = require("./Schema.js");
 
-
-const path = require("path");
-const app = express();
+const path = require("path"); 
+const app = express(); 
 
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
@@ -63,8 +63,10 @@ app.get("/:id", wrapAsync( async (req, res) => {
 
 //Create Route
 app.post("/", wrapAsync( async (req, res, next) => {
-    if(!req.body.listing) {
-        throw new ExpressError(400, "Send valid data for listing");
+    let result = listingSchema.validate(req.body);
+    console.log(result);
+    if(result.error) {
+        throw new ExpressError(400, result.error);
     }
     const newListing = new Listing(req.body.listing);
     await newListing.save();
