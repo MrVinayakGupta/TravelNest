@@ -1,13 +1,13 @@
 <% layout ("/layout/boilerplate") %>
 
     <body>
-        this is Show Route for <%= listing.id %> this id
+
             <br>
             <div class="show">
-                <img src="<%= listing.image.url %>" alt="">
                 <h1>
                     <%= listing.title %>
                 </h1>
+                <img src="<%= listing.image.url %>" alt="">
                 <p>
                     <%= listing.description %>
                 </p>
