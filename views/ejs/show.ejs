@@ -1,0 +1,32 @@
+<% layout ("/layout/boilerplate") %>
+
+    <body>
+        this is Show Route for <%= listing.id %> this id
+            <br>
+            <div class="show">
+                <img src="<%= listing.image.url %>" alt="">
+                <h1>
+                    <%= listing.title %>
+                </h1>
+                <p>
+                    <%= listing.description %>
+                </p>
+                <p><b> Price:</b> &#8377;<%= listing.price %> per night </p>
+                <p><b> Location: </b>
+                    <%= listing.location %>
+                </p>
+                <p><b>Country: </b>
+                    <%= listing.country %>
+                </p>
+            </div>
+            <div id="flexS">
+                <form method="GET" action="/<%= listing._id %>/edit">
+                    <button class="btn btn-primary" type="submit">Edit</button>
+                </form>
+                
+                <form method="POST" action="/<%=listing._id%>?_method=DELETE">
+                    <button class="btn btn-primary" type="submit">Delete </button>
+                </form>
+            </div>
+
+    </body>

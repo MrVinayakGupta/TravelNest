@@ -1,0 +1,181 @@
+<% layout("/layout/boilerplate") %>
+
+    <body>
+        <h3>Create a New Listing</h3>
+        <div class="form">
+            <form method="POST" action="/" class=" g-3 needs-validation" novalidate>
+                <div class="col-md-4">
+                    <label for="validationCustom01" class="form-label">Title</label>
+                    <input name="listing[title]" placeholder="Enter Title" type="text" class="form-control"
+                        id="validationCustom01" required>
+                    <div class="valid-feedback">
+                        Looks good!
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <label for="validationCustom02" class="form-label">Description</label>
+                    <textarea name="listing[description]" placeholder="Enter Description" class="form-control"
+                        id="validationCustom02" required></textarea>
+                    <div class="valid-feedback">
+                        Looks good!
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <label for="validationCustomUsername" class="form-label" Image></label>
+                    <!-- <div class="input-group has-validation"> -->
+                    <!-- <span class="input-group-text" id="inputGroupPrepend">@</span> -->
+                    <label for="validationCustom02" class="form-label">Image</label>
+                    <input name="listing[image.url]" placeholder="Enter Image/URL here" type="text" class="form-control"
+                        id="validationCustomUsername" aria-describedby="inputGroupPrepend" required>
+                    <div class="invalid-feedback">
+                        Please provide a valid URL!.
+                    </div>
+                    <!-- </div> -->
+                </div>
+                <div id="flex">
+                    <div class="col-md-6">
+                        <label for="validationCustom03" class="form-label">Price</label>
+                        <input name="listing[price]" placeholder="Enter price" type="number" class="form-control"
+                            id="validationCustom03" required>
+                        <div class="invalid-feedback">
+                            Please provide a valid Price!.
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <label for="validationCustom03" class="form-label">Location</label>
+                        <input name="listing[location]" placeholder="Enter Location" type="text" class="form-control"
+                            id="validationCustom03" required>
+                        <div class="invalid-feedback">
+                            Please provide a valid Location!.
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="col-md-4">
+                    <label for="validationCustom01" class="form-label">Country</label>
+                    <input name="listing[title]" placeholder="Enter Country Name" type="text" class="form-control"
+                        id="validationCustom01" required>
+                    <div class="invalid-feedback">
+                        Please provide a valid Country!.
+                    </div>
+                </div>
+                <br><br>
+
+                <!-- <div class="col-md-3">
+                    <label for="validationCustom04" class="form-label">State</label>
+                    <select class="form-select" id="validationCustom04" required>
+                        <option selected disabled value="">Choose...</option>
+                        <option>...</option>
+                    </select>
+                    <div class="invalid-feedback">
+                        Please select a valid state.
+                    </div>
+                </div> -->
+                <!-- <div class="col-12">
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" value="" id="invalidCheck" required>
+                        <label class="form-check-label" for="invalidCheck">
+                            Agree to terms and conditions
+                        </label>
+                        <div class="invalid-feedback">
+                            You must agree before submitting.
+                        </div>
+                    </div>
+                </div> -->
+                <div class="col-12">
+                    <button class="btn btn-primary" type="submit">Create new</button>
+                </div>
+            </form>
+        </div>
+        <script src="/js/bootstrapForm.js"></script>
+    </body>
+
+    <!-- 
+                <form method="POST" action="/" novalidate class="needs-validation">
+                <label for="title">Title</label>
+                <br>
+                 <input name="listing[title]" placeholder="enter title" type="text" class="form-control" id="validationCustom01"  required>
+                 <input name="listing[title]" placeholder="enter title" type="text" required />
+                <br /><br />
+                <label for="description">Description</label>
+                <br>
+                <textarea name="listing[description]" placeholder="enter description" required></textarea>
+                <br /><br />
+                <label for="image">Image URL</label>
+                <br>
+                 <input name="listing[image.url]" placeholder="enter image URL/Link" type="text" class="form-control" id="validationCustom01"  required>
+                <input name="listing[image.url]" placeholder="enter image URL/Link" type="text" required />
+                <br /><br />
+                <label for="price">Price</label>
+                <br>
+                 <input name="listing[price]" placeholder="enter price" type="text" class="form-control" id="validationCustom01"  required>
+                <input name="listing[price]" placeholder="enter price" type="number" required /> 
+                <br /><br />
+                <label for="country">Country</label>
+                <br>
+                 <input name="listing[country]" placeholder="enter country" type="text" class="form-control" id="validationCustom01" required>
+                <input name="listing[country]" placeholder="enter country" type="text" required /> 
+                <br /><br />
+                <label for="location">Location</label>
+                <br>
+                 <input name="listing[location]" placeholder="enter location" type="text" class="form-control" id="validationCustom01" required>
+                 <input name="listing[location]" placeholder="enter location" type="text" required />
+                <br /><br />
+                <button>Add</button>
+            </form>                     
+     -->
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <!-- <body>
+        <h3> This is new page of Airbnb</h3>
+        <div class="form">
+            <form method="POST" action="/">
+                <label for="title">Title</label>
+                <br>
+                <input type="text" id="title" name="title" required>
+                <br>
+                <label for="description">Description</label>
+                <br>
+                <input type="text" id="description" name="description" required>
+                <br>
+                <label for="image">Image URL</label>
+                <br>
+                <input type="text" id="image" name="image" required>
+                <br>
+                <label for="price">Price</label>
+                <br>
+                <input type="number" id="price" name="price" required>
+                <br>
+                <label for="location">Location</label>
+                <br>
+                <input type="text" id="location" name="location" required>
+                <br>
+                <label for="country">Country</label>
+                <br>
+                <input type="text" id="country" name="country" required>
+                <br>
+                <br>
+                <button type="submit">Create Listing</button>
+
+
+            </form>
+        </div>
+
+    </body> -->

@@ -1,0 +1,22 @@
+<% layout("/layout/boilerplate") %>
+
+    <body>
+        <h3> This is home page of Airbnb</h3>
+        <div class="cardContainer">
+            <% for (let listing of allListings) { %>
+                <div id="card">
+                    <a href="/<%= listing._id %>">
+                        <img class="rounded-t-lg" src="<%= listing.image.url %>" alt="" />
+                        <h5>
+                            <%= listing.title %>
+                        </h5>
+                        <p>Price:  &#8377;<%= listing.price %> per night</p>
+                        <p>Location: <%= listing.location %>
+                        </p>
+                        <button class="btn btn-primary" type="submit">View</button>
+                    </a>
+
+                </div>
+                <% } %>
+        </div>
+    </body>
