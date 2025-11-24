@@ -6,7 +6,8 @@ const Listing = require("./models/listing.js");
 const methodOverride = require("method-override");
 const wrapAsync = require("./utils/wrapAsync.js");
 const ExpressError = require("./utils/ExpressError.js");
-const {listingSchema} = require("./Schema.js");
+const {listingSchema} = require("./schema.js");
+const Review = require("./models/review.js");
 
 const path = require("path"); 
 const app = express(); 
@@ -105,6 +106,42 @@ app.delete("/:id", wrapAsync( async (req, res) => {
 }));
 
 
+//Reviews
+//Post route for reviews
+app.post("/:id/reviews", async (req, res) => {
+  try {
+    let listing = await Listing.findById(req.params.id);
+    if (!listing) {
+      return res.status(404).send("Listing not found");
+    }
+
+    let newReview = new Review(req.body.review);
+    await newReview.save();
+
+    // push reference to review
+    listing.reviews.push(newReview._id);
+    await listing.save();
+
+    res.redirect(`/${listing._id}`);
+  } catch (err) {
+    console.error(err);
+    res.status(500).send("Something went wrong" + err.message);
+  }
+});
+// app.post("/:id/reviews", async(req, res) => {
+//     let listing = await Listing.findById(req.params.id);
+//     console.log(listing);
+//     let newReview = new Review (req.body.review);
+//     console.log(newReview);
+
+//     listing.reviews.push(newReview);
+//     await newReview.save();
+//     await listing.save();
+//     res.redirect(` /${listing._id} `);
+// });
+
+
+//Error Handling Middleware
 app.use((err, req, res, next) => {
   console.error(err.stack);
   res.status(500).send("Something went wrong: " + err.message);

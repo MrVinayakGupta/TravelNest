@@ -31,7 +31,7 @@
             <div>
                 <hr>
                 <h2>Reviews</h2>
-                <form>
+                <form action="/<%= listing._id %>/reviews" method="POST">
                     <div>
                         <label for="rating" class="">Rating</label>
                         <input type="range" min="0" max="5" step="1" id="rating" name="review[rating]" >
