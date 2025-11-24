@@ -93,8 +93,9 @@ body {
 }
 #flexS{
     display: flex;
-    justify-content: space-evenly;
     align-items: center;
+    gap:30px;
+    margin: 5px 55px;
 }
 #flexforShow form {
     margin: 15px;
