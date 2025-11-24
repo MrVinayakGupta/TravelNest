@@ -7,6 +7,7 @@ const methodOverride = require("method-override");
 const wrapAsync = require("./utils/wrapAsync.js");
 const ExpressError = require("./utils/ExpressError.js");
 const {listingSchema} = require("./schema.js");
+const {reviewSchema} = require("./schema.js");
 const Review = require("./models/review.js");
 
 const path = require("path"); 
@@ -47,6 +48,16 @@ const validateListing = (req, res, next) => {
     }
 }
 
+const validateReview = (req, res, next) => {
+    let {error} = reviewSchema.validate(req.body);
+    if (error){
+        let errMsg = error.details.map(el => el.message).join(",");
+        throw new ExpressError(400, errMsg);
+    } else {
+        next();
+    }
+}
+
 //Error 
 app.get("/random", (req, res) => {
     res.render("ejs/err.ejs");
@@ -68,7 +79,7 @@ app.get('/favicon.ico', (req, res) => res.status(204).end());
 //Show Route
 app.get("/:id", wrapAsync( async (req, res) => {
     let { id } = req.params;
-    const listing = await Listing.findById(id);
+    const listing = await Listing.findById(id).populate("reviews");
     res.render("ejs/show.ejs", { listing, id });
 }));
 
@@ -108,13 +119,8 @@ app.delete("/:id", wrapAsync( async (req, res) => {
 
 //Reviews
 //Post route for reviews
-app.post("/:id/reviews", async (req, res) => {
-  try {
+app.post("/:id/reviews", validateReview, wrapAsync ( async (req, res) => {
     let listing = await Listing.findById(req.params.id);
-    if (!listing) {
-      return res.status(404).send("Listing not found");
-    }
-
     let newReview = new Review(req.body.review);
     await newReview.save();
 
@@ -123,22 +129,9 @@ app.post("/:id/reviews", async (req, res) => {
     await listing.save();
 
     res.redirect(`/${listing._id}`);
-  } catch (err) {
-    console.error(err);
-    res.status(500).send("Something went wrong" + err.message);
-  }
-});
-// app.post("/:id/reviews", async(req, res) => {
-//     let listing = await Listing.findById(req.params.id);
-//     console.log(listing);
-//     let newReview = new Review (req.body.review);
-//     console.log(newReview);
+}));
 
-//     listing.reviews.push(newReview);
-//     await newReview.save();
-//     await listing.save();
-//     res.redirect(` /${listing._id} `);
-// });
+
 
 
 //Error Handling Middleware

@@ -2,53 +2,59 @@
 
     <body>
 
-            <br>
-            <div class="show">
-                <h1>
-                    <%= listing.title %>
-                </h1>
-                <img src="<%= listing.image.url %>" alt="">
-                <p>
-                    <%= listing.description %>
-                </p>
-                <p><b> Price:</b> &#8377;<%= listing.price %> per night </p>
-                <p><b> Location: </b>
-                    <%= listing.location %>
-                </p>
-                <p><b>Country: </b>
-                    <%= listing.country %>
-                </p>
-            </div>
-            <div id="flexS">
-                <form method="GET" action="/<%= listing._id %>/edit">
-                    <button class="btn btn-primary" type="submit">Edit</button>
-                </form>
-                
-                <form method="POST" action="/<%=listing._id%>?_method=DELETE">
-                    <button class="btn btn-primary" type="submit">Delete </button>
-                </form>
-            </div>
-            <div>
-                <hr>
-                <h2>Reviews</h2>
-                <form action="/<%= listing._id %>/reviews" method="POST" novalidate class="need-validation">
-                    <div>
-                        <label for="rating" class="">Rating</label>
-                        <input type="range" min="0" max="5" step="1" id="rating" name="review[rating]" >
-                    </div>
-                    <div>
-                        <label for="comment" class="form-label" >Comments</label>
-                        <br>
-                        <textarea name="review[comment]" id="comment" class="form-control" cols="30" rows="5" ></textarea>
-                    </div>
-                    <button calss=" ">submit</button>
-                </form>
-            </div>
-            <div>
-                <hr>
-                <h3>All Reviews</h3>
-                <ul> <% for(let review of listing.reviews) { %> </ul>
-                    <li> <%= review.rating %> , <%= review.comment %></li>
+        <br>
+        <div class="show">
+            <h1>
+                <%= listing.title %>
+            </h1>
+            <img src="<%= listing.image.url %>" alt="">
+            <p>
+                <%= listing.description %>
+            </p>
+            <p><b> Price:</b> &#8377;<%= listing.price %> per night </p>
+            <p><b> Location: </b>
+                <%= listing.location %>
+            </p>
+            <p><b>Country: </b>
+                <%= listing.country %>
+            </p>
+        </div>
+        <div id="flexS">
+            <form method="GET" action="/<%= listing._id %>/edit">
+                <button class="btn btn-primary" type="submit">Edit</button>
+            </form>
+
+            <form method="POST" action="/<%=listing._id%>?_method=DELETE">
+                <button class="btn btn-primary" type="submit">Delete </button>
+            </form>
+        </div>
+        <div>
+            <hr>
+            <h2>Reviews</h2>
+            <form action="/<%= listing._id %>/reviews" method="POST" novalidate class="need-validation">
+                <div>
+                    <label for="rating" class="">Rating</label>
+                    <input type="range" min="0" max="5" step="1" id="rating" name="review[rating]">
+                </div>
+                <div>
+                    <label for="comment" class="form-label">Comments</label>
+                    <br>
+                    <textarea name="review[comment]" id="comment" class="form-control" cols="30" rows="5" required></textarea>
+                    <div class="invalid-feedback">Please submit some comment for review</div>
+                </div>
+                <button calss=" ">submit</button>
+            </form>
+        </div>
+        <div>
+            <hr>
+            <h3>All Reviews</h3>
+            <p> <%= listing.reviews %></p>
+            <ul>
+                <% for(let review of listing.reviews) { %>
+                    <li>
+                        <%= review.rating %>Star , <%= review.comment %>
+                    </li>
                 <% } %>
-            </div>
+            </ul>
+        </div>
     </body>
