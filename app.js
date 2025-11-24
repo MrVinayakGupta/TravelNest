@@ -131,7 +131,13 @@ app.post("/:id/reviews", validateReview, wrapAsync ( async (req, res) => {
     res.redirect(`/${listing._id}`);
 }));
 
-
+//Delete route for reviews
+app.delete("/:id/reviews/:reviewId", wrapAsync( async (req, res) => {
+    let { id, reviewId} = req.params;
+    await Listing.findByIdAndUpdate(id, { $pull: { reviews: reviewId } });
+    await Review.findByIdAndDelete(reviewId);
+    res.redirect(`/${id}`);
+}));
 
 
 //Error Handling Middleware
