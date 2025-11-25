@@ -87,6 +87,7 @@ app.get("/:id", wrapAsync( async (req, res) => {
 app.post("/", validateListing, wrapAsync( async (req, res, next) => {
     
     const newListing = new Listing(req.body.listing);
+    console.log(newListing);
     await newListing.save();
     res.redirect("/");
 }));
