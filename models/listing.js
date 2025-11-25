@@ -10,8 +10,8 @@ const listingSchema = new Schema({
     description: String,
     image: {
         type: {
-            filename: String,
             url: String,
+            filename: String,
         },
         default: {
             filename: "img.png",
