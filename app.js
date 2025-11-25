@@ -10,6 +10,9 @@ const {listingSchema} = require("./schema.js");
 const {reviewSchema} = require("./schema.js");
 const Review = require("./models/review.js");
 
+const listing = require("./routes/listing.js");
+const review = require("./routes/review.js");
+
 const path = require("path"); 
 const app = express(); 
 
@@ -20,33 +23,29 @@ app.use(methodOverride('_method'));
 app.engine('ejs', ejsMate);
 app.use(express.static(path.join(__dirname, "/public")));
 
+
+//Database Connection
+
 main().then(() => {
     console.log("connected to db");
 })
-    .catch((err) => {
-        console.log("'error occured' We did not connect to db ");
-    });
+.catch((err) => {
+    console.log("'error occured' We did not connect to db ");
+});
 
 async function main() {
     mongoose.connect('mongodb://127.0.0.1:27017/AirbnbReplica')
-        .then(() => {
-            console.log("We connected to mongo db");
-        })
-        .catch((err) => {
-            console.log(err);
-        });
+    .then(() => {
+        console.log("We connected to mongo db");
+    })
+    .catch((err) => {
+        console.log(err);
+    });
 }
 
 
-const validateListing = (req, res, next) => {
-    let {error} = listingSchema.validate(req.body);
-    if(error) {
-        let errMsg = error.details.map(el => el.message).join(",");
-        throw new ExpressError(400, errMsg);
-    } else {
-        next();
-    }
-}
+app.use("/", listing);
+// app.use("/:id/reviews", review);
 
 const validateReview = (req, res, next) => {
     let {error} = reviewSchema.validate(req.body);
@@ -57,66 +56,6 @@ const validateReview = (req, res, next) => {
         next();
     }
 }
-
-//Error 
-app.get("/random", (req, res) => {
-    res.render("ejs/err.ejs");
-    // throw new Error("This is a forced error.");
-});
-
-// Home Route
-app.get("/", wrapAsync( async (req, res) => {
-    const allListings = await Listing.find({});
-    res.render("ejs/home.ejs", { allListings });
-}));
-
-//New Route
-app.get("/new", (req, res) => {
-    res.render("ejs/new.ejs");
-});
-
-app.get('/favicon.ico', (req, res) => res.status(204).end());
-//Show Route
-app.get("/:id", wrapAsync( async (req, res) => {
-    let { id } = req.params;
-    const listing = await Listing.findById(id).populate("reviews");
-    res.render("ejs/show.ejs", { listing, id });
-}));
-
-//Create Route
-app.post("/", validateListing, wrapAsync( async (req, res, next) => {
-    
-    const newListing = new Listing(req.body.listing);
-    console.log(req.body);
-    console.log(newListing);
-    await newListing.save();
-    res.redirect("/");
-}));
-
-// Edit Route
-app.get("/:id/edit", wrapAsync( async (req, res) => {
-    let { id } = req.params;
-    const listing = await Listing.findById(id);
-    res.render("ejs/edit.ejs", { id, listing });
-}));
-
-//Update Route
-app.put("/:id", validateListing, wrapAsync( async (req, res) => {
-    if(!req.body.listing) {
-        throw new ExpressError(400, "Send valid data for listing");
-    }
-    let { id } = req.params;
-    await Listing.findByIdAndUpdate(id, { ...req.body.listing });
-    res.redirect(`/${id}`);
-}));
-
-//Delete Route
-app.delete("/:id", wrapAsync( async (req, res) => {
-    let { id } = req.params;
-    let deletedListing = await Listing.findByIdAndDelete(id);
-    console.log(deletedListing);
-    res.redirect("/");
-}));
 
 
 //Reviews
@@ -147,6 +86,8 @@ app.use((err, req, res, next) => {
   console.error(err.stack);
   res.status(500).send("Something went wrong: " + err.message);
 });
+
+
 app.listen(5050, () => {
     console.log("Server is running on port 5050");
 });
