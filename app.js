@@ -10,6 +10,7 @@ const {listingSchema} = require("./schema.js");
 const {reviewSchema} = require("./schema.js");
 const Review = require("./models/review.js");
 const session = require("express-session");
+const flash = require("connect-flash");
 
 const listing = require("./routes/listing.js");
 const review = require("./routes/review.js");
@@ -36,6 +37,12 @@ const sessionOptions = {
 };
 
 app.use(session(sessionOptions));
+app.use(flash());
+
+app.use((req, res, next) => {  
+    res.locals.success = req.flash("success");
+    next();
+});
 
 //Database Connection
 
