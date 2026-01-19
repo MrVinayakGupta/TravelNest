@@ -9,6 +9,7 @@ const ExpressError = require("./utils/ExpressError.js");
 const {listingSchema} = require("./schema.js");
 const {reviewSchema} = require("./schema.js");
 const Review = require("./models/review.js");
+const session = require("express-session");
 
 const listing = require("./routes/listing.js");
 const review = require("./routes/review.js");
@@ -23,6 +24,13 @@ app.use(methodOverride('_method'));
 app.engine('ejs', ejsMate);
 app.use(express.static(path.join(__dirname, "/public")));
 
+const sessionOptions = {
+    secret : "mysupersecretkey",
+    resave : false,
+    saveUninitialized : true,
+}
+
+app.use(session(sessionOptions));
 
 //Database Connection
 
