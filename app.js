@@ -17,6 +17,7 @@ const User = require("./models/user.js");
 
 const listing = require("./routes/listing.js");
 const review = require("./routes/review.js");
+const user = require("./routes/user.js");
 
 const path = require("path"); 
 const app = express(); 
@@ -75,6 +76,7 @@ async function main() {
 
 
 app.use("/", listing);
+app.use("/user", user);
 // app.use("/:id/reviews", review);
 
 const validateReview = (req, res, next) => {
