@@ -32,7 +32,16 @@
         <button class="btn btn-outline-success" type="submit">Search</button>
       </form>
       
-
+      <div class="navbar-nav ms-auto">
+        <% if(!currUser) { %>
+          <a class="nav-link" href="/user/singup">Sing Up</a>
+          <a class="nav-link" href="/user/login">Log In</a> 
+        <% } %>
+        <% if(currUser) { %>
+          <span class="navbar-text mx-2">Hello, <%= currUser.username %></span>
+          <a class="nav-link" href="/user/logout">Log Out</a>
+        <% } %>
+      </div>
     </div>
   </div>
 </nav>
