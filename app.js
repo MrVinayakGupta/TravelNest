@@ -77,7 +77,7 @@ async function main() {
 
 app.use("/", listing);
 // app.use("/:id/reviews", review);
-app.use("/user", user);
+app.use("/", user);
 
 const validateReview = (req, res, next) => {
     let {error} = reviewSchema.validate(req.body);
