@@ -13,7 +13,9 @@ router.post("/user/singup", wrapAsync( async (req, res, next) => {
         let { username, email, password } = req.body;
         const newUser = new user({ username, email });
         const registeredUser = await user.register(newUser, password);
-        console.log(registeredUser);
+        req.login(registeredUser, (err) => {
+            if (err) return next(err);
+        });
         req.flash("success", "Welcome to TravelNest!");
         res.redirect("/");
     }catch(e) {
