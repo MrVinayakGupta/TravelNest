@@ -49,9 +49,10 @@ router.get("/:id", wrapAsync( async (req, res) => {
 }));
 
 //Create Route
-router.post("/", validateListing, wrapAsync( async (req, res, next) => {
+router.post("/", isLoggedIn, validateListing, wrapAsync( async (req, res, next) => {
     
     const newListing = new Listing(req.body.listing);
+    newListing.owner = req.user._id;
     console.log(req.body);
     console.log(newListing);
     await newListing.save();
@@ -67,7 +68,7 @@ router.get("/:id/edit", isLoggedIn, wrapAsync( async (req, res) => {
 }));
 
 //Update Route
-router.put("/:id",  validateListing, wrapAsync( async (req, res) => {
+router.put("/:id", isLoggedIn, validateListing, wrapAsync( async (req, res) => {
     if(!req.body.listing) {
         throw new ExpressError(400, "Send valid data for listing");
     }
