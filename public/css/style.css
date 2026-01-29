@@ -64,10 +64,12 @@ body {
 /* Show Route */
 .show {
     display: flex;
-    flex-direction: column;
     margin: 2em;
     position: relative;
-
+    width: 60vw;
+    justify-content: center;
+    flex-direction: column;
+    margin: auto;
 }
 
 .show img {
@@ -95,7 +97,7 @@ body {
     display: flex;
     align-items: center;
     gap:30px;
-    margin: 5px 55px;
+    margin: 2rem 22vw;
 }
 #flexforShow form {
     margin: 15px;
