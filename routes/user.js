@@ -29,9 +29,9 @@ router.get("/user/login", (req, res) => {
     res.render("ejs/login.ejs");
 });
 
-router.post("/user/login", saveRedirectUrl passport.authenticate("local",{failureRedirect: "/login", failureFlash: true}), async (req, res, next) => {
+router.post("/user/login", saveRedirectUrl,  passport.authenticate("local",{failureRedirect: "/login", failureFlash: true}), async (req, res) => {
     req.flash("success", `Welcome back! ${req.user.username}`);
-    res.redirect("/");
+    res.redirect(res.locals.redirectUrl || "/"  );
 });
 
 router.get("/user/logout", (req, res) => {
