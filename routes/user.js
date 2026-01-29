@@ -3,12 +3,13 @@ const router = express.Router();
 const user = require("../models/user.js");
 const wrapAsync = require("../utils/wrapAsync.js");
 const passport = require("passport");
+const {saveREdirectUrl} = require("../middleware.js");  
 
 router.get("/user/singup", (req, res) => {
     res.render("ejs/singup.ejs");
 });
 
-router.post("/user/singup", wrapAsync( async (req, res, next) => {
+router.post("/user/singup", wrapAsync( async (req, res) => {
     try {
         let { username, email, password } = req.body;
         const newUser = new user({ username, email });
@@ -33,7 +34,7 @@ router.post("/user/login", passport.authenticate("local",{failureRedirect: "/log
     res.redirect("/");
 });
 
-router.get("/user/logout", (req, res, next) => {
+router.get("/user/logout", (req, res) => {
     req.logout( (err) => {
         if (err) {
             return next(err);
@@ -43,5 +44,6 @@ router.get("/user/logout", (req, res, next) => {
         res.redirect("/");
     });
 });
+
 
 module.exports = router;
