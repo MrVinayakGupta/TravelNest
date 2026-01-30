@@ -20,6 +20,7 @@
                 <%= listing.country %>
             </p>
         </div>
+        <% if (currUser && currUser._id.equals(listing.owner._id)) { %>
         <div id="flexS">
             <form method="GET" action="/<%= listing._id %>/edit">
                 <button class="btn btn-primary" type="submit">Edit</button>
@@ -29,6 +30,7 @@
                 <button class="btn btn-primary" type="submit">Delete </button>
             </form>
         </div>
+        <% } %>
         <hr>
         <div class="col-8 offset-3 mb-3">
             <h4><i>Reviews</i></h4>
