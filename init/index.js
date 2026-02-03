@@ -21,4 +21,5 @@ const initDB = async() =>{
     console.log("Database Initialized");
 };
 
+
 initDB() //for calling function initDB which save data to database
