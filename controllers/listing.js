@@ -22,9 +22,12 @@ module.exports.Show = async (req, res) => {
 };
 
 module.exports.Create = async (req, res, next) => {
-    
+    let url = req.file.path;
+    let filename = req.file.filename;
+
     const newListing = new Listing(req.body.listing);
     newListing.owner = req.user._id;
+    newListing.image = { url, filename };  
     console.log(req.body);
     console.log(newListing);
     await newListing.save();

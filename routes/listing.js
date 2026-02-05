@@ -29,7 +29,7 @@ router.get('/favicon.ico', (req, res) => res.status(204).end());
 router.get("/:id", wrapAsync(listingController.Show));
 
 //Create Route
-router.post("/", isLoggedIn, validateListing, wrapAsync(listingController.Create));
+router.post("/", isLoggedIn, upload.single("listing[image]"), validateListing, wrapAsync(listingController.Create));
 
 // Edit Route
 router.get("/:id/edit", isLoggedIn, isOwner, wrapAsync( listingController.Edit));
