@@ -5,7 +5,7 @@
         </h3>
 
         <div class="form">
-            <form class=" g-3 needs-validation" novalidate>
+            <form method="POST" action="/<%=listing._id %>/?_method=PUT" enctype="multipart/form-data" class=" g-3 needs-validation" novalidate >
                 <div class="col-md-4">
                     <label for="validationCustom01" class="form-label">Title</label>
                     <input value="<%= listing.title %>" placeholder="Enter Title" type="text" class="form-control"
@@ -23,11 +23,8 @@
                     </div>
                 </div>
                 <div class="col-md-4">
-                    <label for="validationCustomUsername" class="form-label" Image></label>
-                    <!-- <div class="input-group has-validation"> -->
-                    <!-- <span class="input-group-text" id="inputGroupPrepend">@</span> -->
-                    <label for="validationCustom02" class="form-label">Image</label>
-                    <input value="<%= listing.image.url %>" placeholder="Enter Image/URL here" type="text"
+                    <label for="validationCustom02" class="form-label">Upload New Image</label>
+                    <input name="listing[image]"  type="file"
                         class="form-control" id="validationCustomUsername" aria-describedby="inputGroupPrepend"
                         required>
                     <div class="invalid-feedback">
