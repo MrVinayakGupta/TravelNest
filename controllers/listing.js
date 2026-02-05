@@ -42,7 +42,9 @@ module.exports.Edit =async (req, res) => {
         req.flash("error", "Cannot find that listing!");
         return res.redirect("/");
     }
-    res.render("ejs/edit.ejs", { id, listing });
+    let originalImageUrl = listing.image.url;
+    originalImageUrl.replace("/upload/", "/upload/w_250/"); 
+    res.render("ejs/edit.ejs", { id, listing, originalImageUrl });
 };
 
 module.exports.Update = async (req, res) => {
