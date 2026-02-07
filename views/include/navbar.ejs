@@ -34,12 +34,12 @@
       
       <div class="navbar-nav ms-auto">
         <% if(!currUser) { %>
-          <a class="nav-link" href="/user/singup">Sing Up</a>
-          <a class="nav-link" href="/user/login">Log In</a> 
+          <a class="nav-link" href="/user/singup"> <b> Sing Up  </b> </a>
+          <a class="nav-link" href="/user/login"> <b> Log In  </b> </a> 
         <% } %>
         <% if(currUser) { %>
-          <span class="navbar-text mx-2">User Name: <%= currUser.username %></span>
-          <a class="nav-link" href="/user/logout">Log Out</a>
+          <span class="navbar-text mx-2">User Name:<i> <%= currUser.username %></i></span>
+          <a class="nav-link" href="/user/logout"> <b> Log Out </b></a>
         <% } %>
       </div>
     </div>
