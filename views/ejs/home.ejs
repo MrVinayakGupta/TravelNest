@@ -13,7 +13,6 @@
             align-items: center;
             cursor: pointer;
             font-size: 14px;
-            color: #555;
             opacity: 0.7;
         }
 
@@ -24,6 +23,16 @@
         .filter i {
             font-size: 24px;
             margin-bottom: 5px;
+        }
+
+        .tax-toggle {
+            margin-left: auto;
+            border : 1px solid #000;
+            border-radius: 1rem;
+            height: 3.5rem;
+            display: flex;
+            align-items: center;
+            padding: 0 15px;
         }
 
         /* .cardContainer {
@@ -102,7 +111,34 @@
             <i class="fa-solid fa-snowman"></i>
             <p>Snow</p>
         </div>
+         <div class="filter">
+            <i class="fa-solid fa-person-swimming"></i>
+            <p>Amazing Pool</p>
+        </div>
+        <div class="filter">
+            <i class="fa-regular fa-compass"></i>
+            <p>Camping</p>
+        </div>
+        <div class="filter">
+            <i class="fa-solid fa-tractor"></i>
+            <p>Farms</p>
+        </div>
+        <div class="filter">
+            <i class="fa-solid fa-snowman"></i>
+            <p>Snow</p>
+        </div>
+            <div class="filter">
+                <i class="fa-solid fa-person-swimming"></i>
+                <p>Amazing Pool</p>
+        </div>
+        <div class="tax-toggle">
+            <div class="form-check form-switch form-check-reverse">
+                <input class="form-check-input" type="checkbox" role="switch" id="switchCheckDefault">
+                <label class="form-check-label" for="switchCheckDefault">Display total after taxes</label>
+            </div>
+        </div>
     </div>
+
     <body>
 
         <div class="cardContainer">
@@ -113,13 +149,13 @@
                         <h5>
                             <%= listing.title %>
                         </h5>
-                        <p>Price:  &#8377;<%= listing.price %> per night</p>
+                        <p>Price: &#8377;<%= listing.price %> per night</p>
                         <p>Location: <%= listing.location %>
                         </p>
                         <button class="btn btn-primary" type="submit">View</button>
                     </a>
 
                 </div>
-            <% } %>
+                <% } %>
         </div>
     </body>
