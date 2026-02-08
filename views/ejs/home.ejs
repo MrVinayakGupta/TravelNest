@@ -10,9 +10,11 @@
         .filterContainer {
             display: flex;
             gap: 20px;
-            margin: 20px;
+            margin: 16px 0 -6px 45px;
             width: 70%;
             overflow: scroll;
+            overflow-y: hidden;
+            overflow-x: auto;
         }
 
         .filter {
@@ -41,7 +43,6 @@
             display: flex;
             align-items: center;
             padding: 0 15px;
-            width: 20%;
         }
 
         /* .cardContainer {
@@ -173,9 +174,15 @@
             if (this.checked) {
                 // Code to display total after taxes
                 console.log("Display total after taxes");
+                for(info of taxInfo) {
+                    info.style.display = "block";
+                }
             } else {
                 // Code to hide total after taxes
                 console.log("Hide total after taxes");
+                for(info of taxInfo) {
+                    info.style.display = "none";
+                }
             }
         });
     </script>
