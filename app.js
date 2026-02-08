@@ -73,7 +73,7 @@ main().then(() => {
 });
 
 async function main() {
-    await mongoose.connect(dbUrl);
+    await mongoose.connect(db);
     console.log("We connected to mongo db");
 }
 
