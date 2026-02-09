@@ -13,6 +13,7 @@ const {listingSchema} = require("./schema.js");
 const {reviewSchema} = require("./schema.js");
 const Review = require("./models/review.js");
 const session = require("express-session");
+const MongoStrore = require("connect-mongo").default;
 const flash = require("connect-flash");
 const passport = require("passport");
 const LocalStrategy = require("passport-local");
@@ -32,7 +33,36 @@ app.use(methodOverride('_method'));
 app.engine('ejs', ejsMate);
 app.use(express.static(path.join(__dirname, "/public")));
 
+//Database Connection
+
+const db = "mongodb://127.0.0.1:27017/AirbnbReplica";
+const dbUrl = process.env.ATLASDB_URL;  //mongodb://127.0.0.1:27017/AirbnbReplica
+
+
+main().then(() => {
+    console.log("connected to db");
+})
+.catch((err) => {
+    console.log("'error occured' We did not connect to db", err);
+});
+
+async function main() {
+    await mongoose.connect(db);
+    console.log("We connected to mongo db");
+}
+
+// session configuration
+
+const store = new MongoStrore({
+    mongoUrl: dbUrl,
+    crypto: {
+    secret: "mysupersecretkey",
+    },
+    touchAfter: 24 * 3600, // time period in seconds
+});
+
 const sessionOptions = {
+    store,
     secret : "mysupersecretkey",
     resave : false,
     saveUninitialized : true,
@@ -59,23 +89,6 @@ app.use((req, res, next) => {
     next();
 });
 
-//Database Connection
-
-const db = "mongodb://127.0.0.1:27017/AirbnbReplica";
-const dbUrl = process.env.ATLASDB_URL;  //mongodb://127.0.0.1:27017/AirbnbReplica
-
-
-main().then(() => {
-    console.log("connected to db");
-})
-.catch((err) => {
-    console.log("'error occured' We did not connect to db", err);
-});
-
-async function main() {
-    await mongoose.connect(db);
-    console.log("We connected to mongo db");
-}
 
 
 app.use("/", listing);
