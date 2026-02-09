@@ -51,7 +51,6 @@ async function main() {
     console.log("We connected to mongo db");
 }
 
-
 // session configuration
 
 const store = new MongoStrore({
