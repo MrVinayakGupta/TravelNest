@@ -36,7 +36,8 @@ app.use(express.static(path.join(__dirname, "/public")));
 //Database Connection
 
 const db = "mongodb://127.0.0.1:27017/AirbnbReplica";
-const dbUrl = process.env.ATLASDB_URL;  //mongodb://127.0.0.1:27017/AirbnbReplica
+const dbUrl=process.env.ATLASDB_URL;  //mongodb://127.0.0.1:27017/AirbnbReplica
+Url="mongodb+srv://guptavinayak520_db_user:%7BVinayak%7D@cluster0.tohhwn3.mongodb.net/";
 
 
 main().then(() => {
@@ -55,7 +56,7 @@ async function main() {
 // session configuration
 
 const store = new MongoStrore({
-    mongoUrl: dbUrl,
+    mongoUrl: db,
     crypto: {
     secret: "mysupersecretkey",
     },
