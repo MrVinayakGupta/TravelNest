@@ -56,7 +56,7 @@ main().then(() => {
 });
 
 async function main() {
-    await mongoose.connect(db);
+    await mongoose.connect(dbUrl);
     console.log("We connected to mongo db");
 }
 
@@ -64,7 +64,7 @@ async function main() {
 // session configuration
 
 const store = new MongoStrore({
-    mongoUrl: db,
+    mongoUrl: dbUrl,
     crypto: {
     secret: "mysupersecretkey",
     },
