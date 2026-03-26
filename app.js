@@ -1,6 +1,7 @@
-if(process.env.NODE_ENV !== "production"){
-    require("dotenv").config();
-}
+// if(process.env.NODE_ENV !== "production"){
+//     require("dotenv").config();
+// }
+const dotenv = require("dotenv").config();
 const express = require("express");
 const mongoose = require("mongoose");
 const ejs = require("ejs");
@@ -36,8 +37,7 @@ app.use(express.static(path.join(__dirname, "/public")));
 //Database Connection
 
 const db = "mongodb://127.0.0.1:27017/AirbnbReplica";
-const dbUrl=process.env.ATLASDB_URL;  //mongodb://127.0.0.1:27017/AirbnbReplica
-Url="mongodb+srv://guptavinayak520_db_user:%7BVinayak%7D@cluster0.tohhwn3.mongodb.net/";
+const dbUrl=process.env.ATLASDB_URL2;  //mongodb://127.0.0.1:27017/AirbnbReplica
 
 main().then(() => {
     console.log("connected to db");
@@ -47,7 +47,7 @@ main().then(() => {
 });
 
 async function main() {
-    await mongoose.connect(db);
+    await mongoose.connect(dbUrl);
     console.log("We connected to mongo db");
 }
 
