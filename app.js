@@ -1,7 +1,9 @@
 // if(process.env.NODE_ENV !== "production"){
 //     require("dotenv").config();
 // }
-const dotenv = require("dotenv").config();
+require('dotenv').config();
+const dns = require('node:dns');
+dns.setDefaultResultOrder('ipv4first');
 const express = require("express");
 const mongoose = require("mongoose");
 const ejs = require("ejs");
@@ -39,23 +41,37 @@ app.use(express.static(path.join(__dirname, "/public")));
 const db = "mongodb://127.0.0.1:27017/AirbnbReplica";
 const dbUrl=process.env.ATLASDB_URL2;  //mongodb://127.0.0.1:27017/AirbnbReplica
 
-main().then(() => {
-    console.log("connected to db");
-})
-.catch((err) => {
-    console.log("'error occured' We did not connect to db", err);
-});
 
-async function main() {
-    await mongoose.connect(db);
-    console.log("We connected to mongo db");
-}
+const connectDB = async () => {
+    try {
+        await mongoose.connect(process.env.ATLASDB_URL2, );
+        console.log("✅ MongoDB Atlas Connected!");
+    } catch (err) {
+        console.error("❌ Connection Failed:", err.message);
+        process.exit(1);
+    }
+};
+
+// Call the function to connect
+connectDB();
+
+// main().then(() => {
+//     console.log("connected to db");
+// })
+// .catch((err) => {
+//     console.log("'error occured' We did not connect to db", err);
+// });
+
+// async function main() {
+//     await mongoose.connect(db);
+//     console.log("We connected to mongo db");
+// }
 
 
 // session configuration
 
 const store = new MongoStrore({
-    mongoUrl: db,
+    mongoUrl: process.env.ATLASDB_URL2,
     crypto: {
     secret: "mysupersecretkey",
     },
