@@ -20,5 +20,4 @@ router.use((err, req, res, next) => {
   res.status(500).send("Something went wrong: " + err.message);
 });
 
-
 module.exports = router;
