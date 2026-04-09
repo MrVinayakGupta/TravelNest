@@ -2,7 +2,8 @@
 //     require("dotenv").config();
 // }
 require('dotenv').config();
-const dns = require('node:dns');
+const dns = require('dns');
+dns.setServers(['8.8.8.8', '1.1.1.1']); // Forces Node to use Google/Cloudflare DNS
 dns.setDefaultResultOrder('ipv4first');
 const express = require("express");
 const mongoose = require("mongoose");
@@ -39,15 +40,14 @@ app.use(express.static(path.join(__dirname, "/public")));
 //Database Connection
 
 const db = "mongodb://127.0.0.1:27017/AirbnbReplica";
-const dbUrl=process.env.ATLASDB_URL2;  
+// process.env.ATLASDB_URL2;  
 
 const connectDB = async () => {
     try {
-        await mongoose.connect(process.env.ATLASDB_URL2, );
+        await mongoose.connect(dbUrl);
         console.log("✅ MongoDB Atlas Connected!");
     } catch (err) {
         console.error("❌ Connection Failed:", err.message);
-        process.exit(1);
     }
 };
 
@@ -71,7 +71,7 @@ connectDB();
 // session configuration
 
 const store = new MongoStrore({
-    mongoUrl: process.env.ATLASDB_URL2,
+    mongoUrl: dbUrl,
     crypto: {
     secret: "mysupersecretkey",
     },
