@@ -1,5 +1,5 @@
 const cloudinary = require("cloudinary").v2;
-const { CloudinaryStorage } = require("multer-storage-cloudinary");
+const { CloudinaryStorage } = require('multer-storage-cloudinary');
 const multer = require("multer");
 
 
@@ -10,12 +10,14 @@ cloudinary.config({
 });
 
 const storage = new CloudinaryStorage({
-  cloudinary : cloudinary,
+  cloudinary: cloudinary,
   params: {
-    folder: "TravelNest_Dev",
-    allowedFormats: ["jpeg", "png", "jpg"]
+    folder: 'TravelNest',
+    allowed_formats: ['jpeg', 'png', 'jpg']
   }
 });
+
+const upload = multer({ storage: storage });
 
 module.exports = {
     cloudinary,
