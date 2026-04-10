@@ -1,111 +1,287 @@
-<% layout ("/layout/boilerplate") %>
+<% layout("/layout/boilerplate") %>
 
-    <body>
+<style>
+    :root {
+        --gold: #b8975a;
+        --gold-light: #e0c98a;
+        --gold-pale: #f7f1e6;
+        --ink: #18160f;
+        --ink-2: #3a3528;
+        --ink-3: #7a7263;
+        --surface: #fdfcf9;
+        --border: #e8e2d6;
+        --white: #ffffff;
+        --font-serif: 'Cormorant Garamond', Georgia, serif;
+        --font-sans: 'DM Sans', sans-serif;
+    }
 
-        <br>
-        <div class="show">
-            <h1>
-                <%= listing.title %>
-            </h1>
-            <img src="<%= listing.image.url %>" alt="">
-            <p>owned by <i>
-                    <%= listing.owner.username %>
-                </i></p>
-            <p>
-                <%= listing.description %>
-            </p>
-            <p><b> Price:</b> &#8377;<%= listing.price %> per night </p>
-            <p><b> Location: </b>
-                <%= listing.location %>
-            </p>
-            <p><b>Country: </b>
-                <%= listing.country %>
-            </p>
+    body {
+        font-family: var(--font-sans);
+        background: var(--surface);
+        color: var(--ink);
+    }
+
+    /* ═══════════════════════════════════════════
+       EXACT SAMPLE NAVBAR
+    ═══════════════════════════════════════════ */
+    .lx-nav {
+        display: flex; align-items: center; justify-content: space-between;
+        padding: 0 2.5rem; height: 68px; background: var(--white);
+        border-bottom: 1px solid var(--border); position: sticky; top: 0; z-index: 1000;
+    }
+
+    .nav-brand {
+        font-family: var(--font-serif); font-size: 26px; text-decoration: none; color: var(--ink);
+        display: flex; align-items: center; gap: 8px;
+    }
+    .nav-brand span { color: var(--gold); font-style: italic; }
+
+    .nav-search {
+        display: flex; align-items: center; border: 1px solid var(--border);
+        border-radius: 40px; padding: 0 6px 0 18px; height: 44px;
+        background: var(--white); box-shadow: 0 2px 12px rgba(184,151,90,0.08);
+    }
+
+    .search-seg {
+        display: flex; flex-direction: column; padding: 0 14px;
+        border-right: 1px solid var(--border); cursor: pointer;
+    }
+    .search-seg:last-of-type { border-right: none; }
+    .search-seg label {
+        font-size: 9px; font-weight: 700; text-transform: uppercase;
+        color: var(--ink-3); margin-bottom: -2px;
+    }
+    .search-seg input { border: none; outline: none; font-size: 12px; width: 85px; background: transparent; }
+
+    .search-btn {
+        width: 34px; height: 34px; background: var(--gold); border: none;
+        border-radius: 50%; color: white; display: flex; align-items: center; justify-content: center;
+    }
+
+    /* Host alignment fix */
+    .nav-actions { display: flex; align-items: center; gap: 1.5rem; }
+    .nav-link { font-size: 13px; font-weight: 500; color: var(--ink); text-decoration: none; }
+
+    /* ═══════════════════════════════════════════
+       SHOW CASE SECTION
+    ═══════════════════════════════════════════ */
+    .show-wrapper { margin-top: 2rem; padding-bottom: 5rem; }
+
+    .listing-hero {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 3rem;
+        background: var(--white);
+        border-radius: 24px;
+        overflow: hidden;
+        border: 1px solid var(--border);
+        opacity: 0;
+        transform: translateY(30px);
+        transition: 1s cubic-bezier(0.22, 1, 0.36, 1);
+    }
+
+    .listing-hero.active { opacity: 1; transform: translateY(0); }
+
+    .hero-img-wrap { overflow: hidden; height: 550px; }
+
+    .hero-img-wrap img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        transition: 1.5s;
+    }
+
+    .listing-hero:hover .hero-img-wrap img { transform: scale(1.05); }
+
+    .hero-content { padding: 3rem; display: flex; flex-direction: column; justify-content: center; }
+
+    .owner-tag { font-size: 11px; text-transform: uppercase; letter-spacing: 2px; color: var(--gold); margin-bottom: 0.5rem; }
+
+    .listing-title { font-family: var(--font-serif); font-size: 3.5rem; line-height: 1.1; margin-bottom: 1.5rem; }
+
+    .price-box { font-family: var(--font-serif); font-size: 28px; color: var(--ink); margin-bottom: 2rem; }
+
+    /* ═══════════════════════════════════════════
+       REVIEWS SECTION (RESTORED & REDESIGNED)
+    ═══════════════════════════════════════════ */
+    .reviews-container { margin-top: 4rem; padding-top: 3rem; border-top: 1px solid var(--border); }
+
+    .review-form-card {
+        background: var(--white);
+        padding: 2rem;
+        border-radius: 18px;
+        border: 1px solid var(--border);
+        box-shadow: 0 5px 20px rgba(0,0,0,0.03);
+    }
+
+    .review-card {
+        background: var(--white);
+        border: 1px solid var(--border);
+        border-radius: 14px;
+        padding: 1.5rem;
+        height: 100%;
+        transition: 0.3s;
+    }
+
+    .review-card:hover { border-color: var(--gold-light); transform: translateY(-5px); }
+
+    .btn-lux {
+        background: var(--ink);
+        color: white;
+        border: none;
+        border-radius: 50px;
+        padding: 12px 28px;
+        font-size: 12px;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        transition: 0.3s;
+    }
+
+    .btn-lux:hover { background: var(--gold); transform: translateY(-2px); }
+
+    @media (max-width: 992px) {
+        .lx-nav { padding: 0 1rem; }
+        .nav-search { display: none; }
+        .listing-hero { grid-template-columns: 1fr; }
+        .hero-img-wrap { height: 350px; }
+    }
+</style>
+
+<nav class="lx-nav">
+    <a href="/" class="nav-brand">Travel<span>Nest</span></a>
+
+    <div class="nav-search">
+        <div class="search-seg">
+            <label>Where</label>
+            <input type="text" placeholder="Location">
         </div>
-        <% if (currUser && currUser._id.equals(listing.owner._id)) { %>
-            <div id="flexS">
-                <form method="GET" action="/<%= listing._id %>/edit">
-                    <button class="btn btn-primary" type="submit">Edit</button>
-                </form>
+        <div class="search-seg">
+            <label>When</label>
+            <input type="text" placeholder="Add dates">
+        </div>
+        <div class="search-seg">
+            <label>Guests</label>
+            <input type="text" placeholder="Add guests">
+        </div>
+        <button class="search-btn"><i class="fa-solid fa-magnifying-glass"></i></button>
+    </div>
 
-                <form method="POST" action="/<%=listing._id%>?_method=DELETE">
-                    <button class="btn btn-primary" type="submit">Delete </button>
-                </form>
+    <div class="nav-actions">
+        <a href="/new" class="nav-link">List your property</a>
+        <a href="/user/login" class="nav-link"><i class="fa-regular fa-circle-user fs-4"></i><%= currUser ? currUser.username : 'Login' %></a>
+    </div>
+</nav>
+
+<div class="container show-wrapper">
+    <div class="listing-hero shadow-sm" id="mainHero">
+        <div class="hero-img-wrap">
+            <img src="<%= listing.image.url %>" alt="Listing Image">
+        </div>
+        <div class="hero-content">
+            <span class="owner-tag">Exclusively curated by @<%= listing.owner.username %></span>
+            <h1 class="listing-title"><%= listing.title %></h1>
+            <p class="text-muted italic mb-4"><%= listing.description %></p>
+            
+            <div class="price-box">
+                &#8377; <%= listing.price.toLocaleString("en-IN") %> <small class="text-muted fs-6">/ night</small>
             </div>
+
+            <p class="small text-uppercase fw-bold"><i class="fa-solid fa-location-dot me-2 text-gold"></i> <%= listing.location %>, <%= listing.country %></p>
+
+            <% if (currUser && currUser._id.equals(listing.owner._id)) { %>
+                <div class="d-flex gap-2 mt-4">
+                    <a href="/<%= listing._id %>/edit" class="btn btn-lux">Edit Nest</a>
+                    <form method="POST" action="/<%= listing._id %>?_method=DELETE">
+                        <button class="btn btn-lux" style="background: transparent; border: 1px solid var(--border); color: var(--ink-3);">Delete</button>
+                    </form>
+                </div>
             <% } %>
-                <hr>
-                <div class="col-8 offset-3 mb-3">
-                    <% if (currUser) { %>
-                        <h4><i>Reviews</i></h4>
-                        <form action="/<%= listing._id %>/reviews" method="POST" novalidate class="need-validation">
-                            <div class="mb-3 mt-3">
-                                <label for="rating" class="form-label">Rating</label>
+        </div>
+    </div>
+
+    <div class="reviews-container">
+        <div class="row">
+            <% if (currUser) { %>
+                <div class="col-md-5 mb-5">
+                    <div class="review-form-card">
+                        <h4 class="font-serif mb-4">Leave an <em>Impression</em></h4>
+                        <form action="/<%= listing._id %>/reviews" method="POST" novalidate class="needs-validation">
+                            <div class="mb-4">
+                                <label class="form-label small fw-bold text-uppercase">Rating</label>
                                 <fieldset class="starability-slot">
-                                    <!-- 0 rating option -->
-                                    <input type="radio" id="rate0" class="input-no-rate" name="review[rating]" value="0"
-                                        checked aria-label="No rating." />
-
-                                    <!-- 1 star -->
+                                    <input type="radio" id="no-rate" class="input-no-rate" name="review[rating]" value="1" checked aria-label="No rating." />
                                     <input type="radio" id="rate1" name="review[rating]" value="1" />
-                                    <label for="rate1" title="Terrible">1 star</label>
-
-                                    <!-- 2 stars -->
+                                    <label for="rate1">1 star</label>
                                     <input type="radio" id="rate2" name="review[rating]" value="2" />
-                                    <label for="rate2" title="Not good">2 stars</label>
-
-                                    <!-- 3 stars -->
+                                    <label for="rate2">2 stars</label>
                                     <input type="radio" id="rate3" name="review[rating]" value="3" />
-                                    <label for="rate3" title="Average">3 stars</label>
-
-                                    <!-- 4 stars -->
+                                    <label for="rate3">3 stars</label>
                                     <input type="radio" id="rate4" name="review[rating]" value="4" />
-                                    <label for="rate4" title="Very good">4 stars</label>
-
-                                    <!-- 5 stars -->
+                                    <label for="rate4">4 stars</label>
                                     <input type="radio" id="rate5" name="review[rating]" value="5" />
-                                    <label for="rate5" title="Amazing">5 stars</label>
+                                    <label for="rate5">5 stars</label>
                                 </fieldset>
                             </div>
-
-                            <!-- <div class="mb-3 mt-3">
-                                <label for="rating" class="form-label">Rating</label>
-                                <input type="range" min="0" max="5" step="1" id="rating" name="review[rating]">
-                            </div>  -->
-                            <div class="mb-3 mt-3">
-                                <label for="comment" class="form-label">Comments</label>
-                                <br>
-                                <textarea name="review[comment]" id="comment" class="form-control" cols="30" rows="5"
-                                    required></textarea>
-                                <div class="invalid-feedback">Please submit some comment for review</div>
+                            <div class="mb-4">
+                                <label for="comment" class="form-label small fw-bold text-uppercase">Your Thoughts</label>
+                                <textarea name="review[comment]" id="comment" class="form-control" rows="4" placeholder="Share your experience..." required></textarea>
                             </div>
-                            <button calss="btn btn-outline-dark ">submit</button>
+                            <button class="btn-lux w-100">Submit Review</button>
                         </form>
-                </div>
-                <hr>
-                <% } %>
-                    <div class="col-8 offset-3 mb-3">
-                        <h4><i>All Reviews</i></h4>
-                        <div class="row">
-                            <% for(let review of listing.reviews) { %>
-                                <div class="card col-5 ms-3 mb-3">
-                                    <div class="card-body">
-                                        <h5 class="card-title"> @<%= review.author %>
-                                        </h5>
-                                        <p class="card-text">
-                                            <%= review.comment %>
-                                        </p>
-
-                                        <p class="starability-result" data-rating="<%= review.rating %>">
-                                            Rated: <%= review.rating %>
-                                        </p>
-
-                                        <form method="POST"
-                                            action="/<%=listing._id%>/reviews/<%= review._id%>?_method=DELETE">
-                                            <button class="btn btn-sm btn-dark">Delete</button>
-                                        </form>
-                                    </div>
-                                </div>
-                                <% } %>
-                        </div>
                     </div>
-    </body>
+                </div>
+            <% } %>
+
+            <div class="col-md-<%= currUser ? '7' : '12' %>">
+                <h4 class="font-serif mb-4">Guest <em>Experiences</em></h4>
+                <div class="row">
+                    <% if(listing.reviews.length === 0) { %>
+                        <p class="text-muted small italic ms-2">No reviews have been left for this nest yet.</p>
+                    <% } %>
+                    <% for(let review of listing.reviews) { %>
+                        <div class="col-md-6 mb-3">
+                            <div class="review-card">
+                                <h6 class="fw-bold mb-1">@<%= review.author %></h6>
+                                <p class="starability-result mb-2" data-rating="<%= review.rating %>"></p>
+                                <p class="small text-muted mb-3">"<%= review.comment %>"</p>
+                                
+                                <% if(currUser && currUser._id.equals(review.author._id)) { %>
+                                    <form method="POST" action="/<%= listing._id %>/reviews/<%= review._id %>?_method=DELETE">
+                                        <button class="btn btn-sm text-danger p-0 border-0" style="font-size: 10px; text-transform: uppercase; font-weight: bold;">Remove</button>
+                                    </form>
+                                <% } %>
+                            </div>
+                        </div>
+                    <% } %>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="mt-5 pt-5 border-top">
+        <h4 class="font-serif mb-4">Other <em>Extraordinary</em> Nests</h4>
+        
+    </div>
+</div>
+
+<script>
+    // Entry Animation
+    window.onload = () => {
+        document.getElementById('mainHero').classList.add('active');
+    };
+
+    // Validation
+    (function () {
+        'use strict'
+        var forms = document.querySelectorAll('.needs-validation')
+        Array.prototype.slice.call(forms).forEach(function (form) {
+            form.addEventListener('submit', function (event) {
+                if (!form.checkValidity()) {
+                    event.preventDefault()
+                    event.stopPropagation()
+                }
+                form.classList.add('was-validated')
+            }, false)
+        })
+    })()
+</script>

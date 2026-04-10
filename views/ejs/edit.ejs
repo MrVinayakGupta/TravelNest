@@ -1,143 +1,257 @@
 <% layout("/layout/boilerplate") %>
 
-    <body>
-        <h3> This is edit page of Airbnb for <%= id %>
-        </h3>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=DM+Sans:wght@300;400;500&display=swap">
 
-        <div class="form">
-            <form method="POST" action="/<%=listing._id %>/?_method=PUT" enctype="multipart/form-data" class=" g-3 needs-validation" novalidate >
-                <div class="col-md-4">
-                    <label for="validationCustom01" class="form-label">Title</label>
-                    <input value="<%= listing.title %>" placeholder="Enter Title" type="text" class="form-control"
-                        id="validationCustom01" required>
-                    <div class="valid-feedback">
-                        Looks good!
-                    </div>
-                </div>
-                <div class="col-md-4">
-                    <label for="validationCustom02" class="form-label">Description</label>
-                    <textarea  placeholder="Enter Description" class="form-control"
-                        id="validationCustom02" required><%= listing.description %></textarea>
-                    <div class="valid-feedback">
-                        Looks good!
-                    </div>
-                </div>
+<style>
+  :root {
+    --gold: #b8975a;
+    --gold-light: #e0c98a;
+    --ink: #18160f;
+    --ink-2: #3a3528;
+    --ink-3: #7a7263;
+    --surface: #fdfcf9;
+    --border: #e8e2d6;
+    --white: #ffffff;
+    --font-serif: 'Cormorant Garamond', Georgia, serif;
+    --font-sans: 'DM Sans', sans-serif;
+  }
 
-                <div class="col-md-4">
-                    <label for="validationCustom02" class="form-label">Current Image</label>
-                    <br>
-                    <img src="<%= listing.image.url %>" alt="Listing Image" style="max-width: 200px; height: auto;">
-                <div class="col-md-4">
-                    <label for="validationCustom02" class="form-label">Upload New Image</label>
-                    <input name="listing[image]"  type="file"
-                        class="form-control" id="validationCustomUsername" aria-describedby="inputGroupPrepend"
-                        required>
-                    <div class="invalid-feedback">
-                        Please provide a valid URL!.
-                    </div>
-                    <!-- </div> -->
-                </div>
-                 <div id="flex">
-                    <div class="col-md-6">
-                        <label for="validationCustom03" class="form-label">Price</label>
-                        <input value="<%= listing.price %>"  placeholder="Enter price" type="number" class="form-control"
-                            id="validationCustom03" required>
-                        <div class="invalid-feedback">
-                            Please provide a valid Price!.
-                        </div>
-                    </div>
-                    <div class="col-md-6">
-                        <label for="validationCustom03" class="form-label">Location</label>
-                        <input value="<%= listing.location %>"  placeholder="Enter Location" type="text" class="form-control"
-                            id="validationCustom03" required>
-                        <div class="invalid-feedback">
-                            Please provide a valid Location!.
-                        </div>
-                    </div>
-                </div>
+  body {
+    background: var(--surface);
+    font-family: var(--font-sans);
+    color: var(--ink);
+  }
 
-                <div class="col-md-4">
-                    <label for="validationCustom01" class="form-label">Country</label>
-                    <input value="<%= listing.country %>" placeholder="Enter Country Name" type="text"
-                        class="form-control" id="validationCustom01" required>
-                    <div class="invalid-feedback">
-                        Please provide a valid Country!.
-                    </div>
-                </div>
-                <br><br>
+  /* Return Button Styling */
+  .return-link {
+    margin-top: 2rem;
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    color: var(--ink-3);
+    text-decoration: none;
+    font-size: 12px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    transition: 0.3s;
+  }
 
-                <!-- <div class="col-md-3">
-                    <label for="validationCustom04" class="form-label">State</label>
-                    <select class="form-select" id="validationCustom04" required>
-                        <option selected disabled value="">Choose...</option>
-                        <option>...</option>
-                    </select>
-                    <div class="invalid-feedback">
-                        Please select a valid state.
-                    </div>
-                </div> -->
-                <!-- <div class="col-12">
-                    <div class="form-check">
-                        <input class="form-check-input" type="checkbox" value="" id="invalidCheck" required>
-                        <label class="form-check-label" for="invalidCheck">
-                            Agree to terms and conditions
-                        </label>
-                        <div class="invalid-feedback">
-                            You must agree before submitting.
-                        </div>
-                    </div>
-                </div> -->
-                <div class="col-12">
-                    <form method="POST" action="/<%=listing._id%>?_method=UPDATE">
-                        <button class="btn btn-primary" type="submit">Submit</button>
-                    </form>
+  .return-link:hover {
+    color: var(--gold);
+    transform: translateX(-5px);
+  }
 
-                </div>
-            </form>
+  .edit-container {
+    background: var(--white);
+    padding: 3rem;
+    border-radius: 24px;
+    border: 1px solid var(--border);
+    box-shadow: 0 10px 40px rgba(24, 22, 15, 0.05);
+    margin-top: 1.5rem;
+    margin-bottom: 4rem;
+  }
+
+  .form-header {
+    text-align: center;
+    margin-bottom: 2.5rem;
+  }
+
+  .form-header h3 {
+    font-family: var(--font-serif);
+    font-size: 40px;
+    font-weight: 300;
+  }
+
+  .form-header h3 em { color: var(--gold); font-style: italic; }
+
+  .form-label {
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--ink-2);
+    margin-bottom: 8px;
+  }
+
+  .form-control, .form-select {
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 12px 16px;
+    font-size: 14px;
+    transition: border-color 0.2s;
+  }
+
+  .form-control:focus, .form-select:focus {
+    border-color: var(--gold);
+    box-shadow: 0 0 0 4px rgba(184, 151, 90, 0.1);
+    outline: none;
+  }
+
+  .current-img-box {
+    border-radius: 14px;
+    overflow: hidden;
+    border: 1px solid var(--border);
+    margin-bottom: 1rem;
+    background: var(--surface);
+  }
+
+  .current-img-box img {
+    width: 100%;
+    height: 180px;
+    object-fit: cover;
+    display: block;
+  }
+
+  #image-preview-wrapper {
+    border-radius: 14px;
+    overflow: hidden;
+    border: 2px dashed var(--gold-light);
+    display: none;
+    margin-bottom: 1rem;
+  }
+
+  .btn-update {
+    background: var(--ink);
+    color: var(--white);
+    border: none;
+    padding: 18px;
+    border-radius: 50px;
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    width: 100%;
+    margin-top: 1rem;
+    transition: 0.4s;
+  }
+
+  .btn-update:hover {
+    background: var(--gold);
+    transform: translateY(-3px);
+    box-shadow: 0 8px 20px rgba(184, 151, 90, 0.2);
+  }
+
+  @media (max-width: 768px) {
+    .edit-container { padding: 2rem 1.5rem; }
+  }
+</style>
+
+<div class="container">
+  <div class="row">
+    <div class="col-lg-8 offset-lg-2">
+      
+      <a href="/<%= listing._id %>" class="return-link">
+        <i class="fa-solid fa-arrow-left"></i> Discard & Return to Nest
+      </a>
+
+      <div class="edit-container">
+        <div class="form-header">
+          <p style="font-size: 10px; text-transform: uppercase; letter-spacing: 3px; color: var(--gold); font-weight: 700;">Host Workspace</p>
+          <h3>Refine Your <em>Extraordinary</em> Nest</h3>
         </div>
-        <script src="/js/bootstrapForm.js"></script>
 
+        <form method="POST" action="/listings/<%= listing._id %>?_method=PUT" enctype="multipart/form-data" class="needs-validation" novalidate>
+          
+          <div class="mb-4">
+            <label for="title" class="form-label">Property Title</label>
+            <input name="listing[title]" value="<%= listing.title %>" type="text" class="form-control" id="title" required>
+          </div>
 
+          <div class="mb-4">
+            <label for="description" class="form-label">Description</label>
+            <textarea name="listing[description]" rows="4" class="form-control" id="description" required><%= listing.description %></textarea>
+          </div>
 
+          <div class="mb-4">
+            <label for="category" class="form-label">Curated Atmosphere (Category)</label>
+            <select name="listing[category]" class="form-select" id="category" required>
+                <% const categories = ["Trending", "Rooms", "Iconic Cities", "Mountains", "Amazing Pools", "Beachfront", "Farms", "Arctic", "Lakefront", "Camping", "Castles"]; %>
+                <% categories.forEach(cat => { %>
+                    <option value="<%= cat %>" <%= listing.category === cat ? 'selected' : '' %>><%= cat %></option>
+                <% }) %>
+            </select>
+          </div>
 
-    </body>
+          <div class="row mb-4">
+            <div class="col-md-6">
+              <label class="form-label">Current Presentation</label>
+              <div class="current-img-box">
+                <img src="<%= listing.image.url %>" alt="Current image">
+              </div>
+            </div>
+            <div class="col-md-6">
+                <label class="form-label">Photography Preview</label>
+                <div id="image-preview-wrapper">
+                    <img id="image-preview" src="#" style="width: 100%; height: 180px; object-fit: cover;">
+                </div>
+                <input name="listing[image]" type="file" class="form-control" id="image" onchange="runPreview(event)">
+            </div>
+          </div>
 
+          <div class="row">
+            <div class="mb-4 col-md-6">
+              <label for="price" class="form-label">Nightly Rate</label>
+              <div class="input-group">
+                <span class="input-group-text bg-white border-end-0" style="border-radius: 12px 0 0 12px; border-color: var(--border);">&#8377;</span>
+                <input name="listing[price]" value="<%= listing.price %>" type="number" class="form-control border-start-0" id="price" style="border-radius: 0 12px 12px 0;" required>
+              </div>
+            </div>
 
+            <div class="mb-4 col-md-6">
+              <label for="location" class="form-label">City / State</label>
+              <input name="listing[location]" value="<%= listing.location %>" type="text" class="form-control" id="location" required>
+            </div>
+          </div>
 
-    <!-- <div class="form">
-            <form method="POST" action="/<%= id %>?_method=PUT" enctype="multipart/form-data">
-                <label for="title">Title:</label>
-                <br>
-                <input type="text" id="title" name="title" value="<%= listing.title %>" required>
-                <br>
-                
-                <label for="description">Description:</label>
-                <br>
-                <textarea id="description" name="description" required><%= listing.description %></textarea>
-                <br>
-                <label for="image">Image</label>
-                <br>
-                <input type="text" id="image" name="image.url" value="<%= listing.image.url %>">
-                <br>
-                <label for="price">Price per night:</label>
-                <br>
-                <input type="number" id="price" name="price" value="<%= listing.price %>" required>
-                <br>
-                <label for="location">Location:</label>
-                <br>
-                <input type="text" id="location" name="location" value="<%= listing.location %>" required>
-                <br>
-                <label for="country">Country:</label>
-                <br>
-                <input type="text" id="country" name="country" value="<%= listing.country %>" required>
-                <br>
-                <label for="image">Image:</label>
-                <br>
-                <input type="file" id="image" name="image">
-                <br> -->
+          <div class="mb-4">
+            <label for="country" class="form-label">Country</label>
+            <input name="listing[country]" value="<%= listing.country %>" type="text" class="form-control" id="country" required>
+          </div>
 
-    <!-- <form method="POST" action="/<%=listing._id%>?_method=UPDATE">
-                    <button>Update</button>
-                </form>
-        </div>
-        <script src="/js/bootstrapForm.js"></script> -->
+          <button class="btn-update" type="submit">Update My Nest</button>
+
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  // Dynamic Image Preview
+  function runPreview(event) {
+    const reader = new FileReader();
+    const wrapper = document.getElementById('image-preview-wrapper');
+    const output = document.getElementById('image-preview');
+
+    reader.onload = function() {
+      if (reader.readyState === 2) {
+        output.src = reader.result;
+        wrapper.style.display = "block";
+      }
+    }
+
+    if (event.target.files[0]) {
+      reader.readAsDataURL(event.target.files[0]);
+    } else {
+      wrapper.style.display = "none";
+    }
+  }
+
+  // Client-side Validation
+  (() => {
+    'use strict'
+    const forms = document.querySelectorAll('.needs-validation')
+    Array.from(forms).forEach(form => {
+      form.addEventListener('submit', event => {
+        if (!form.checkValidity()) {
+          event.preventDefault()
+          event.stopPropagation()
+        }
+        form.classList.add('was-validated')
+      }, false)
+    })
+  })()
+</script>

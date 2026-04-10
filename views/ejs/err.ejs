@@ -1,9 +1,109 @@
 <% layout("/layout/boilerplate") %>
 
-    <body>
-        <h3> Oops! An Error Occurred.
-        </h3>
-        <!-- <video src="error.mp4"></video> -->
-        <video width="683" height="683" loop="" autoplay="" preload="auto" playsinline="true" style="max-width: 683px;"><source src="https://media.tenor.com/ADA_OMteLMEAAAPo/jungle-404.mp4" type="video/mp4"><source src="https://media.tenor.com/ADA_OMteLMEAAAPs/jungle-404.webm" type="video/webm"></video>
-        <div class="tenor-gif-embed" data-postid="12002969" data-share-method="host" data-aspect-ratio="1.69312" data-width="100%"><a href="https://tenor.com/view/jungle-404-not-found-funny-shock-gif-12002969">Jungle 404 GIF</a>from <a href="https://tenor.com/search/jungle-gifs">Jungle GIFs</a></div> <script type="text/javascript" async src="https://tenor.com/embed.js"></script>
-    </body>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=DM+Sans:wght@300;400;500&display=swap">
+
+<style>
+    :root {
+        --gold: #b8975a;
+        --ink: #18160f;
+        --ink-soft: #3a3528;
+        --surface: #fdfcf9;
+        --border: #e8e2d6;
+        --white: #ffffff;
+        --font-serif: 'Cormorant Garamond', Georgia, serif;
+        --font-sans: 'DM Sans', sans-serif;
+    }
+
+    body {
+        background-color: var(--surface);
+        font-family: var(--font-sans);
+        color: var(--ink);
+    }
+
+    .error-wrapper {
+        min-height: 75vh;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+        padding: 2rem;
+        animation: fadeIn 0.8s ease-in-out;
+    }
+
+    .error-video {
+        max-width: 450px;
+        width: 100%;
+        border-radius: 24px;
+        margin-bottom: 2rem;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+        pointer-events: none; /* Prevents users from clicking/pausing the video */
+    }
+
+    .error-heading {
+        font-family: var(--font-serif);
+        font-size: 3.5rem;
+        font-weight: 300;
+        margin-bottom: 1rem;
+        color: var(--ink);
+    }
+
+    .error-heading em {
+        color: var(--gold);
+        font-style: italic;
+    }
+
+    .error-message {
+        font-size: 1.1rem;
+        color: var(--ink-soft);
+        max-width: 500px;
+        margin-bottom: 2.5rem;
+        line-height: 1.6;
+    }
+
+    .btn-return {
+        background: var(--ink);
+        color: var(--white);
+        text-decoration: none;
+        padding: 14px 32px;
+        border-radius: 50px;
+        font-size: 12px;
+        font-weight: 600;
+        letter-spacing: 0.15em;
+        text-transform: uppercase;
+        transition: all 0.3s ease;
+    }
+
+    .btn-return:hover {
+        background: var(--gold);
+        color: var(--white);
+        transform: translateY(-3px);
+        box-shadow: 0 8px 20px rgba(184, 151, 90, 0.2);
+    }
+
+    @keyframes fadeIn {
+        from { opacity: 0; transform: translateY(20px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+
+    @media (max-width: 768px) {
+        .error-heading { font-size: 2.5rem; }
+        .error-video { max-width: 100%; }
+    }
+</style>
+
+<div class="container">
+    <div class="error-wrapper">
+        <video src="error.mp4" autoplay loop muted playsinline class="error-video"></video>
+        
+        <h1 class="error-heading">Something went <em>wrong</em></h1>
+        
+        <p class="error-message">
+            <%= typeof err !== 'undefined' && err.message ? err.message : "We seem to have lost the connection. Our team of prehistoric experts is working on fixing the wires." %>
+        </p>
+
+        <a href="/listings" class="btn-return">Return to Safety</a>
+    </div>
+</div>
