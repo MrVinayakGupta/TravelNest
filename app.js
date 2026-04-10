@@ -40,7 +40,7 @@ app.use(express.static(path.join(__dirname, "/public")));
 //Database Connection
 
 const db = "mongodb://127.0.0.1:27017/AirbnbReplica";
-// process.env.ATLASDB_URL2;  
+const dbUrl = process.env.ATLASDB_URL;  
 
 const connectDB = async () => {
     try {
