@@ -14,7 +14,7 @@ router.post("/user/singup", wrapAsync(userController.singupPost));
 
 router.get("/user/login", userController.loginGet);
 
-router.post("/user/login", saveRedirectUrl,  passport.authenticate("local",{failureRedirect: "/login", failureFlash: true}), userController.loginPost);
+router.post("/user/login", saveRedirectUrl,  passport.authenticate("local",{failureRedirect: "/user/login", failureFlash: true}), userController.loginPost);
 
 router.get("/user/logout", userController.logoutGet);
 
