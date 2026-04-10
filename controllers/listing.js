@@ -12,13 +12,14 @@ module.exports.New = (req, res) => {
 
 module.exports.Show = async (req, res) => {
     let { id } = req.params;
+    currUser = req.user;
     const listing = await Listing.findById(id).populate({path:"reviews", populate: {path: "author"},} ).populate("owner");
     
     if(!listing) {
         req.flash("error", "Cannot find that listing!");
         res.render("ejs/show.ejs", { listing, id });
     }
-    res.render("ejs/show.ejs", { listing, id });
+    res.render("ejs/show.ejs", { listing, currUser, id });
 };
 
 module.exports.Create = async (req, res, next) => {
