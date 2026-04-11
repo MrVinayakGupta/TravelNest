@@ -1,0 +1,376 @@
+<!-- layout("/layout/boilerplate") %> -->
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&display=swap">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+<style>
+  /* ═══════════════════════════════════════════
+     ROOT TOKENS
+  ═══════════════════════════════════════════ */
+  :root {
+    --gold:       #b8975a;
+    --gold-light: #e0c98a;
+    --gold-pale:  #f7f1e6;
+    --ink:        #18160f;
+    --ink-2:      #3a3528;
+    --ink-3:      #7a7263;
+    --surface:    #fdfcf9;
+    --surface-2:  #f4f1eb;
+    --border:     #e8e2d6;
+    --white:      #ffffff;
+    --error:      #e24b4a;
+    --font-serif: 'Cormorant Garamond', Georgia, serif;
+    --font-sans:  'DM Sans', sans-serif;
+    --ease-out:   cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: var(--font-sans);
+    background: var(--surface);
+    color: var(--ink);
+    overflow-x: hidden;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+  }
+
+  /* ═══════════════════════════════════════════
+     EXACT SAMPLE NAVBAR
+  ═══════════════════════════════════════════ */
+  .lx-nav {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 0 2.5rem; height: 68px; background: var(--white);
+    border-bottom: 1px solid var(--border); position: sticky; top: 0; z-index: 100;
+  }
+  .nav-brand {
+    font-family: var(--font-serif); font-size: 26px; font-weight: 400;
+    color: var(--ink); text-decoration: none; display: flex; align-items: center; gap: 8px;
+  }
+  .nav-brand span { color: var(--gold); font-style: italic; }
+  .nav-brand::before { content: ''; width: 6px; height: 6px; background: var(--gold); border-radius: 50%; display: inline-block; }
+  
+  .nav-search {
+    display: flex; align-items: center; border: 1px solid var(--border);
+    border-radius: 40px; padding: 0 6px 0 18px; height: 44px;
+    background: var(--white); box-shadow: 0 2px 12px rgba(184,151,90,0.08);
+    min-width: 340px;
+  }
+  .search-seg { display: flex; flex-direction: column; padding: 0 14px; border-right: 1px solid var(--border); cursor: pointer; }
+  .search-seg:last-of-type { border-right: none; }
+  .search-seg label { font-size: 10px; font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase; color: var(--ink-3); }
+  .search-seg input, .search-seg select { border: none; outline: none; background: transparent; font-family: var(--font-sans); font-size: 13px; color: var(--ink); width: 100px; }
+  .search-seg select { appearance: none; -webkit-appearance: none; }
+  .search-btn {
+    width: 36px; height: 36px; background: var(--gold); border: none; border-radius: 50%;
+    display: flex; align-items: center; justify-content: center; color: var(--white);
+    cursor: pointer; margin-left: 6px; transition: 0.2s;
+  }
+  .search-btn:hover { background: var(--ink); transform: scale(1.05); }
+
+  .nav-actions { display: flex; align-items: center; gap: 8px; }
+  .nav-link { font-size: 13px; font-weight: 500; color: var(--ink-2); text-decoration: none; padding: 8px 14px; border-radius: 24px; transition: 0.2s; }
+  .nav-link:hover { background: var(--surface-2); color: var(--ink); }
+  .nav-avatar {
+    width: 36px; height: 36px; border-radius: 50%; background: var(--gold-pale);
+    border: 1px solid var(--border); display: flex; align-items: center; justify-content: center;
+    color: var(--gold); cursor: pointer; transition: 0.2s;
+  }
+  .nav-avatar:hover { border-color: var(--gold); }
+
+  /* ═══════════════════════════════════════════
+     WISHLIST HEADER
+  ═══════════════════════════════════════════ */
+  .wishlist-main {
+    flex: 1;
+    padding: 4rem 2.5rem 6rem;
+    max-width: 1400px;
+    margin: 0 auto;
+    width: 100%;
+  }
+
+  .wishlist-header {
+    margin-bottom: 3rem;
+    animation: fadeSlideUp 0.6s ease both;
+  }
+
+  .wishlist-eyebrow {
+    font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase;
+    color: var(--gold); font-weight: 600; margin-bottom: 8px;
+    display: flex; align-items: center; gap: 8px;
+  }
+  .wishlist-eyebrow::before { content: ''; width: 20px; height: 1px; background: var(--gold); }
+
+  .wishlist-title {
+    font-family: var(--font-serif);
+    font-size: clamp(36px, 4vw, 48px);
+    font-weight: 300;
+    color: var(--ink);
+    line-height: 1.1;
+  }
+  .wishlist-title em { color: var(--gold); font-style: italic; }
+
+  /* ═══════════════════════════════════════════
+     CARD GRID & PROPERTY CARDS
+  ═══════════════════════════════════════════ */
+  .card-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(290px, 1fr));
+    gap: 28px;
+  }
+
+  .property-card {
+    background: var(--white); border-radius: 14px; overflow: hidden;
+    border: 1px solid var(--border); cursor: pointer;
+    transition: transform 0.4s var(--ease-out), box-shadow 0.4s ease, border-color 0.25s;
+    text-decoration: none; color: inherit; display: block;
+    opacity: 0; transform: translateY(28px);
+    animation: fadeSlideUp 0.6s var(--ease-out) forwards;
+  }
+  .property-card:hover {
+    transform: translateY(-6px) scale(1.015);
+    box-shadow: 0 18px 50px rgba(24,22,15,0.1);
+    border-color: var(--gold-light);
+  }
+
+  .card-img-wrap { position: relative; overflow: hidden; aspect-ratio: 4/3; }
+  .card-img-wrap img {
+    width: 100%; height: 100%; object-fit: cover; transition: transform 0.7s var(--ease-out); display: block;
+  }
+  .property-card:hover .card-img-wrap img { transform: scale(1.06); }
+
+  /* Wishlist Remove Button */
+  .remove-btn {
+    position: absolute; top: 12px; right: 12px;
+    width: 34px; height: 34px;
+    background: rgba(255,255,255,0.9);
+    border: none; border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    cursor: pointer; font-size: 15px; color: var(--error);
+    transition: transform 0.2s, background 0.2s;
+    z-index: 10;
+  }
+  .remove-btn:hover {
+    transform: scale(1.15);
+    background: var(--white);
+  }
+
+  .img-rating {
+    position: absolute; bottom: 12px; left: 12px;
+    background: rgba(24,22,15,0.72); color: var(--gold-light);
+    font-size: 12px; font-weight: 500; padding: 5px 10px; border-radius: 20px;
+    display: flex; align-items: center; gap: 5px;
+  }
+  .img-rating i { font-size: 10px; color: var(--gold); }
+
+  .card-body { padding: 16px 18px 18px; }
+  .card-loc {
+    font-size: 11px; letter-spacing: 0.07em; text-transform: uppercase; color: var(--ink-3);
+    margin-bottom: 5px; display: flex; align-items: center; gap: 5px;
+  }
+  .card-loc i { font-size: 10px; color: var(--gold); }
+  
+  .card-title {
+    font-family: var(--font-serif); font-size: 18px; font-weight: 400;
+    color: var(--ink); line-height: 1.3; margin-bottom: 12px;
+  }
+  .card-divider { height: 1px; background: var(--border); margin-bottom: 12px; }
+  
+  .card-footer-row { display: flex; align-items: flex-end; justify-content: space-between; }
+  .price-main { font-family: var(--font-serif); font-size: 22px; font-weight: 400; color: var(--ink); line-height: 1; }
+  .price-main sub { font-family: var(--font-sans); font-size: 12px; color: var(--ink-3); font-weight: 400; vertical-align: baseline; }
+  
+  .explore-btn {
+    font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase; font-weight: 500;
+    color: var(--gold); border: 1px solid var(--gold-light);
+    padding: 7px 14px; border-radius: 24px; transition: 0.2s;
+  }
+  .explore-btn:hover { background: var(--gold); color: var(--white); border-color: var(--gold); }
+
+  /* ═══════════════════════════════════════════
+     EMPTY STATE
+  ═══════════════════════════════════════════ */
+  .empty-wishlist {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 6rem 2rem;
+    background: var(--white);
+    border: 1px dashed var(--gold-light);
+    border-radius: 20px;
+    animation: fadeSlideUp 0.6s ease both;
+  }
+  .empty-wishlist i {
+    font-size: 48px;
+    color: var(--gold-light);
+    margin-bottom: 1.5rem;
+  }
+  .empty-wishlist h3 {
+    font-family: var(--font-serif);
+    font-size: 32px;
+    font-weight: 300;
+    color: var(--ink);
+    margin-bottom: 0.5rem;
+  }
+  .empty-wishlist p {
+    font-size: 15px;
+    color: var(--ink-3);
+    margin-bottom: 2rem;
+  }
+  .btn-explore {
+    background: var(--ink); color: var(--white); text-decoration: none;
+    padding: 14px 28px; border-radius: 50px; font-size: 12px; font-weight: 600;
+    letter-spacing: 0.15em; text-transform: uppercase; transition: 0.3s;
+  }
+  .btn-explore:hover { background: var(--gold); transform: translateY(-2px); box-shadow: 0 8px 20px rgba(184, 151, 90, 0.2); }
+
+  /* ═══════════════════════════════════════════
+     EXACT SAMPLE FOOTER
+  ═══════════════════════════════════════════ */
+  .site-footer {
+    background: var(--ink); padding: 2rem 2.5rem;
+    display: flex; align-items: center; justify-content: space-between;
+    font-size: 11px; color: rgba(255,255,255,0.4); gap: 1rem; flex-wrap: wrap; margin-top: auto;
+  }
+  .footer-brand { font-family: var(--font-serif); font-size: 20px; color: var(--gold-light); font-style: italic; }
+  .footer-links { display: flex; gap: 18px; }
+  .footer-links a { color: rgba(255,255,255,0.4); text-decoration: none; text-transform: uppercase; letter-spacing: 0.06em; transition: 0.18s; }
+  .footer-links a:hover { color: var(--gold-light); }
+
+  @keyframes fadeSlideUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  @media (max-width: 768px) {
+    .lx-nav, .wishlist-main { padding: 0 1rem; }
+    .nav-search { display: none; }
+    .wishlist-main { padding-top: 2rem; padding-bottom: 4rem; }
+    .wishlist-title { font-size: 32px; }
+  }
+</style>
+
+<nav class="lx-nav">
+  <a href="/" class="nav-brand">Travel<span>Nest</span></a>
+  <div class="nav-search">
+    <div class="search-seg">
+      <label>Where</label>
+      <input type="text" placeholder="Any destination">
+    </div>
+    <div class="search-seg">
+      <label>When</label>
+      <input type="text" placeholder="Add dates" readonly>
+    </div>
+    <div class="search-seg">
+      <label>Guests</label>
+      <input type="text" placeholder="Add guests">
+    </div>
+    <button class="search-btn" type="button"><i class="fa-solid fa-magnifying-glass"></i></button>
+  </div>
+  <div class="nav-actions">
+    <a href="/new" class="nav-link">List your property</a>
+    <% if (currUser) { %>
+      <a href="/user/profile" class="nav-avatar">
+        <i class="fa-regular fa-user"></i>
+      </a>
+    <% } else { %>
+      <a href="/user/login" class="nav-link cta">Sign in</a>
+    <% } %>
+  </div>
+</nav>
+
+<main class="wishlist-main">
+  
+  <div class="wishlist-header">
+    <div class="wishlist-eyebrow">Personal Collection</div>
+    <h1 class="wishlist-title">Your Saved <em>Extraordinary</em> Stays</h1>
+  </div>
+
+  <% 
+    /* Assuming your backend passes an array called 'wishlist'. 
+      If you call it something else (like 'savedListings'), just update the variable below!
+    */ 
+  %>
+  
+  <% if (typeof wishlist !== 'undefined' && wishlist.length > 0) { %>
+    
+    <div class="card-grid">
+      <% for (let i = 0; i < wishlist.length; i++) { %>
+        <% let listing = wishlist[i]; %>
+
+        <a href="/listings/<%= listing._id %>" class="property-card" style="animation-delay: <%= i * 0.1 %>s;">
+          <div class="card-img-wrap">
+            <img src="<%= listing.image.url %>" alt="<%= listing.title %>">
+            
+            <form method="POST" action="/wishlist/<%= listing._id %>?_method=DELETE" class="remove-form">
+              <button type="submit" class="remove-btn" title="Remove from wishlist" onclick="event.stopPropagation();">
+                <i class="fa-solid fa-heart"></i>
+              </button>
+            </form>
+
+            <div class="img-rating">
+              <i class="fa-solid fa-star"></i>
+              <%= listing.rating ? listing.rating.toFixed(2) : "4.9" %>
+            </div>
+          </div>
+
+          <div class="card-body">
+            <div class="card-loc">
+              <i class="fa-solid fa-location-dot"></i>
+              <%= listing.location %>, <%= listing.country %>
+            </div>
+            
+            <div class="card-title"><%= listing.title %></div>
+            <div class="card-divider"></div>
+            
+            <div class="card-footer-row">
+              <div class="price-main">
+                &#8377;<%= listing.price.toLocaleString('en-IN') %><sub>&nbsp;/ night</sub>
+              </div>
+              <span class="explore-btn">Book Now</span>
+            </div>
+          </div>
+        </a>
+      <% } %>
+    </div>
+
+  <% } else { %>
+    
+    <div class="empty-wishlist">
+      <i class="fa-regular fa-heart"></i>
+      <h3>Your collection is empty</h3>
+      <p>As you search, click the heart icon to save your favorite stays here.</p>
+      <a href="/" class="btn-explore">Explore Stays</a>
+    </div>
+
+  <% } %>
+
+</main>
+
+<footer class="site-footer">
+  <div class="footer-brand">TravelNest</div>
+  <div class="footer-links">
+    <a href="/about">About</a>
+    <a href="/privacy">Privacy</a>
+    <a href="/terms">Terms</a>
+    <a href="/help">Help</a>
+  </div>
+  <div>&copy; <%= new Date().getFullYear() %> TravelNest. All rights reserved.</div>
+</footer>
+
+<script>
+  // Prevent the link from triggering when clicking the remove button
+  document.querySelectorAll('.remove-form').forEach(form => {
+    form.addEventListener('click', function(e) {
+      e.preventDefault();
+      // Optional: Add a confirmation dialog here before submitting
+      // if(confirm("Remove this property from your wishlist?")) { this.submit(); }
+      this.submit();
+    });
+  });
+</script>
