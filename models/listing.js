@@ -22,7 +22,11 @@ const listingSchema = new Schema({
     price: Number,
     location: String,
     country: String,
-    category: String,
+    category: {
+        type: String,
+        enum: ["Trending", "Rooms", "Iconic Cities", "Mountains", "Amazing Pools", "Beachfront", "Farms", "Arctic", "Lakefront", "Camping", "Castles"],
+        required: true
+    },
     reviews: [{
         type: mongoose.Schema.Types.ObjectId,
         ref: "Review",
