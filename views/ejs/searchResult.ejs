@@ -1,0 +1,560 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Search Results — TravelNest</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&display=swap">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+  <style>
+    :root {
+      --gold:       #b8975a;
+      --gold-light: #e0c98a;
+      --gold-pale:  #f7f1e6;
+      --ink:        #18160f;
+      --ink-2:      #3a3528;
+      --ink-3:      #7a7263;
+      --surface:    #fdfcf9;
+      --surface-2:  #f4f1eb;
+      --border:     #e8e2d6;
+      --white:      #ffffff;
+      --ff-serif:   'Cormorant Garamond', Georgia, serif;
+      --ff-sans:    'DM Sans', sans-serif;
+      --ease:       cubic-bezier(0.22, 1, 0.36, 1);
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: var(--ff-sans); background: var(--surface); color: var(--ink); overflow-x: hidden; }
+
+    /* ── NAVBAR ── */
+    .lx-nav {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0 2.5rem; height: 68px; background: var(--white);
+      border-bottom: 1px solid var(--border);
+      position: sticky; top: 0; z-index: 100;
+      animation: navIn .5s ease both;
+    }
+    @keyframes navIn { from { opacity:0; transform:translateY(-10px); } to { opacity:1; transform:translateY(0); } }
+
+    .nav-brand {
+      font-family: var(--ff-serif); font-size: 26px; font-weight: 400;
+      text-decoration: none; color: var(--ink);
+      display: flex; align-items: center; gap: 8px;
+    }
+    .nav-brand::before { content:''; width:6px; height:6px; background:var(--gold); border-radius:50%; display:inline-block; }
+    .nav-brand span { color:var(--gold); font-style:italic; }
+
+    .nav-search-pill {
+      display: flex; align-items: center;
+      border: 1px solid var(--border); border-radius: 40px;
+      padding: 0 6px 0 0; height: 44px;
+      background: var(--white);
+      box-shadow: 0 2px 12px rgba(184,151,90,.08);
+      min-width: 340px;
+      transition: box-shadow .2s, border-color .2s;
+    }
+    .nav-search-pill:focus-within { box-shadow: 0 4px 20px rgba(184,151,90,.18); border-color: var(--gold-light); }
+    .nav-search-pill input {
+      flex: 1; border: none; outline: none;
+      background: transparent; font-family: var(--ff-sans);
+      font-size: 13px; color: var(--ink); padding: 0 16px;
+    }
+    .nav-search-pill input::placeholder { color: var(--ink-3); }
+    .nav-search-pill button {
+      width: 34px; height: 34px; background: var(--gold);
+      border: none; border-radius: 50%; color: var(--white);
+      display: flex; align-items: center; justify-content: center;
+      cursor: pointer; font-size: 13px;
+      transition: background .2s, transform .15s;
+      flex-shrink: 0;
+    }
+    .nav-search-pill button:hover { background: var(--ink); transform: scale(1.06); }
+
+    .nav-actions { display: flex; align-items: center; gap: 8px; }
+    .nav-link {
+      font-size: 13px; font-weight: 500; color: var(--ink-2);
+      text-decoration: none; padding: 8px 14px; border-radius: 24px;
+      transition: background .18s;
+    }
+    .nav-link:hover { background: var(--surface-2); }
+    .nav-link.cta { background: var(--ink); color: var(--white); }
+    .nav-link.cta:hover { background: var(--gold); }
+    .nav-avatar {
+      width: 36px; height: 36px; border-radius: 50%;
+      background: var(--gold-pale); border: 1px solid var(--border);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 14px; color: var(--gold); cursor: pointer;
+      transition: border-color .2s;
+    }
+    .nav-avatar:hover { border-color: var(--gold); }
+
+    /* ── HERO BAND ── */
+    .search-hero {
+      padding: 3.5rem 2.5rem 0;
+      animation: fadeUp .6s .1s ease both;
+    }
+    @keyframes fadeUp { from { opacity:0; transform:translateY(20px); } to { opacity:1; transform:translateY(0); } }
+
+    .hero-eyebrow {
+      font-size: 11px; letter-spacing: .12em; text-transform: uppercase;
+      color: var(--gold); font-weight: 500; margin-bottom: 10px;
+      display: flex; align-items: center; gap: 8px;
+    }
+    .hero-eyebrow::before { content:''; width:20px; height:1px; background:var(--gold); }
+
+    .search-headline {
+      font-family: var(--ff-serif);
+      font-size: clamp(36px, 5vw, 60px);
+      font-weight: 300; line-height: 1.1; letter-spacing: -.01em;
+    }
+    .search-headline em { font-style: italic; color: var(--gold); }
+
+    .hero-meta {
+      display: flex; align-items: center; gap: 16px;
+      margin-top: 14px; flex-wrap: wrap;
+    }
+    .hero-count {
+      font-size: 13px; color: var(--ink-3);
+      display: flex; align-items: center; gap: 6px;
+    }
+    .hero-count strong { color: var(--ink); font-weight: 500; }
+    .hero-divider { width: 4px; height: 4px; background: var(--gold-light); border-radius: 50%; }
+
+    /* ── CONTROLS BAR ── */
+    .controls-bar {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 1.5rem 2.5rem 1.5rem;
+      gap: 12px;
+      animation: fadeUp .5s .18s ease both;
+    }
+
+    /* Sort / filter pills */
+    .filter-pills { display: flex; gap: 8px; flex-wrap: wrap; }
+    .fpill {
+      font-size: 11px; letter-spacing: .05em; text-transform: uppercase;
+      font-weight: 500; color: var(--ink-3);
+      background: var(--white); border: 1px solid var(--border);
+      padding: 6px 14px; border-radius: 24px; cursor: pointer;
+      transition: border-color .2s, color .2s, background .2s;
+      white-space: nowrap;
+    }
+    .fpill:hover { border-color: var(--gold-light); color: var(--gold); }
+    .fpill.active { background: var(--ink); color: var(--white); border-color: var(--ink); }
+
+    .sort-select {
+      font-family: var(--ff-sans); font-size: 12px; color: var(--ink);
+      background: var(--white); border: 1px solid var(--border);
+      border-radius: 8px; padding: 7px 28px 7px 12px;
+      appearance: none; cursor: pointer; outline: none;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%23b8975a' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
+      background-repeat: no-repeat; background-position: right 10px center;
+      transition: border-color .2s;
+    }
+    .sort-select:focus { border-color: var(--gold); }
+
+    .view-toggle { display: flex; border: 1px solid var(--border); border-radius: 8px; overflow: hidden; }
+    .vbtn {
+      padding: 7px 12px; background: var(--white); border: none;
+      cursor: pointer; font-size: 13px; color: var(--ink-3);
+      transition: background .18s, color .18s;
+      display: flex; align-items: center;
+    }
+    .vbtn.active { background: var(--ink); color: var(--white); }
+    .vbtn:not(.active):hover { background: var(--surface-2); color: var(--ink); }
+
+    /* ── CARD GRID ── */
+    .card-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(290px, 1fr));
+      gap: 26px;
+      padding: 0 2.5rem 5rem;
+    }
+    .card-grid.list-view { grid-template-columns: 1fr; }
+    .card-grid.list-view .property-card { display: grid; grid-template-columns: 280px 1fr; height: 195px; }
+    .card-grid.list-view .card-img-wrap { aspect-ratio: unset; height: 195px; border-radius: 14px 0 0 14px; }
+    .card-grid.list-view .card-body { border-radius: 0 14px 14px 0; padding: 1.5rem; display: flex; flex-direction: column; justify-content: space-between; }
+
+    /* ── PROPERTY CARD ── */
+    .property-card {
+      background: var(--white); border-radius: 14px; overflow: hidden;
+      border: 1px solid var(--border); cursor: pointer;
+      transition: transform .4s var(--ease), box-shadow .4s ease, border-color .25s;
+      text-decoration: none; color: inherit; display: block;
+      opacity: 0; transform: translateY(28px); will-change: transform, opacity;
+    }
+    .property-card.from-left  { transform: translateX(-36px); opacity: 0; }
+    .property-card.from-right { transform: translateX(36px);  opacity: 0; }
+    .property-card.revealed {
+      opacity: 1 !important; transform: translate(0,0) !important;
+      transition: opacity .6s ease, transform .6s var(--ease), box-shadow .4s ease, border-color .25s;
+    }
+    .property-card:hover {
+      transform: translateY(-6px) scale(1.015) !important;
+      box-shadow: 0 18px 50px rgba(24,22,15,.1);
+      border-color: var(--gold-light);
+    }
+
+    .card-img-wrap { position: relative; overflow: hidden; aspect-ratio: 4/3; }
+    .card-img-wrap img { width:100%; height:100%; object-fit:cover; transition: transform .7s var(--ease); display:block; }
+    .property-card:hover .card-img-wrap img { transform: scale(1.06); }
+
+    .img-badge {
+      position: absolute; top: 12px; left: 12px;
+      background: rgba(255,255,255,.93); font-size: 9px;
+      letter-spacing: .1em; text-transform: uppercase; font-weight: 500;
+      padding: 4px 9px; border-radius: 20px; color: var(--gold);
+    }
+    .img-rating {
+      position: absolute; bottom: 12px; left: 12px;
+      background: rgba(24,22,15,.72); color: var(--gold-light);
+      font-size: 11px; font-weight: 500; padding: 4px 10px; border-radius: 20px;
+      display: flex; align-items: center; gap: 4px;
+    }
+    .img-rating i { font-size: 10px; color: var(--gold); }
+    .save-btn {
+      position: absolute; top: 12px; right: 12px;
+      width: 32px; height: 32px; border-radius: 50%;
+      background: rgba(255,255,255,.88); border: none;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 14px; color: #ccc; cursor: pointer;
+      transition: transform .2s, color .2s;
+    }
+    .save-btn:hover { transform: scale(1.18); }
+    .save-btn.saved { color: #e24b4a; }
+
+    .card-body { padding: 14px 16px 16px; }
+    .card-loc {
+      font-size: 10px; letter-spacing: .07em; text-transform: uppercase;
+      color: var(--ink-3); margin-bottom: 5px;
+      display: flex; align-items: center; gap: 4px;
+    }
+    .card-loc i { font-size: 9px; color: var(--gold); }
+    .card-title {
+      font-family: var(--ff-serif); font-size: 17px; font-weight: 400;
+      color: var(--ink); line-height: 1.3; margin-bottom: 11px;
+    }
+    .card-divider { height: 1px; background: var(--border); margin-bottom: 11px; }
+    .card-footer-row { display: flex; align-items: flex-end; justify-content: space-between; gap: 8px; }
+    .price-main {
+      font-family: var(--ff-serif); font-size: 20px; font-weight: 400;
+      color: var(--ink); line-height: 1;
+    }
+    .price-main sub { font-family: var(--ff-sans); font-size: 10px; color: var(--ink-3); font-weight: 400; vertical-align: baseline; }
+    .explore-btn {
+      font-size: 10px; letter-spacing: .07em; text-transform: uppercase;
+      font-weight: 500; color: var(--gold); background: none;
+      border: 1px solid var(--gold-light); padding: 5px 12px; border-radius: 20px;
+      cursor: pointer; white-space: nowrap;
+      transition: background .2s, color .2s; text-decoration: none;
+      display: inline-flex; align-items: center; gap: 4px;
+    }
+    .explore-btn:hover { background: var(--gold); color: var(--white); border-color: var(--gold); }
+
+    /* ── EMPTY STATE ── */
+    .empty-state {
+      grid-column: 1/-1; text-align: center; padding: 5rem 2rem;
+    }
+    .empty-state i { font-size: 42px; color: var(--gold-light); margin-bottom: 16px; display: block; }
+    .empty-state h3 { font-family: var(--ff-serif); font-size: 2rem; font-weight: 300; color: var(--ink); margin-bottom: 8px; }
+    .empty-state p { font-size: 14px; color: var(--ink-3); margin-bottom: 1.5rem; }
+    .back-link {
+      display: inline-flex; align-items: center; gap: 6px;
+      font-size: 11px; letter-spacing: .08em; text-transform: uppercase;
+      font-weight: 500; color: var(--gold); text-decoration: none;
+      border: 1px solid var(--gold-light); padding: 9px 20px; border-radius: 28px;
+      transition: background .2s, color .2s;
+    }
+    .back-link:hover { background: var(--gold); color: var(--white); border-color: var(--gold); }
+
+    /* ── SEARCH SUGGESTIONS (when 0 results) ── */
+    .suggestions-row {
+      display: flex; gap: 10px; flex-wrap: wrap;
+      justify-content: center; margin-top: 1.5rem;
+    }
+    .suggestion-pill {
+      font-size: 12px; color: var(--ink-3); background: var(--white);
+      border: 1px solid var(--border); padding: 6px 14px; border-radius: 20px;
+      cursor: pointer; transition: border-color .2s, color .2s; text-decoration: none;
+    }
+    .suggestion-pill:hover { border-color: var(--gold); color: var(--gold); }
+
+    /* ── FOOTER ── */
+    .site-footer {
+      background: var(--ink); color: rgba(255,255,255,.45);
+      padding: 2rem 2.5rem;
+      display: flex; align-items: center; justify-content: space-between;
+      font-size: 11px; letter-spacing: .04em; gap: 1rem; flex-wrap: wrap;
+    }
+    .footer-brand { font-family: var(--ff-serif); font-size: 20px; color: var(--gold-light); font-style: italic; }
+    .footer-links { display: flex; gap: 18px; }
+    .footer-links a { color: rgba(255,255,255,.4); text-decoration: none; font-size: 11px; letter-spacing: .06em; text-transform: uppercase; transition: color .18s; }
+    .footer-links a:hover { color: var(--gold-light); }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 768px) {
+      .lx-nav { padding: 0 1rem; }
+      .nav-search-pill { display: none; }
+      .search-hero, .controls-bar { padding-left: 1.25rem; padding-right: 1.25rem; }
+      .card-grid { padding: 0 1.25rem 4rem; gap: 16px; }
+      .card-grid.list-view .property-card { grid-template-columns: 1fr; height: auto; }
+      .card-grid.list-view .card-img-wrap { height: 220px; border-radius: 14px 14px 0 0; }
+      .card-grid.list-view .card-body { border-radius: 0 0 14px 14px; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ═══════════════════
+     NAVBAR
+═══════════════════ -->
+<nav class="lx-nav">
+  <a href="/" class="nav-brand">Travel<span>Nest</span></a>
+
+  <form action="/api/search" method="GET" class="nav-search-pill">
+    <input
+      type="text"
+      name="q"
+      placeholder='Search again — try "Goa" or "mountains"'
+      value="<%= query %>"
+      autocomplete="off"
+    >
+    <button type="submit" aria-label="Search">
+      <i class="fa-solid fa-magnifying-glass"></i>
+    </button>
+  </form>
+
+  <div class="nav-actions">
+    <a href="/new" class="nav-link">List your property</a>
+    <% if (currUser) { %>
+      <a href="/user/logout" class="nav-link">
+        <i class="fa-regular fa-circle-user" style="font-size:16px"></i>
+        <%= currUser.username %>
+      </a>
+    <% } else { %>
+      <a href="/user/login"  class="nav-link">Sign in</a>
+      <a href="/user/signup" class="nav-link cta">Join free</a>
+    <% } %>
+    <div class="nav-avatar"><i class="fa-regular fa-user"></i></div>
+  </div>
+</nav>
+
+<!-- ═══════════════════
+     HERO
+═══════════════════ -->
+<div class="search-hero">
+  <div class="hero-eyebrow">Search results</div>
+  <h1 class="search-headline">
+    Stays for <em>"<%= query %>"</em>
+  </h1>
+  <div class="hero-meta">
+    <span class="hero-count">
+      <strong><%= results.length %></strong>
+      <%= results.length === 1 ? 'property' : 'properties' %> found
+    </span>
+    <% if (results.length > 0) { %>
+      <span class="hero-divider"></span>
+      <span class="hero-count">Sorted by relevance</span>
+    <% } %>
+  </div>
+</div>
+
+<!-- ═══════════════════
+     CONTROLS BAR
+═══════════════════ -->
+<% if (results.length > 0) { %>
+<div class="controls-bar">
+  <div class="filter-pills">
+    <div class="fpill active" data-filter="all">All</div>
+    <div class="fpill" data-filter="low">Price: Low first</div>
+    <div class="fpill" data-filter="high">Price: High first</div>
+    <div class="fpill" data-filter="rated">Top rated</div>
+  </div>
+
+  <div style="display:flex;align-items:center;gap:10px">
+    <select class="sort-select" id="sortSelect">
+      <option value="">Sort: Recommended</option>
+      <option value="price-low">Price: Low to High</option>
+      <option value="price-high">Price: High to Low</option>
+    </select>
+    <div class="view-toggle">
+      <button class="vbtn active" id="gridViewBtn" title="Grid view"><i class="fa-solid fa-grip"></i></button>
+      <button class="vbtn" id="listViewBtn" title="List view"><i class="fa-solid fa-list"></i></button>
+    </div>
+  </div>
+</div>
+<% } %>
+
+<!-- ═══════════════════
+     CARD GRID
+═══════════════════ -->
+<div class="card-grid" id="searchGrid">
+
+  <% if (results.length > 0) { %>
+    <% for (let i = 0; i < results.length; i++) { %>
+      <% let listing = results[i]; %>
+      <% let animClass = i % 3 === 0 ? 'from-left' : i % 3 === 2 ? 'from-right' : ''; %>
+
+      <a href="/<%= listing._id %>"
+         class="property-card <%= animClass %>"
+         style="transition-delay:<%= (i % 4) * 70 %>ms;"
+         data-price="<%= listing.price %>">
+
+        <div class="card-img-wrap">
+          <img
+            src="<%= listing.image.url %>"
+            alt="<%= listing.title %>"
+            loading="<%= i < 4 ? 'eager' : 'lazy' %>"
+          >
+          <% if (i === 0) { %><div class="img-badge">Best match</div><% } %>
+          <% if (i === 1) { %><div class="img-badge">Popular</div><% } %>
+          <div class="img-rating">
+            <i class="fa-solid fa-star"></i>
+            <%= listing.reviews && listing.reviews.length > 0
+              ? (listing.reviews.reduce((a,r) => a + r.rating, 0) / listing.reviews.length).toFixed(2)
+              : '4.92' %>
+          </div>
+          <button
+            class="save-btn"
+            onclick="toggleSave(event,this)"
+            type="button"
+            aria-label="Save to wishlist">
+            <i class="fa-regular fa-heart"></i>
+          </button>
+        </div>
+
+        <div class="card-body">
+          <div class="card-loc">
+            <i class="fa-solid fa-location-dot"></i>
+            <%= listing.location %>, <%= listing.country %>
+          </div>
+          <div class="card-title"><%= listing.title %></div>
+          <div class="card-divider"></div>
+          <div class="card-footer-row">
+            <div>
+              <div class="price-main">
+                &#8377;<%= listing.price.toLocaleString('en-IN') %><sub>&nbsp;/ night</sub>
+              </div>
+            </div>
+            <span class="explore-btn">
+              Explore <i class="fa-solid fa-arrow-right" style="font-size:8px"></i>
+            </span>
+          </div>
+        </div>
+
+      </a>
+    <% } %>
+
+  <% } else { %>
+
+    <div class="empty-state">
+      <i class="fa-regular fa-compass"></i>
+      <h3>No stays found for "<%= query %>"</h3>
+      <p>Check your spelling or try a different city, country or neighbourhood.</p>
+      <a href="/" class="back-link">
+        <i class="fa-solid fa-arrow-left" style="font-size:9px"></i>
+        Browse all stays
+      </a>
+      <div class="suggestions-row">
+        <a href="/search?q=Goa"       class="suggestion-pill">Goa</a>
+        <a href="/search?q=Manali"    class="suggestion-pill">Manali</a>
+        <a href="/search?q=Jaipur"    class="suggestion-pill">Jaipur</a>
+        <a href="/search?q=Kerala"    class="suggestion-pill">Kerala</a>
+        <a href="/search?q=Shimla"    class="suggestion-pill">Shimla</a>
+        <a href="/search?q=Rishikesh" class="suggestion-pill">Rishikesh</a>
+      </div>
+    </div>
+
+  <% } %>
+
+</div>
+
+<!-- ═══════════════════
+     FOOTER
+═══════════════════ -->
+<footer class="site-footer">
+  <div class="footer-brand">TravelNest</div>
+  <div class="footer-links">
+    <a href="/about">About</a>
+    <a href="/privacy">Privacy</a>
+    <a href="/terms">Terms</a>
+    <a href="/help">Help</a>
+  </div>
+  <div>&copy; <%= new Date().getFullYear() %> TravelNest. All rights reserved.</div>
+</footer>
+
+<script>
+  /* ── SCROLL REVEAL ── */
+  const revealIO = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.classList.add('revealed');
+        revealIO.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.08 });
+  document.querySelectorAll('.property-card').forEach(c => revealIO.observe(c));
+
+  /* ── SAVE / WISHLIST ── */
+  function toggleSave(e, btn) {
+    e.preventDefault(); e.stopPropagation();
+    const saved = btn.classList.toggle('saved');
+    btn.innerHTML = saved
+      ? '<i class="fa-solid fa-heart"></i>'
+      : '<i class="fa-regular fa-heart"></i>';
+    btn.style.transform = 'scale(1.35)';
+    setTimeout(() => btn.style.transform = '', 220);
+  }
+
+  /* ── SORT (client-side) ── */
+  const sortSelect = document.getElementById('sortSelect');
+  const grid = document.getElementById('searchGrid');
+
+  if (sortSelect) {
+    sortSelect.addEventListener('change', function () {
+      const cards = Array.from(grid.querySelectorAll('.property-card'));
+      cards.sort((a, b) => {
+        const pa = parseInt(a.dataset.price) || 0;
+        const pb = parseInt(b.dataset.price) || 0;
+        if (this.value === 'price-low')  return pa - pb;
+        if (this.value === 'price-high') return pb - pa;
+        return 0;
+      });
+      cards.forEach(c => { c.classList.remove('revealed'); grid.appendChild(c); });
+      setTimeout(() => cards.forEach(c => revealIO.observe(c)), 50);
+    });
+  }
+
+  /* ── FILTER PILLS ── */
+  document.querySelectorAll('.fpill').forEach(pill => {
+    pill.addEventListener('click', function () {
+      document.querySelectorAll('.fpill').forEach(p => p.classList.remove('active'));
+      this.classList.add('active');
+      const f = this.dataset.filter;
+      if (sortSelect) {
+        if (f === 'low')  { sortSelect.value = 'price-low';  sortSelect.dispatchEvent(new Event('change')); }
+        if (f === 'high') { sortSelect.value = 'price-high'; sortSelect.dispatchEvent(new Event('change')); }
+        if (f === 'all')  { sortSelect.value = '';           sortSelect.dispatchEvent(new Event('change')); }
+      }
+    });
+  });
+
+  /* ── GRID / LIST TOGGLE ── */
+  const gridBtn = document.getElementById('gridViewBtn');
+  const listBtn = document.getElementById('listViewBtn');
+  if (gridBtn && listBtn) {
+    gridBtn.addEventListener('click', () => {
+      grid.classList.remove('list-view');
+      gridBtn.classList.add('active'); listBtn.classList.remove('active');
+    });
+    listBtn.addEventListener('click', () => {
+      grid.classList.add('list-view');
+      listBtn.classList.add('active'); gridBtn.classList.remove('active');
+    });
+  }
+</script>
+
+</body>
+</html>
