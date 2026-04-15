@@ -1,287 +1,879 @@
-<% layout("/layout/boilerplate") %>
+<!-- layout("/layout/boilerplate") %> -->
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&display=swap">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 
 <style>
-    :root {
-        --gold: #b8975a;
-        --gold-light: #e0c98a;
-        --gold-pale: #f7f1e6;
-        --ink: #18160f;
-        --ink-2: #3a3528;
-        --ink-3: #7a7263;
-        --surface: #fdfcf9;
-        --border: #e8e2d6;
-        --white: #ffffff;
-        --font-serif: 'Cormorant Garamond', Georgia, serif;
-        --font-sans: 'DM Sans', sans-serif;
-    }
+/* ══════════════════════════════════════
+   TOKENS
+══════════════════════════════════════ */
+:root {
+  --gold:       #b8975a;
+  --gold-light: #e0c98a;
+  --gold-pale:  #f7f1e6;
+  --ink:        #18160f;
+  --ink-2:      #3a3528;
+  --ink-3:      #7a7263;
+  --surface:    #fdfcf9;
+  --surface-2:  #f4f1eb;
+  --border:     #e8e2d6;
+  --white:      #ffffff;
+  --ff-serif:   'Cormorant Garamond', Georgia, serif;
+  --ff-sans:    'DM Sans', sans-serif;
+  --ease:       cubic-bezier(0.22, 1, 0.36, 1);
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: var(--ff-sans); background: var(--surface); color: var(--ink); overflow-x: hidden; }
 
-    body {
-        font-family: var(--font-sans);
-        background: var(--surface);
-        color: var(--ink);
-    }
+/* ══════════════════════════════════════
+   NAVBAR
+══════════════════════════════════════ */
+.lx-nav {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 0 2.5rem; height: 68px; background: var(--white);
+  border-bottom: 1px solid var(--border); position: sticky; top: 0; z-index: 1000;
+  animation: navIn 0.5s ease both;
+}
+@keyframes navIn { from { opacity:0; transform:translateY(-10px); } to { opacity:1; transform:translateY(0); } }
 
-    /* ═══════════════════════════════════════════
-       EXACT SAMPLE NAVBAR
-    ═══════════════════════════════════════════ */
-    .lx-nav {
-        display: flex; align-items: center; justify-content: space-between;
-        padding: 0 2.5rem; height: 68px; background: var(--white);
-        border-bottom: 1px solid var(--border); position: sticky; top: 0; z-index: 1000;
-    }
+.nav-brand {
+  font-family: var(--ff-serif); font-size: 26px; font-weight: 400;
+  text-decoration: none; color: var(--ink); display: flex; align-items: center; gap: 8px;
+}
+.nav-brand::before { content:''; width:6px; height:6px; background:var(--gold); border-radius:50%; display:inline-block; }
+.nav-brand span { color:var(--gold); font-style:italic; }
 
-    .nav-brand {
-        font-family: var(--font-serif); font-size: 26px; text-decoration: none; color: var(--ink);
-        display: flex; align-items: center; gap: 8px;
-    }
-    .nav-brand span { color: var(--gold); font-style: italic; }
+.nav-search {
+  display: flex; align-items: center; border: 1px solid var(--border);
+  border-radius: 40px; padding: 0 6px 0 0; height: 44px;
+  background: var(--white); box-shadow: 0 2px 12px rgba(184,151,90,0.08);
+  min-width: 340px; transition: box-shadow 0.2s, border-color 0.2s;
+}
+.nav-search:focus-within { box-shadow: 0 4px 20px rgba(184,151,90,0.18); border-color: var(--gold-light); }
+.search-seg {
+  display: flex; flex-direction: column; padding: 0 14px;
+  border-right: 1px solid var(--border); cursor: pointer;
+}
+.search-seg:last-of-type { border-right: none; }
+.search-seg label { font-size: 9px; font-weight: 500; letter-spacing: .08em; text-transform: uppercase; color: var(--ink-3); cursor:pointer; }
+.search-seg input { border:none; outline:none; background:transparent; font-family:var(--ff-sans); font-size:12px; color:var(--ink); padding:0; width:90px; }
+.search-btn {
+  width:34px; height:34px; background:var(--gold); border:none; border-radius:50%;
+  color:var(--white); display:flex; align-items:center; justify-content:center;
+  cursor:pointer; font-size:13px; margin-left:8px; flex-shrink:0;
+  transition: background 0.2s, transform 0.15s;
+}
+.search-btn:hover { background:var(--ink); transform:scale(1.06); }
+.nav-actions { display:flex; align-items:center; gap:8px; }
+.nav-link {
+  font-size:13px; font-weight:500; color:var(--ink-2); text-decoration:none;
+  padding:8px 14px; border-radius:24px; transition:background 0.18s;
+  display:flex; align-items:center; gap:6px;
+}
+.nav-link:hover { background:var(--surface-2); }
+.nav-link.cta { background:var(--ink); color:var(--white); }
+.nav-link.cta:hover { background:var(--gold); }
 
-    .nav-search {
-        display: flex; align-items: center; border: 1px solid var(--border);
-        border-radius: 40px; padding: 0 6px 0 18px; height: 44px;
-        background: var(--white); box-shadow: 0 2px 12px rgba(184,151,90,0.08);
-    }
+/* ══════════════════════════════════════
+   BREADCRUMB / CATEGORY STRIP
+══════════════════════════════════════ */
+.category-strip {
+  display: flex; align-items: center; gap: 0;
+  padding: 0 2.5rem;
+  background: var(--white);
+  border-bottom: 1px solid var(--border);
+  overflow-x: auto; scrollbar-width: none;
+  animation: navIn 0.5s 0.08s ease both;
+}
+.category-strip::-webkit-scrollbar { display:none; }
+.cat-crumb {
+  display: flex; align-items: center; gap: 6px;
+  padding: 12px 0; font-size: 12px;
+  color: var(--ink-3); white-space: nowrap;
+}
+.cat-crumb a { color:var(--ink-3); text-decoration:none; transition:color 0.18s; }
+.cat-crumb a:hover { color:var(--gold); }
+.cat-sep { color:var(--border); font-size:14px; margin: 0 10px; }
+.cat-badge {
+  display: inline-flex; align-items: center; gap: 6px;
+  background: var(--gold-pale); color: var(--gold);
+  font-size: 10px; font-weight: 500; letter-spacing: 0.08em;
+  text-transform: uppercase; padding: 4px 12px; border-radius: 20px;
+  border: 1px solid var(--gold-light);
+}
+.cat-badge i { font-size: 10px; }
+.cat-tags { display:flex; align-items:center; gap:8px; margin-left:auto; padding-left:2rem; }
+.cat-tag {
+  font-size: 10px; letter-spacing: 0.06em; text-transform: uppercase;
+  padding: 3px 10px; border-radius: 12px; border: 1px solid var(--border);
+  color: var(--ink-3); background: var(--surface-2); white-space: nowrap;
+}
 
-    .search-seg {
-        display: flex; flex-direction: column; padding: 0 14px;
-        border-right: 1px solid var(--border); cursor: pointer;
-    }
-    .search-seg:last-of-type { border-right: none; }
-    .search-seg label {
-        font-size: 9px; font-weight: 700; text-transform: uppercase;
-        color: var(--ink-3); margin-bottom: -2px;
-    }
-    .search-seg input { border: none; outline: none; font-size: 12px; width: 85px; background: transparent; }
+/* ══════════════════════════════════════
+   MAIN HERO — SPLIT LAYOUT
+══════════════════════════════════════ */
+.show-wrapper { padding: 2.5rem 2.5rem 0; }
 
-    .search-btn {
-        width: 34px; height: 34px; background: var(--gold); border: none;
-        border-radius: 50%; color: white; display: flex; align-items: center; justify-content: center;
-    }
+.listing-hero {
+  display: grid; grid-template-columns: 1.1fr 1fr;
+  border-radius: 20px; overflow: hidden;
+  border: 1px solid var(--border);
+  background: var(--white);
+  opacity: 0; transform: translateY(32px);
+  transition: opacity 0.8s var(--ease), transform 0.8s var(--ease);
+  box-shadow: 0 4px 40px rgba(24,22,15,0.06);
+}
+.listing-hero.active { opacity:1; transform:translateY(0); }
 
-    /* Host alignment fix */
-    .nav-actions { display: flex; align-items: center; gap: 1.5rem; }
-    .nav-link { font-size: 13px; font-weight: 500; color: var(--ink); text-decoration: none; }
+/* Image side */
+.hero-img-col { position:relative; overflow:hidden; height:580px; }
+.hero-img-col img {
+  width:100%; height:100%; object-fit:cover;
+  transition: transform 1.6s var(--ease);
+}
+.listing-hero:hover .hero-img-col img { transform:scale(1.04); }
 
-    /* ═══════════════════════════════════════════
-       SHOW CASE SECTION
-    ═══════════════════════════════════════════ */
-    .show-wrapper { margin-top: 2rem; padding-bottom: 5rem; }
+.img-overlay-bar {
+  position:absolute; bottom:0; left:0; right:0;
+  padding:2rem 2rem 1.5rem;
+  background: linear-gradient(to top, rgba(24,22,15,0.65) 0%, transparent 100%);
+  display:flex; align-items:flex-end; justify-content:space-between;
+}
+.img-save-btn {
+  width:40px; height:40px; border-radius:50%;
+  background:rgba(255,255,255,0.18); border:1px solid rgba(255,255,255,0.3);
+  color:var(--white); font-size:16px; cursor:pointer;
+  display:flex; align-items:center; justify-content:center;
+  backdrop-filter:blur(6px); transition:background 0.2s, transform 0.2s;
+}
+.img-save-btn:hover { background:rgba(255,255,255,0.35); transform:scale(1.1); }
+.img-save-btn.saved { color:#e85c5c; }
+.img-location-tag {
+  display:inline-flex; align-items:center; gap:6px;
+  background:rgba(255,255,255,0.15); border:1px solid rgba(255,255,255,0.25);
+  backdrop-filter:blur(8px); color:var(--white);
+  font-size:12px; font-weight:500; padding:6px 14px; border-radius:20px;
+  letter-spacing:0.03em;
+}
+.img-location-tag i { font-size:11px; color:var(--gold-light); }
 
-    .listing-hero {
-        display: grid;
-        grid-template-columns: 1fr 1fr;
-        gap: 3rem;
-        background: var(--white);
-        border-radius: 24px;
-        overflow: hidden;
-        border: 1px solid var(--border);
-        opacity: 0;
-        transform: translateY(30px);
-        transition: 1s cubic-bezier(0.22, 1, 0.36, 1);
-    }
+/* Content side */
+.hero-content {
+  padding: 3rem 2.5rem;
+  display: flex; flex-direction: column; justify-content: space-between;
+  border-left: 1px solid var(--border);
+}
+.owner-tag {
+  display:inline-flex; align-items:center; gap:7px;
+  font-size:10px; letter-spacing:0.12em; text-transform:uppercase;
+  color:var(--gold); font-weight:500; margin-bottom:1rem;
+}
+.owner-tag::before { content:''; width:20px; height:1px; background:var(--gold); }
 
-    .listing-hero.active { opacity: 1; transform: translateY(0); }
+.listing-title {
+  font-family: var(--ff-serif); font-size: clamp(2rem, 3.5vw, 3.2rem);
+  font-weight: 400; line-height: 1.1; color:var(--ink); margin-bottom:1rem;
+  letter-spacing:-0.01em;
+}
 
-    .hero-img-wrap { overflow: hidden; height: 550px; }
+.listing-desc {
+  font-size:14px; line-height:1.75; color:var(--ink-3);
+  margin-bottom:1.5rem; flex-grow:1;
+}
 
-    .hero-img-wrap img {
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
-        transition: 1.5s;
-    }
+/* Meta chips */
+.meta-row {
+  display:flex; flex-wrap:wrap; gap:8px; margin-bottom:1.5rem;
+}
+.meta-chip {
+  display:inline-flex; align-items:center; gap:6px;
+  font-size:11px; letter-spacing:0.04em;
+  background:var(--surface-2); border:1px solid var(--border);
+  color:var(--ink-3); padding:5px 12px; border-radius:20px;
+}
+.meta-chip i { font-size:11px; color:var(--gold); }
 
-    .listing-hero:hover .hero-img-wrap img { transform: scale(1.05); }
+/* Price */
+.price-section { margin-bottom:1.5rem; }
+.price-label {
+  font-size:10px; letter-spacing:0.1em; text-transform:uppercase;
+  color:var(--ink-3); margin-bottom:4px; font-weight:500;
+}
+.price-main {
+  font-family:var(--ff-serif); font-size:3rem; font-weight:400;
+  color:var(--ink); line-height:1;
+  display:flex; align-items:baseline; gap:8px;
+}
+.price-main small {
+  font-family:var(--ff-sans); font-size:13px;
+  color:var(--ink-3); font-weight:400;
+}
+.price-tax { font-size:12px; color:var(--gold); margin-top:4px; }
 
-    .hero-content { padding: 3rem; display: flex; flex-direction: column; justify-content: center; }
+/* Action buttons */
+.action-row { display:flex; gap:10px; flex-wrap:wrap; }
 
-    .owner-tag { font-size: 11px; text-transform: uppercase; letter-spacing: 2px; color: var(--gold); margin-bottom: 0.5rem; }
+.btn-primary-lux {
+  flex:1; min-width:120px;
+  background:var(--ink); color:var(--white);
+  border:none; border-radius:50px; padding:13px 24px;
+  font-family:var(--ff-sans); font-size:11px; letter-spacing:0.1em;
+  text-transform:uppercase; font-weight:500; cursor:pointer;
+  transition:background 0.25s, transform 0.18s;
+  text-decoration:none; display:inline-flex; align-items:center; justify-content:center; gap:8px;
+}
+.btn-primary-lux:hover { background:var(--gold); transform:translateY(-2px); }
 
-    .listing-title { font-family: var(--font-serif); font-size: 3.5rem; line-height: 1.1; margin-bottom: 1.5rem; }
+.btn-ghost-lux {
+  background:transparent; color:var(--ink-3);
+  border:1px solid var(--border); border-radius:50px; padding:13px 24px;
+  font-family:var(--ff-sans); font-size:11px; letter-spacing:0.1em;
+  text-transform:uppercase; font-weight:500; cursor:pointer;
+  transition:border-color 0.25s, color 0.25s, transform 0.18s;
+  text-decoration:none; display:inline-flex; align-items:center; justify-content:center; gap:8px;
+}
+.btn-ghost-lux:hover { border-color:var(--gold); color:var(--gold); transform:translateY(-2px); }
 
-    .price-box { font-family: var(--font-serif); font-size: 28px; color: var(--ink); margin-bottom: 2rem; }
+/* ══════════════════════════════════════
+   DIVIDER
+══════════════════════════════════════ */
+.section-divider {
+  display:flex; align-items:center; gap:16px;
+  margin: 3.5rem 0 2rem;
+}
+.section-divider::before,
+.section-divider::after { content:''; flex:1; height:1px; background:var(--border); }
+.section-divider span {
+  font-family:var(--ff-serif); font-size:11px; letter-spacing:0.14em;
+  text-transform:uppercase; color:var(--gold); font-weight:400; white-space:nowrap;
+}
 
-    /* ═══════════════════════════════════════════
-       REVIEWS SECTION (RESTORED & REDESIGNED)
-    ═══════════════════════════════════════════ */
-    .reviews-container { margin-top: 4rem; padding-top: 3rem; border-top: 1px solid var(--border); }
+/* ══════════════════════════════════════
+   SECTION HEADERS
+══════════════════════════════════════ */
+.section-header { margin-bottom:2rem; }
+.section-eyebrow {
+  font-size:10px; letter-spacing:0.14em; text-transform:uppercase;
+  color:var(--gold); font-weight:500; margin-bottom:6px;
+  display:flex; align-items:center; gap:8px;
+}
+.section-eyebrow::before { content:''; width:16px; height:1px; background:var(--gold); }
+.section-title {
+  font-family:var(--ff-serif); font-size:clamp(1.8rem,3vw,2.6rem); font-weight:400; color:var(--ink);
+}
+.section-title em { font-style:italic; color:var(--gold); }
 
-    .review-form-card {
-        background: var(--white);
-        padding: 2rem;
-        border-radius: 18px;
-        border: 1px solid var(--border);
-        box-shadow: 0 5px 20px rgba(0,0,0,0.03);
-    }
+/* ══════════════════════════════════════
+   REVIEWS
+══════════════════════════════════════ */
+.reviews-layout {
+  display:grid; grid-template-columns:1fr 2fr; gap:2.5rem; align-items:start;
+}
 
-    .review-card {
-        background: var(--white);
-        border: 1px solid var(--border);
-        border-radius: 14px;
-        padding: 1.5rem;
-        height: 100%;
-        transition: 0.3s;
-    }
+/* Review form */
+.review-form-card {
+  background:var(--white); border:1px solid var(--border);
+  border-radius:18px; padding:2rem;
+  box-shadow:0 4px 24px rgba(24,22,15,0.04);
+  position:sticky; top:88px;
+}
+.form-eyebrow {
+  font-size:10px; letter-spacing:0.12em; text-transform:uppercase;
+  color:var(--gold); font-weight:500; margin-bottom:6px;
+}
+.form-title {
+  font-family:var(--ff-serif); font-size:1.8rem; font-weight:400;
+  margin-bottom:1.5rem; line-height:1.2;
+}
+.form-title em { color:var(--gold); font-style:italic; }
+.form-label-lux {
+  display:block; font-size:10px; letter-spacing:0.1em; text-transform:uppercase;
+  font-weight:500; color:var(--ink-2); margin-bottom:8px;
+}
+.form-control-lux {
+  width:100%; border:1px solid var(--border); border-radius:10px;
+  padding:12px 14px; font-family:var(--ff-sans); font-size:13px;
+  color:var(--ink); background:var(--surface);
+  resize:none; outline:none; transition:border-color 0.2s;
+}
+.form-control-lux:focus { border-color:var(--gold); }
+.star-row { display:flex; gap:6px; margin-bottom:1.25rem; }
+.star-btn {
+  font-size:22px; color:#ddd; cursor:pointer; background:none; border:none;
+  transition:color 0.15s, transform 0.15s; line-height:1;
+  padding:0;
+}
+.star-btn.active { color:var(--gold); }
+.star-btn:hover { transform:scale(1.2); }
+#starInput { display:none; }
 
-    .review-card:hover { border-color: var(--gold-light); transform: translateY(-5px); }
+/* Review cards */
+.reviews-grid {
+  display:grid; grid-template-columns:repeat(auto-fill,minmax(260px,1fr)); gap:16px;
+}
+.review-card {
+  background:var(--white); border:1px solid var(--border); border-radius:14px;
+  padding:1.4rem; transition:border-color 0.25s, transform 0.3s var(--ease);
+  display:flex; flex-direction:column;
+  opacity:0; transform:translateY(20px);
+}
+.review-card.revealed {
+  opacity:1; transform:translateY(0);
+  transition:opacity 0.5s ease, transform 0.5s var(--ease), border-color 0.25s, transform 0.3s;
+}
+.review-card:hover { border-color:var(--gold-light); transform:translateY(-4px) !important; }
+.review-author {
+  display:flex; align-items:center; gap:10px; margin-bottom:10px;
+}
+.reviewer-avatar {
+  width:34px; height:34px; border-radius:50%;
+  background:var(--gold-pale); border:1px solid var(--gold-light);
+  display:flex; align-items:center; justify-content:center;
+  font-family:var(--ff-serif); font-size:14px; color:var(--gold); font-weight:500;
+}
+.reviewer-name { font-size:13px; font-weight:500; color:var(--ink); }
+.reviewer-tag { font-size:10px; color:var(--ink-3); letter-spacing:0.03em; }
+.review-stars { display:flex; gap:3px; margin-bottom:8px; }
+.review-stars i { font-size:11px; color:var(--gold); }
+.review-stars i.empty { color:#ddd; }
+.review-text { font-size:13px; line-height:1.65; color:var(--ink-3); flex-grow:1; font-style:italic; }
+.review-text::before { content:'"'; font-family:var(--ff-serif); font-size:28px; color:var(--gold-light); line-height:0; vertical-align:-10px; margin-right:2px; }
+.review-remove-btn {
+  margin-top:12px; font-size:10px; letter-spacing:0.08em; text-transform:uppercase;
+  color:#c0392b; background:none; border:none; cursor:pointer; padding:0;
+  font-weight:500; align-self:flex-start; transition:opacity 0.2s;
+}
+.review-remove-btn:hover { opacity:0.7; }
+.no-reviews {
+  grid-column:1/-1; text-align:center; padding:3rem;
+  font-family:var(--ff-serif); font-size:1.4rem; font-weight:300; color:var(--ink-3);
+}
+.no-reviews i { display:block; font-size:28px; color:var(--gold-light); margin-bottom:12px; }
 
-    .btn-lux {
-        background: var(--ink);
-        color: white;
-        border: none;
-        border-radius: 50px;
-        padding: 12px 28px;
-        font-size: 12px;
-        text-transform: uppercase;
-        letter-spacing: 1px;
-        transition: 0.3s;
-    }
+/* ══════════════════════════════════════
+   RELATED LISTINGS
+══════════════════════════════════════ */
+.related-section { padding: 0 0 5rem; }
+.related-grid {
+  display:grid; grid-template-columns:repeat(auto-fill,minmax(270px,1fr)); gap:22px;
+}
+.rel-card {
+  background:var(--white); border-radius:14px; overflow:hidden;
+  border:1px solid var(--border); text-decoration:none; color:inherit;
+  display:block; transition:transform 0.4s var(--ease), box-shadow 0.4s ease, border-color 0.25s;
+  opacity:0; transform:translateY(24px);
+}
+.rel-card.revealed {
+  opacity:1; transform:translateY(0);
+  transition:opacity 0.55s ease, transform 0.55s var(--ease), box-shadow 0.4s ease, border-color 0.25s;
+}
+.rel-card.fl { transform:translateX(-28px); opacity:0; }
+.rel-card.fr { transform:translateX(28px); opacity:0; }
+.rel-card:hover { transform:translateY(-6px) scale(1.012) !important; box-shadow:0 16px 48px rgba(24,22,15,0.1); border-color:var(--gold-light); }
+.rel-img { position:relative; overflow:hidden; aspect-ratio:4/3; }
+.rel-img img { width:100%; height:100%; object-fit:cover; transition:transform 0.7s var(--ease); display:block; }
+.rel-card:hover .rel-img img { transform:scale(1.06); }
+.rel-badge {
+  position:absolute; top:10px; left:10px;
+  background:rgba(255,255,255,0.92); font-size:9px; letter-spacing:0.08em;
+  text-transform:uppercase; font-weight:500; padding:3px 9px; border-radius:16px; color:var(--gold);
+}
+.rel-rating {
+  position:absolute; bottom:10px; left:10px;
+  background:rgba(24,22,15,0.7); color:var(--gold-light);
+  font-size:11px; font-weight:500; padding:3px 9px; border-radius:16px;
+  display:flex; align-items:center; gap:4px;
+}
+.rel-rating i { font-size:9px; color:var(--gold); }
+.rel-wishlist {
+  position:absolute; top:10px; right:10px;
+  width:30px; height:30px; border-radius:50%;
+  background:rgba(255,255,255,0.85); border:none;
+  display:flex; align-items:center; justify-content:center;
+  font-size:13px; color:#ccc; cursor:pointer; transition:transform 0.2s, color 0.2s;
+}
+.rel-wishlist:hover { transform:scale(1.2); }
+.rel-wishlist.saved { color:#e85c5c; }
+.rel-body { padding:13px 15px 15px; }
+.rel-loc { font-size:10px; letter-spacing:0.06em; text-transform:uppercase; color:var(--ink-3); margin-bottom:4px; display:flex; align-items:center; gap:4px; }
+.rel-loc i { font-size:9px; color:var(--gold); }
+.rel-title { font-family:var(--ff-serif); font-size:16px; font-weight:400; color:var(--ink); line-height:1.3; margin-bottom:10px; }
+.rel-footer { display:flex; align-items:flex-end; justify-content:space-between; border-top:1px solid var(--border); padding-top:10px; }
+.rel-price { font-family:var(--ff-serif); font-size:18px; color:var(--ink); }
+.rel-price sub { font-family:var(--ff-sans); font-size:10px; color:var(--ink-3); font-weight:400; vertical-align:baseline; }
+.rel-cta {
+  font-size:10px; letter-spacing:0.07em; text-transform:uppercase; font-weight:500;
+  color:var(--gold); background:none; border:1px solid var(--gold-light);
+  padding:5px 11px; border-radius:20px; cursor:pointer;
+  transition:background 0.2s, color 0.2s; text-decoration:none;
+  display:inline-flex; align-items:center; gap:4px;
+}
+.rel-cta:hover { background:var(--gold); color:var(--white); border-color:var(--gold); }
 
-    .btn-lux:hover { background: var(--gold); transform: translateY(-2px); }
+/* ══════════════════════════════════════
+   FOOTER
+══════════════════════════════════════ */
+.site-footer {
+  background:var(--ink); padding:2rem 2.5rem;
+  display:flex; align-items:center; justify-content:space-between;
+  font-size:11px; color:rgba(255,255,255,0.4); gap:1rem; flex-wrap:wrap;
+}
+.footer-brand { font-family:var(--ff-serif); font-size:20px; color:var(--gold-light); font-style:italic; }
+.footer-links { display:flex; gap:18px; }
+.footer-links a { color:rgba(255,255,255,0.4); text-decoration:none; font-size:11px; letter-spacing:0.06em; text-transform:uppercase; transition:color 0.18s; }
+.footer-links a:hover { color:var(--gold-light); }
 
-    @media (max-width: 992px) {
-        .lx-nav { padding: 0 1rem; }
-        .nav-search { display: none; }
-        .listing-hero { grid-template-columns: 1fr; }
-        .hero-img-wrap { height: 350px; }
-    }
+/* ══════════════════════════════════════
+   RESPONSIVE
+══════════════════════════════════════ */
+@media (max-width: 992px) {
+  .lx-nav { padding:0 1.25rem; }
+  .nav-search { display:none; }
+  .show-wrapper { padding:1.5rem 1.25rem 0; }
+  .listing-hero { grid-template-columns:1fr; }
+  .hero-img-col { height:300px; }
+  .hero-content { padding:1.75rem; }
+  .reviews-layout { grid-template-columns:1fr; }
+  .review-form-card { position:static; }
+  .category-strip { padding:0 1.25rem; }
+  .related-section, .reviews-container { padding-left:1.25rem; padding-right:1.25rem; }
+}
 </style>
 
+<!-- ══════════════════════════════
+     NAVBAR
+══════════════════════════════ -->
 <nav class="lx-nav">
-    <a href="/" class="nav-brand">Travel<span>Nest</span></a>
+  <a href="/" class="nav-brand">Travel<span>Nest</span></a>
 
-    <div class="nav-search">
-        <div class="search-seg">
-            <label>Where</label>
-            <input type="text" placeholder="Location">
-        </div>
-        <div class="search-seg">
-            <label>When</label>
-            <input type="text" placeholder="Add dates">
-        </div>
-        <div class="search-seg">
-            <label>Guests</label>
-            <input type="text" placeholder="Add guests">
-        </div>
-        <button class="search-btn"><i class="fa-solid fa-magnifying-glass"></i></button>
+  <div class="nav-search">
+    <div class="search-seg">
+      <label>Where</label>
+      <input type="text" placeholder="Any destination">
     </div>
+    <div class="search-seg">
+      <label>When</label>
+      <input type="text" placeholder="Add dates" readonly>
+    </div>
+    <div class="search-seg">
+      <label>Guests</label>
+      <input type="text" placeholder="Add guests">
+    </div>
+    <button class="search-btn" type="button"><i class="fa-solid fa-magnifying-glass"></i></button>
+  </div>
 
-    <div class="nav-actions">
-        <a href="/new" class="nav-link">List your property</a>
-        <a href="/user/login" class="nav-link"><i class="fa-regular fa-circle-user fs-4"></i><%= currUser ? currUser.username : 'Login' %></a>
-    </div>
+  <div class="nav-actions">
+    <a href="/new" class="nav-link">List your property</a>
+    <a href="/wishlist" class="nav-link"><i class="fa-solid fa-heart" style="color: #e24b4a;"></i> Wishlist </a>
+
+    <% if (currUser) { %>
+      <a href="/user/profile" class="nav-link">
+        <i class="fa-regular fa-circle-user" style="font-size:17px"></i>
+        <%= currUser.username %>
+      </a>
+    <% } else { %>
+      <a href="/user/login" class="nav-link cta">Sign in</a>
+    <% } %>
+  </div>
 </nav>
 
-<div class="container show-wrapper">
-    <div class="listing-hero shadow-sm" id="mainHero">
-        <div class="hero-img-wrap">
-            <img src="<%= listing.image.url %>" alt="Listing Image">
-        </div>
-        <div class="hero-content">
-            <span class="owner-tag">Exclusively curated by @<%= listing.owner.username %></span>
-            <h1 class="listing-title"><%= listing.title %></h1>
-            <p class="text-muted italic mb-4"><%= listing.description %></p>
-            
-            <div class="price-box">
-                &#8377; <%= listing.price.toLocaleString("en-IN") %> <small class="text-muted fs-6">/ night</small>
-            </div>
+<!-- ══════════════════════════════
+     CATEGORY / BREADCRUMB STRIP
+══════════════════════════════ -->
+<div class="category-strip">
+  <div class="cat-crumb">
+    <a href="/">Home</a>
+    <span class="cat-sep">/</span>
+    <a href="/?filter=<%= listing.category ? listing.category.toLowerCase() : 'all' %>">
+      <%= listing.category || 'All Stays' %>
+    </a>
+    <span class="cat-sep">/</span>
+    <span style="color:var(--ink-2);font-weight:500"><%= listing.title %></span>
+  </div>
 
-            <p class="small text-uppercase fw-bold"><i class="fa-solid fa-location-dot me-2 text-gold"></i> <%= listing.location %>, <%= listing.country %></p>
-
-            <% if (currUser && currUser._id.equals(listing.owner._id)) { %>
-                <div class="d-flex gap-2 mt-4">
-                    <a href="/<%= listing._id %>/edit" class="btn btn-lux">Edit Nest</a>
-                    <form method="POST" action="/<%= listing._id %>?_method=DELETE">
-                        <button class="btn btn-lux" style="background: transparent; border: 1px solid var(--border); color: var(--ink-3);">Delete</button>
-                    </form>
-                </div>
-            <% } %>
-        </div>
-    </div>
-
-    <div class="reviews-container">
-        <div class="row">
-            <% if (currUser) { %>
-                <div class="col-md-5 mb-5">
-                    <div class="review-form-card">
-                        <h4 class="font-serif mb-4">Leave an <em>Impression</em></h4>
-                        <form action="/<%= listing._id %>/reviews" method="POST" novalidate class="needs-validation">
-                            <div class="mb-4">
-                                <label class="form-label small fw-bold text-uppercase">Rating</label>
-                                <fieldset class="starability-slot">
-                                    <input type="radio" id="no-rate" class="input-no-rate" name="review[rating]" value="1" checked aria-label="No rating." />
-                                    <input type="radio" id="rate1" name="review[rating]" value="1" />
-                                    <label for="rate1">1 star</label>
-                                    <input type="radio" id="rate2" name="review[rating]" value="2" />
-                                    <label for="rate2">2 stars</label>
-                                    <input type="radio" id="rate3" name="review[rating]" value="3" />
-                                    <label for="rate3">3 stars</label>
-                                    <input type="radio" id="rate4" name="review[rating]" value="4" />
-                                    <label for="rate4">4 stars</label>
-                                    <input type="radio" id="rate5" name="review[rating]" value="5" />
-                                    <label for="rate5">5 stars</label>
-                                </fieldset>
-                            </div>
-                            <div class="mb-4">
-                                <label for="comment" class="form-label small fw-bold text-uppercase">Your Thoughts</label>
-                                <textarea name="review[comment]" id="comment" class="form-control" rows="4" placeholder="Share your experience..." required></textarea>
-                            </div>
-                            <button class="btn-lux w-100">Submit Review</button>
-                        </form>
-                    </div>
-                </div>
-            <% } %>
-
-            <div class="col-md-<%= currUser ? '7' : '12' %>">
-                <h4 class="font-serif mb-4">Guest <em>Experiences</em></h4>
-                <div class="row">
-                    <% if(listing.reviews.length === 0) { %>
-                        <p class="text-muted small italic ms-2">No reviews have been left for this nest yet.</p>
-                    <% } %>
-                    <% for(let review of listing.reviews) { %>
-                        <div class="col-md-6 mb-3">
-                            <div class="review-card">
-                                <h6 class="fw-bold mb-1">@<%= review.author %></h6>
-                                <p class="starability-result mb-2" data-rating="<%= review.rating %>"></p>
-                                <p class="small text-muted mb-3">"<%= review.comment %>"</p>
-                                
-                                <% if(currUser && currUser._id.equals(review.author._id)) { %>
-                                    <form method="POST" action="/<%= listing._id %>/reviews/<%= review._id %>?_method=DELETE">
-                                        <button class="btn btn-sm text-danger p-0 border-0" style="font-size: 10px; text-transform: uppercase; font-weight: bold;">Remove</button>
-                                    </form>
-                                <% } %>
-                            </div>
-                        </div>
-                    <% } %>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <div class="mt-5 pt-5 border-top">
-        <h4 class="font-serif mb-4">Other <em>Extraordinary</em> Nests</h4>
-        
-    </div>
+  <div class="cat-tags">
+    <% if (listing.category) { %>
+      <span class="cat-badge">
+        <i class="fa-solid fa-tag"></i>
+        <%= listing.category %>
+      </span>
+    <% } %>
+    <span class="cat-tag">
+      <i class="fa-solid fa-location-dot" style="font-size:9px;color:var(--gold);margin-right:3px"></i>
+      <%= listing.country %>
+    </span>
+    <span class="cat-tag" style="color:var(--gold);border-color:var(--gold-light);background:var(--gold-pale)">
+      <i class="fa-solid fa-star" style="font-size:9px;margin-right:3px"></i>
+      <%= listing.reviews && listing.reviews.length > 0 ? listing.reviews.length + ' reviews' : 'New listing' %>
+    </span>
+  </div>
 </div>
 
-<script>
-    // Entry Animation
-    window.onload = () => {
-        document.getElementById('mainHero').classList.add('active');
-    };
+<!-- ══════════════════════════════
+     MAIN HERO
+══════════════════════════════ -->
+<div class="show-wrapper">
+  <div class="listing-hero" id="mainHero">
 
-    // Validation
-    (function () {
-        'use strict'
-        var forms = document.querySelectorAll('.needs-validation')
-        Array.prototype.slice.call(forms).forEach(function (form) {
-            form.addEventListener('submit', function (event) {
-                if (!form.checkValidity()) {
-                    event.preventDefault()
-                    event.stopPropagation()
-                }
-                form.classList.add('was-validated')
-            }, false)
-        })
-    })()
+    <!-- Image column -->
+    <div class="hero-img-col">
+      <img src="<%= listing.image.url %>" alt="<%= listing.title %>">
+      <div class="img-overlay-bar">
+        <div class="img-location-tag">
+          <i class="fa-solid fa-location-dot"></i>
+          <%= listing.location %>, <%= listing.country %>
+        </div>
+        <button class="img-save-btn" id="heroSaveBtn" type="button" onclick="toggleHeroSave()">
+          <i class="fa-regular fa-heart"></i>
+        </button>
+      </div>
+    </div>
+
+    <!-- Content column -->
+    <div class="hero-content">
+
+      <div>
+        <div class="owner-tag">
+          Exclusively curated by @<%= listing.owner.username %>
+        </div>
+
+        <h1 class="listing-title"><%= listing.title %></h1>
+
+        <div class="meta-row">
+          <span class="meta-chip">
+            <i class="fa-solid fa-location-dot"></i>
+            <%= listing.location %>
+          </span>
+          <% if (listing.category) { %>
+            <span class="meta-chip">
+              <i class="fa-solid fa-tag"></i>
+              <%= listing.category %>
+            </span>
+          <% } %>
+          <span class="meta-chip">
+            <i class="fa-solid fa-star"></i>
+            <%= listing.reviews && listing.reviews.length > 0 ? listing.reviews.length + ' reviews' : 'No reviews yet' %>
+          </span>
+        </div>
+
+        <p class="listing-desc"><%= listing.description %></p>
+      </div>
+
+      <div>
+        <div class="price-section">
+          <div class="price-label">Starting from</div>
+          <div class="price-main">
+            &#8377;<%= listing.price.toLocaleString('en-IN') %>
+            <small>/ night</small>
+          </div>
+          <div class="price-tax">&#8377;<%= Math.round(listing.price * 1.18).toLocaleString('en-IN') %> total incl. taxes</div>
+        </div>
+
+        <div class="action-row">
+          <% if (currUser && currUser._id.equals(listing.owner._id)) { %>
+            <a href="/<%= listing._id %>/edit" class="btn-primary-lux">
+              <i class="fa-solid fa-pen" style="font-size:10px"></i> Edit stay
+            </a>
+            <form method="POST" action="/<%= listing._id %>?_method=DELETE" style="flex:1;min-width:100px">
+              <button type="submit" class="btn-ghost-lux" style="width:100%">
+                <i class="fa-solid fa-trash" style="font-size:10px"></i> Remove
+              </button>
+            </form>
+          <% } else { %>
+            <button class="btn-primary-lux" onclick="document.getElementById('reviewForm').scrollIntoView({behavior:'smooth'})">
+              <i class="fa-solid fa-star" style="font-size:10px"></i> Book now
+            </button>
+            <button class="btn-ghost-lux" onclick="toggleHeroSave()">
+              <i class="fa-regular fa-heart" id="saveIconBtn" style="font-size:10px"></i> Save stay
+            </button>
+          <% } %>
+        </div>
+      </div>
+
+    </div>
+  </div><!-- /listing-hero -->
+
+
+  <!-- ══════════════════════════════
+       REVIEWS SECTION
+  ══════════════════════════════ -->
+  <div class="section-divider"><span>Guest impressions</span></div>
+
+  <div class="reviews-container">
+    <div class="section-header">
+      <div class="section-eyebrow">What guests say</div>
+      <h2 class="section-title">Guest <em>Experiences</em></h2>
+    </div>
+
+    <div class="reviews-layout">
+
+      <!-- Review form (only if logged in) -->
+      <% if (currUser) { %>
+        <div class="review-form-card" id="reviewForm">
+          <div class="form-eyebrow">Share your stay</div>
+          <div class="form-title">Leave an <em>Impression</em></div>
+
+          <form action="/<%= listing._id %>/reviews" method="POST" novalidate class="needs-validation">
+            <div style="margin-bottom:1.25rem">
+              <label class="form-label-lux">Your rating</label>
+              <div class="star-row" id="starRow">
+                <button type="button" class="star-btn" data-val="1">&#9733;</button>
+                <button type="button" class="star-btn" data-val="2">&#9733;</button>
+                <button type="button" class="star-btn" data-val="3">&#9733;</button>
+                <button type="button" class="star-btn" data-val="4">&#9733;</button>
+                <button type="button" class="star-btn" data-val="5">&#9733;</button>
+              </div>
+              <input type="hidden" name="review[rating]" id="starInput" value="1" required>
+            </div>
+
+            <div style="margin-bottom:1.5rem">
+              <label class="form-label-lux" for="comment">Your thoughts</label>
+              <textarea
+                name="review[comment]" id="comment"
+                class="form-control-lux" rows="4"
+                placeholder="Share your experience with this stay…" required></textarea>
+                <input type="text" name="review[author]" value="<%= currUser._id %>" hidden>
+            </div>
+
+            <button type="submit" class="btn-primary-lux" style="width:100%;justify-content:center">
+              <i class="fa-solid fa-paper-plane" style="font-size:10px"></i> Submit review
+            </button>
+          </form>
+        </div>
+      <% } else { %>
+        <div style="background:var(--gold-pale);border:1px solid var(--gold-light);border-radius:18px;padding:2rem;text-align:center">
+          <i class="fa-regular fa-comment-dots" style="font-size:28px;color:var(--gold-light);margin-bottom:12px;display:block"></i>
+          <div style="font-family:var(--ff-serif);font-size:1.5rem;margin-bottom:8px">Share your <em style="color:var(--gold)">experience</em></div>
+          <p style="font-size:13px;color:var(--ink-3);margin-bottom:1.25rem">Sign in to leave a review for this stay.</p>
+          <a href="/user/login" class="btn-primary-lux" style="display:inline-flex">Sign in to review</a>
+        </div>
+      <% } %>
+
+      <!-- Reviews list -->
+      <div>
+        <% if (listing.reviews.length === 0) { %>
+          <div class="no-reviews">
+            <i class="fa-regular fa-star"></i>
+            No reviews yet — be the first to leave one.
+          </div>
+        <% } else { %>
+          <div class="reviews-grid">
+            <% for (let review of listing.reviews) { %>
+              <div class="review-card">
+                <div class="review-author">
+                  <div class="reviewer-avatar">
+                    <%= review.author ? review.author.username[0].toUpperCase() : 'G' %>
+                  </div>
+                  <div>
+                    <div class="reviewer-name">@<%= review.author.username %></div>
+                    <div class="reviewer-tag">Verified guest</div>
+                  </div>
+                </div>
+
+                <div class="review-stars">
+                  <% for (let s = 1; s <= 5; s++) { %>
+                    <i class="fa-solid fa-star <%= s <= review.rating ? '' : 'empty' %>"></i>
+                  <% } %>
+                </div>
+
+                <p class="review-text"><%= review.comment %></p>
+
+                <% if (currUser && currUser._id.equals(review.author._id)) { %>
+                  <form method="POST" action="/<%= listing._id %>/reviews/<%= review._id %>?_method=DELETE">
+                    <button type="submit" class="review-remove-btn">
+                      <i class="fa-solid fa-trash" style="font-size:9px;margin-right:4px"></i>Remove review
+                    </button>
+                  </form>
+                <% } %>
+              </div>
+            <% } %>
+          </div>
+        <% } %>
+      </div>
+
+    </div>
+  </div><!-- /reviews-container -->
+
+
+  <!-- ══════════════════════════════
+       RELATED LISTINGS
+  ══════════════════════════════ -->
+  <div class="section-divider"><span>More to explore</span></div>
+
+</div><!-- /show-wrapper -->
+
+<div class="related-section" style="padding:0 2.5rem 5rem">
+  <div class="section-header">
+    <div class="section-eyebrow">You may also love</div>
+    <h2 class="section-title">Other <em>Extraordinary</em> Stays</h2>
+  </div>
+
+  <div class="related-grid" id="relatedGrid">
+    <%
+      /* ── RELATED LOGIC ──────────────────────────────────────────────────
+         Show listings that share the same country OR category as current,
+         excluding the current listing. Capped at 8 cards.
+         allListings must be passed from the route alongside listing.
+      ─────────────────────────────────────────────────────────────────── */
+      let related = [];
+      if (typeof allListings !== 'undefined' && allListings) {
+        related = allListings.filter(l => {
+          if (l._id.toString() === listing._id.toString()) return false;
+          const sameCountry  = l.country  === listing.country;
+          const sameCategory = listing.category && l.category === listing.category;
+          return sameCountry || sameCategory;
+        }).slice(0, 8);
+
+        /* fallback: if fewer than 4 related, pad with any other listing */
+        if (related.length < 4) {
+          const extras = allListings.filter(l =>
+            l._id.toString() !== listing._id.toString() &&
+            !related.some(r => r._id.toString() === l._id.toString())
+          ).slice(0, 8 - related.length);
+          related = [...related, ...extras];
+        }
+      }
+    %>
+
+    <% if (related.length === 0) { %>
+      <div style="grid-column:1/-1;text-align:center;padding:3rem;font-family:var(--ff-serif);font-size:1.4rem;color:var(--ink-3)">
+        No other stays to show right now.
+      </div>
+    <% } %>
+
+    <% for (let i = 0; i < related.length; i++) { %>
+      <% let r = related[i]; %>
+      <% let animDir = i % 3 === 0 ? 'fl' : i % 3 === 2 ? 'fr' : ''; %>
+      <a href="/<%= r._id %>"
+         class="rel-card <%= animDir %>"
+         style="transition-delay:<%= (i % 4) * 65 %>ms">
+        <div class="rel-img">
+          <img src="<%= r.image.url %>" alt="<%= r.title %>" loading="lazy">
+          <% if (r.category) { %>
+            <div class="rel-badge"><%= r.category %></div>
+          <% } %>
+          <div class="rel-rating">
+            <i class="fa-solid fa-star"></i>
+            <%= r.reviews && r.reviews.length > 0 ? (r.reviews.reduce((a,rv)=>a+rv.rating,0)/r.reviews.length).toFixed(1) : '4.9' %>
+          </div>
+          <button class="rel-wishlist" onclick="toggleWish(event,this)" type="button">
+            <i class="fa-regular fa-heart"></i>
+          </button>
+        </div>
+        <div class="rel-body">
+          <div class="rel-loc">
+            <i class="fa-solid fa-location-dot"></i>
+            <%= r.location %>, <%= r.country %>
+          </div>
+          <div class="rel-title"><%= r.title %></div>
+          <div class="rel-footer">
+            <div class="rel-price">
+              &#8377;<%= r.price.toLocaleString('en-IN') %><sub>&nbsp;/ night</sub>
+            </div>
+            <span class="rel-cta">Explore <i class="fa-solid fa-arrow-right" style="font-size:8px"></i></span>
+          </div>
+        </div>
+      </a>
+    <% } %>
+  </div>
+
+  <div style="text-align:center;margin-top:2.5rem">
+    <a href="/" class="btn-ghost-lux" style="display:inline-flex">
+      <i class="fa-solid fa-compass" style="font-size:11px"></i> Browse all stays
+    </a>
+  </div>
+</div>
+
+<!-- ══════════════════════════════
+     FOOTER
+══════════════════════════════ -->
+<footer class="site-footer">
+  <div class="footer-brand">TravelNest</div>
+  <div class="footer-links">
+    <a href="/about">About</a>
+    <a href="/privacy">Privacy</a>
+    <a href="/terms">Terms</a>
+    <a href="/help">Help</a>
+  </div>
+  <div>&copy; <%= new Date().getFullYear() %> TravelNest. All rights reserved.</div>
+</footer>
+
+<script>
+/* ── ENTRY ANIMATION ── */
+window.addEventListener('load', () => {
+  document.getElementById('mainHero').classList.add('active');
+});
+
+/* ── SCROLL REVEAL ── */
+const revealIO = new IntersectionObserver((entries) => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      e.target.classList.add('revealed');
+      revealIO.unobserve(e.target);
+    }
+  });
+}, { threshold: 0.08 });
+
+document.querySelectorAll('.review-card, .rel-card').forEach(el => revealIO.observe(el));
+
+/* ── STAR RATING ── */
+const stars = document.querySelectorAll('.star-btn');
+const starInput = document.getElementById('starInput');
+let currentRating = 1;
+
+stars.forEach(btn => {
+  btn.addEventListener('mouseenter', () => highlightStars(+btn.dataset.val));
+  btn.addEventListener('mouseleave', () => highlightStars(currentRating));
+  btn.addEventListener('click', () => {
+    currentRating = +btn.dataset.val;
+    if (starInput) starInput.value = currentRating;
+    highlightStars(currentRating);
+  });
+});
+
+function highlightStars(val) {
+  stars.forEach(s => s.classList.toggle('active', +s.dataset.val <= val));
+}
+highlightStars(1);
+
+/* ── SAVE / WISHLIST (HERO) ── */
+let heroSaved = false;
+function toggleHeroSave() {
+  heroSaved = !heroSaved;
+  const btn  = document.getElementById('heroSaveBtn');
+  const icon = document.getElementById('saveIconBtn');
+  if (btn) {
+    btn.classList.toggle('saved', heroSaved);
+    btn.innerHTML = heroSaved
+      ? '<i class="fa-solid fa-heart"></i>'
+      : '<i class="fa-regular fa-heart"></i>';
+  }
+  if (icon) {
+    icon.className = heroSaved ? 'fa-solid fa-heart' : 'fa-regular fa-heart';
+  }
+}
+
+/* ── SAVE / WISHLIST (RELATED CARDS) ── */
+function toggleWish(e, btn) {
+  e.preventDefault(); e.stopPropagation();
+  const saved = btn.classList.toggle('saved');
+  btn.innerHTML = saved
+    ? '<i class="fa-solid fa-heart"></i>'
+    : '<i class="fa-regular fa-heart"></i>';
+  btn.style.transform = 'scale(1.35)';
+  setTimeout(() => btn.style.transform = '', 220);
+}
+
+/* ── FORM VALIDATION ── */
+(function () {
+  'use strict';
+  document.querySelectorAll('.needs-validation').forEach(form => {
+    form.addEventListener('submit', function (e) {
+      if (!form.checkValidity()) { e.preventDefault(); e.stopPropagation(); }
+      form.classList.add('was-validated');
+    }, false);
+  });
+})();
 </script>
