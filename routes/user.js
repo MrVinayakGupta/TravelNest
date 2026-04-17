@@ -18,5 +18,18 @@ router.post("/user/login", saveRedirectUrl,  passport.authenticate("local",{fail
 
 router.get("/user/logout", userController.logoutGet);
 
+// Wishlist Route
+router.post("/user/wishlist/:id/toggle", isLoggedIn, wrapAsync(userController.toggleWishlist));
+
+router.post("/user/wishlist/:id", isLoggedIn, wrapAsync( async (req, res) => {
+    let { listingId } = req.body.id;
+    let user = await User.findById(req.user._id);
+    if (!user.wishlist.includes(listingId)) {
+        user.wishlist.push(listingId);
+        await user.save();
+    }
+    res.redirect("/user/wishlist");
+}));
+
 
 module.exports = router;
