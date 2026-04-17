@@ -303,7 +303,7 @@
       <% for (let i = 0; i < wishlist.length; i++) { %>
         <% let listing = wishlist[i]; %>
 
-        <a href="/listings/<%= listing._id %>" class="property-card" style="animation-delay: <%= i * 0.1 %>s;">
+        <a href="/<%= listing._id %>" class="property-card" style="animation-delay: <%= i * 0.1 %>s;">
           <div class="card-img-wrap">
             <img src="<%= listing.image.url %>" alt="<%= listing.title %>">
             
