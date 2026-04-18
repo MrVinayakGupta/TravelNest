@@ -42,7 +42,7 @@ listingSchema.post("findOneAndDelete", async (listing) => {
         await Review.deleteMany({ _id: { $in: listing.reviews, } });
     }
 });
-
+listingSchema.index({ title: "text", location: "text", country: "text", category: "text" });
 const Listing = mongoose.model('Listing', listingSchema);
 
 module.exports = Listing;
