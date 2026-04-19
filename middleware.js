@@ -3,11 +3,24 @@ const Review = require("./models/review.js");
 const ExpressError = require("./utils/ExpressError.js");
 const {listingSchema, reviewSchema} = require("./schema.js");
 
+// module.exports.isLoggedIn = (req, res, next) => {
+//     if (!req.isAuthenticated()) {
+//         req.session.redirectUrl = req.originalUrl;
+//         req.flash("error", "You must be logged in first!");
+//         return res.redirect("/user/login");
+//     }
+//     next();
+// };
 module.exports.isLoggedIn = (req, res, next) => {
     if (!req.isAuthenticated()) {
+        // Check if the request is from a 'fetch' call
+        if (req.xhr || req.headers.accept.indexOf('json') > -1) {
+            return res.status(401).json({ error: "You must be logged in!" });
+        }
+        
         req.session.redirectUrl = req.originalUrl;
         req.flash("error", "You must be logged in first!");
-        return res.redirect("/user/login");
+        return res.redirect("/login");
     }
     next();
 };
