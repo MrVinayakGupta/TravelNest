@@ -16,7 +16,7 @@ module.exports.singupPost = async (req, res) => {
         res.redirect("/");
     }catch(e) {
         req.flash("error", e.message);
-        res.redirect("/singup");
+        res.redirect("/user/singup");
     }
 };
 
@@ -38,4 +38,23 @@ module.exports.logoutGet = (req, res) => {
         req.flash("success", "You are logged out successfully!");
         res.redirect("/");
     });
+};
+
+// controllers/user.js
+module.exports.toggleWishlist = async (req, res) => {
+    let { id } = req.params; // Listing ID
+    let user = await User.findById(req.user._id);
+
+    // Check if listing is already in wishlist
+    const index = user.wishlist.indexOf(id);
+
+    if (index === -1) {
+        user.wishlist.push(id); // Add it
+        await user.save();
+        return res.json({ success: true, added: true });
+    } else {
+        user.wishlist.splice(index, 1); // Remove it
+        await user.save();
+        return res.json({ success: true, added: false });
+    }
 };
