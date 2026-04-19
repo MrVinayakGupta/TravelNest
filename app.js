@@ -73,14 +73,16 @@ connectDB();
 const store = new MongoStrore({
     mongoUrl: dbUrl,
     crypto: {
-    secret: "mysupersecretkey",
+    secret: process.env.SECRET,
     },
     touchAfter: 24 * 3600, // time period in seconds
 });
-
+ store.on("error", (err) => {
+    console.log("Session Store Error", err);
+ });
 const sessionOptions = {
     store,
-    secret : "mysupersecretkey",
+    secret : process.env.SECRET,
     resave : false,
     saveUninitialized : true,
     cookie : {

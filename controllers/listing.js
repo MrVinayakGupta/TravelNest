@@ -1,8 +1,9 @@
 const Listing = require("../models/listing.js");
 
 module.exports.Home = async (req, res) => {
+    user = req.user;
     const allListings = await Listing.find({});
-    res.render("ejs/home.ejs", { allListings });
+    res.render("ejs/home.ejs", { allListings, user });
 };
 
 module.exports.New = (req, res) => {
