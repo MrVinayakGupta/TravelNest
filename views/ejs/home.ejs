@@ -921,6 +921,6 @@
   /* ─── NAVBAR SEARCH (decorative interaction — wires to your backend) ─── */
   document.querySelector('.search-btn').addEventListener('click', () => {
     const where = document.getElementById('search-where').value.trim();
-    if (where) window.location.href = `/listings?search=${encodeURIComponent(where)}`;
+    if (where) window.location.href = `/api/search?q=${encodeURIComponent(where)}`;
   });
 </script>
