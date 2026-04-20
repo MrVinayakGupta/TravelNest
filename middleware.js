@@ -20,7 +20,7 @@ module.exports.isLoggedIn = (req, res, next) => {
         
         req.session.redirectUrl = req.originalUrl;
         req.flash("error", "You must be logged in first!");
-        return res.redirect("/login");
+        return res.redirect("/user/login");
     }
     next();
 };
