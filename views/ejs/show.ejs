@@ -1,457 +1,27 @@
-<!-- layout("/layout/boilerplate") %> -->
+ <!-- layout("/layout/boilerplate") %> -->
 
+<!-- ── FONTS & ICONS ── -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&display=swap">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 
-<style>
-/* ══════════════════════════════════════
-   TOKENS
-══════════════════════════════════════ */
-:root {
-  --gold:       #b8975a;
-  --gold-light: #e0c98a;
-  --gold-pale:  #f7f1e6;
-  --ink:        #18160f;
-  --ink-2:      #3a3528;
-  --ink-3:      #7a7263;
-  --surface:    #fdfcf9;
-  --surface-2:  #f4f1eb;
-  --border:     #e8e2d6;
-  --white:      #ffffff;
-  --ff-serif:   'Cormorant Garamond', Georgia, serif;
-  --ff-sans:    'DM Sans', sans-serif;
-  --ease:       cubic-bezier(0.22, 1, 0.36, 1);
-}
-*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-body { font-family: var(--ff-sans); background: var(--surface); color: var(--ink); overflow-x: hidden; }
+<!-- ── PAGE STYLESHEET ── -->
+<link rel="stylesheet" href="/css/show.css">
 
-/* ══════════════════════════════════════
-   NAVBAR
-══════════════════════════════════════ */
-.lx-nav {
-  display: flex; align-items: center; justify-content: space-between;
-  padding: 0 2.5rem; height: 68px; background: var(--white);
-  border-bottom: 1px solid var(--border); position: sticky; top: 0; z-index: 1000;
-  animation: navIn 0.5s ease both;
-}
-@keyframes navIn { from { opacity:0; transform:translateY(-10px); } to { opacity:1; transform:translateY(0); } }
 
-.nav-brand {
-  font-family: var(--ff-serif); font-size: 26px; font-weight: 400;
-  text-decoration: none; color: var(--ink); display: flex; align-items: center; gap: 8px;
-}
-.nav-brand::before { content:''; width:6px; height:6px; background:var(--gold); border-radius:50%; display:inline-block; }
-.nav-brand span { color:var(--gold); font-style:italic; }
-
-.nav-search {
-  display: flex; align-items: center; border: 1px solid var(--border);
-  border-radius: 40px; padding: 0 6px 0 0; height: 44px;
-  background: var(--white); box-shadow: 0 2px 12px rgba(184,151,90,0.08);
-  min-width: 340px; transition: box-shadow 0.2s, border-color 0.2s;
-}
-.nav-search:focus-within { box-shadow: 0 4px 20px rgba(184,151,90,0.18); border-color: var(--gold-light); }
-.search-seg {
-  display: flex; flex-direction: column; padding: 0 14px;
-  border-right: 1px solid var(--border); cursor: pointer;
-}
-.search-seg:last-of-type { border-right: none; }
-.search-seg label { font-size: 9px; font-weight: 500; letter-spacing: .08em; text-transform: uppercase; color: var(--ink-3); cursor:pointer; }
-.search-seg input { border:none; outline:none; background:transparent; font-family:var(--ff-sans); font-size:12px; color:var(--ink); padding:0; width:90px; }
-.search-btn {
-  width:34px; height:34px; background:var(--gold); border:none; border-radius:50%;
-  color:var(--white); display:flex; align-items:center; justify-content:center;
-  cursor:pointer; font-size:13px; margin-left:8px; flex-shrink:0;
-  transition: background 0.2s, transform 0.15s;
-}
-.search-btn:hover { background:var(--ink); transform:scale(1.06); }
-.nav-actions { display:flex; align-items:center; gap:8px; }
-.nav-link {
-  font-size:13px; font-weight:500; color:var(--ink-2); text-decoration:none;
-  padding:8px 14px; border-radius:24px; transition:background 0.18s;
-  display:flex; align-items:center; gap:6px;
-}
-.nav-link:hover { background:var(--surface-2); }
-.nav-link.cta { background:var(--ink); color:var(--white); }
-.nav-link.cta:hover { background:var(--gold); }
-
-/* ══════════════════════════════════════
-   BREADCRUMB / CATEGORY STRIP
-══════════════════════════════════════ */
-.category-strip {
-  display: flex; align-items: center; gap: 0;
-  padding: 0 2.5rem;
-  background: var(--white);
-  border-bottom: 1px solid var(--border);
-  overflow-x: auto; scrollbar-width: none;
-  animation: navIn 0.5s 0.08s ease both;
-}
-.category-strip::-webkit-scrollbar { display:none; }
-.cat-crumb {
-  display: flex; align-items: center; gap: 6px;
-  padding: 12px 0; font-size: 12px;
-  color: var(--ink-3); white-space: nowrap;
-}
-.cat-crumb a { color:var(--ink-3); text-decoration:none; transition:color 0.18s; }
-.cat-crumb a:hover { color:var(--gold); }
-.cat-sep { color:var(--border); font-size:14px; margin: 0 10px; }
-.cat-badge {
-  display: inline-flex; align-items: center; gap: 6px;
-  background: var(--gold-pale); color: var(--gold);
-  font-size: 10px; font-weight: 500; letter-spacing: 0.08em;
-  text-transform: uppercase; padding: 4px 12px; border-radius: 20px;
-  border: 1px solid var(--gold-light);
-}
-.cat-badge i { font-size: 10px; }
-.cat-tags { display:flex; align-items:center; gap:8px; margin-left:auto; padding-left:2rem; }
-.cat-tag {
-  font-size: 10px; letter-spacing: 0.06em; text-transform: uppercase;
-  padding: 3px 10px; border-radius: 12px; border: 1px solid var(--border);
-  color: var(--ink-3); background: var(--surface-2); white-space: nowrap;
-}
-
-/* ══════════════════════════════════════
-   MAIN HERO — SPLIT LAYOUT
-══════════════════════════════════════ */
-.show-wrapper { padding: 2.5rem 2.5rem 0; }
-
-.listing-hero {
-  display: grid; grid-template-columns: 1.1fr 1fr;
-  border-radius: 20px; overflow: hidden;
-  border: 1px solid var(--border);
-  background: var(--white);
-  opacity: 0; transform: translateY(32px);
-  transition: opacity 0.8s var(--ease), transform 0.8s var(--ease);
-  box-shadow: 0 4px 40px rgba(24,22,15,0.06);
-}
-.listing-hero.active { opacity:1; transform:translateY(0); }
-
-/* Image side */
-.hero-img-col { position:relative; overflow:hidden; height:580px; }
-.hero-img-col img {
-  width:100%; height:100%; object-fit:cover;
-  transition: transform 1.6s var(--ease);
-}
-.listing-hero:hover .hero-img-col img { transform:scale(1.04); }
-
-.img-overlay-bar {
-  position:absolute; bottom:0; left:0; right:0;
-  padding:2rem 2rem 1.5rem;
-  background: linear-gradient(to top, rgba(24,22,15,0.65) 0%, transparent 100%);
-  display:flex; align-items:flex-end; justify-content:space-between;
-}
-.img-save-btn {
-  width:40px; height:40px; border-radius:50%;
-  background:rgba(255,255,255,0.18); border:1px solid rgba(255,255,255,0.3);
-  color:var(--white); font-size:16px; cursor:pointer;
-  display:flex; align-items:center; justify-content:center;
-  backdrop-filter:blur(6px); transition:background 0.2s, transform 0.2s;
-}
-.img-save-btn:hover { background:rgba(255,255,255,0.35); transform:scale(1.1); }
-.img-save-btn.saved { color:#e85c5c; }
-.img-location-tag {
-  display:inline-flex; align-items:center; gap:6px;
-  background:rgba(255,255,255,0.15); border:1px solid rgba(255,255,255,0.25);
-  backdrop-filter:blur(8px); color:var(--white);
-  font-size:12px; font-weight:500; padding:6px 14px; border-radius:20px;
-  letter-spacing:0.03em;
-}
-.img-location-tag i { font-size:11px; color:var(--gold-light); }
-
-/* Content side */
-.hero-content {
-  padding: 3rem 2.5rem;
-  display: flex; flex-direction: column; justify-content: space-between;
-  border-left: 1px solid var(--border);
-}
-.owner-tag {
-  display:inline-flex; align-items:center; gap:7px;
-  font-size:10px; letter-spacing:0.12em; text-transform:uppercase;
-  color:var(--gold); font-weight:500; margin-bottom:1rem;
-}
-.owner-tag::before { content:''; width:20px; height:1px; background:var(--gold); }
-
-.listing-title {
-  font-family: var(--ff-serif); font-size: clamp(2rem, 3.5vw, 3.2rem);
-  font-weight: 400; line-height: 1.1; color:var(--ink); margin-bottom:1rem;
-  letter-spacing:-0.01em;
-}
-
-.listing-desc {
-  font-size:14px; line-height:1.75; color:var(--ink-3);
-  margin-bottom:1.5rem; flex-grow:1;
-}
-
-/* Meta chips */
-.meta-row {
-  display:flex; flex-wrap:wrap; gap:8px; margin-bottom:1.5rem;
-}
-.meta-chip {
-  display:inline-flex; align-items:center; gap:6px;
-  font-size:11px; letter-spacing:0.04em;
-  background:var(--surface-2); border:1px solid var(--border);
-  color:var(--ink-3); padding:5px 12px; border-radius:20px;
-}
-.meta-chip i { font-size:11px; color:var(--gold); }
-
-/* Price */
-.price-section { margin-bottom:1.5rem; }
-.price-label {
-  font-size:10px; letter-spacing:0.1em; text-transform:uppercase;
-  color:var(--ink-3); margin-bottom:4px; font-weight:500;
-}
-.price-main {
-  font-family:var(--ff-serif); font-size:3rem; font-weight:400;
-  color:var(--ink); line-height:1;
-  display:flex; align-items:baseline; gap:8px;
-}
-.price-main small {
-  font-family:var(--ff-sans); font-size:13px;
-  color:var(--ink-3); font-weight:400;
-}
-.price-tax { font-size:12px; color:var(--gold); margin-top:4px; }
-
-/* Action buttons */
-.action-row { display:flex; gap:10px; flex-wrap:wrap; }
-
-.btn-primary-lux {
-  flex:1; min-width:120px;
-  background:var(--ink); color:var(--white);
-  border:none; border-radius:50px; padding:13px 24px;
-  font-family:var(--ff-sans); font-size:11px; letter-spacing:0.1em;
-  text-transform:uppercase; font-weight:500; cursor:pointer;
-  transition:background 0.25s, transform 0.18s;
-  text-decoration:none; display:inline-flex; align-items:center; justify-content:center; gap:8px;
-}
-.btn-primary-lux:hover { background:var(--gold); transform:translateY(-2px); }
-
-.btn-ghost-lux {
-  background:transparent; color:var(--ink-3);
-  border:1px solid var(--border); border-radius:50px; padding:13px 24px;
-  font-family:var(--ff-sans); font-size:11px; letter-spacing:0.1em;
-  text-transform:uppercase; font-weight:500; cursor:pointer;
-  transition:border-color 0.25s, color 0.25s, transform 0.18s;
-  text-decoration:none; display:inline-flex; align-items:center; justify-content:center; gap:8px;
-}
-.btn-ghost-lux:hover { border-color:var(--gold); color:var(--gold); transform:translateY(-2px); }
-
-/* ══════════════════════════════════════
-   DIVIDER
-══════════════════════════════════════ */
-.section-divider {
-  display:flex; align-items:center; gap:16px;
-  margin: 3.5rem 0 2rem;
-}
-.section-divider::before,
-.section-divider::after { content:''; flex:1; height:1px; background:var(--border); }
-.section-divider span {
-  font-family:var(--ff-serif); font-size:11px; letter-spacing:0.14em;
-  text-transform:uppercase; color:var(--gold); font-weight:400; white-space:nowrap;
-}
-
-/* ══════════════════════════════════════
-   SECTION HEADERS
-══════════════════════════════════════ */
-.section-header { margin-bottom:2rem; }
-.section-eyebrow {
-  font-size:10px; letter-spacing:0.14em; text-transform:uppercase;
-  color:var(--gold); font-weight:500; margin-bottom:6px;
-  display:flex; align-items:center; gap:8px;
-}
-.section-eyebrow::before { content:''; width:16px; height:1px; background:var(--gold); }
-.section-title {
-  font-family:var(--ff-serif); font-size:clamp(1.8rem,3vw,2.6rem); font-weight:400; color:var(--ink);
-}
-.section-title em { font-style:italic; color:var(--gold); }
-
-/* ══════════════════════════════════════
-   REVIEWS
-══════════════════════════════════════ */
-.reviews-layout {
-  display:grid; grid-template-columns:1fr 2fr; gap:2.5rem; align-items:start;
-}
-
-/* Review form */
-.review-form-card {
-  background:var(--white); border:1px solid var(--border);
-  border-radius:18px; padding:2rem;
-  box-shadow:0 4px 24px rgba(24,22,15,0.04);
-  position:sticky; top:88px;
-}
-.form-eyebrow {
-  font-size:10px; letter-spacing:0.12em; text-transform:uppercase;
-  color:var(--gold); font-weight:500; margin-bottom:6px;
-}
-.form-title {
-  font-family:var(--ff-serif); font-size:1.8rem; font-weight:400;
-  margin-bottom:1.5rem; line-height:1.2;
-}
-.form-title em { color:var(--gold); font-style:italic; }
-.form-label-lux {
-  display:block; font-size:10px; letter-spacing:0.1em; text-transform:uppercase;
-  font-weight:500; color:var(--ink-2); margin-bottom:8px;
-}
-.form-control-lux {
-  width:100%; border:1px solid var(--border); border-radius:10px;
-  padding:12px 14px; font-family:var(--ff-sans); font-size:13px;
-  color:var(--ink); background:var(--surface);
-  resize:none; outline:none; transition:border-color 0.2s;
-}
-.form-control-lux:focus { border-color:var(--gold); }
-.star-row { display:flex; gap:6px; margin-bottom:1.25rem; }
-.star-btn {
-  font-size:22px; color:#ddd; cursor:pointer; background:none; border:none;
-  transition:color 0.15s, transform 0.15s; line-height:1;
-  padding:0;
-}
-.star-btn.active { color:var(--gold); }
-.star-btn:hover { transform:scale(1.2); }
-#starInput { display:none; }
-
-/* Review cards */
-.reviews-grid {
-  display:grid; grid-template-columns:repeat(auto-fill,minmax(260px,1fr)); gap:16px;
-}
-.review-card {
-  background:var(--white); border:1px solid var(--border); border-radius:14px;
-  padding:1.4rem; transition:border-color 0.25s, transform 0.3s var(--ease);
-  display:flex; flex-direction:column;
-  opacity:0; transform:translateY(20px);
-}
-.review-card.revealed {
-  opacity:1; transform:translateY(0);
-  transition:opacity 0.5s ease, transform 0.5s var(--ease), border-color 0.25s, transform 0.3s;
-}
-.review-card:hover { border-color:var(--gold-light); transform:translateY(-4px) !important; }
-.review-author {
-  display:flex; align-items:center; gap:10px; margin-bottom:10px;
-}
-.reviewer-avatar {
-  width:34px; height:34px; border-radius:50%;
-  background:var(--gold-pale); border:1px solid var(--gold-light);
-  display:flex; align-items:center; justify-content:center;
-  font-family:var(--ff-serif); font-size:14px; color:var(--gold); font-weight:500;
-}
-.reviewer-name { font-size:13px; font-weight:500; color:var(--ink); }
-.reviewer-tag { font-size:10px; color:var(--ink-3); letter-spacing:0.03em; }
-.review-stars { display:flex; gap:3px; margin-bottom:8px; }
-.review-stars i { font-size:11px; color:var(--gold); }
-.review-stars i.empty { color:#ddd; }
-.review-text { font-size:13px; line-height:1.65; color:var(--ink-3); flex-grow:1; font-style:italic; }
-.review-text::before { content:'"'; font-family:var(--ff-serif); font-size:28px; color:var(--gold-light); line-height:0; vertical-align:-10px; margin-right:2px; }
-.review-remove-btn {
-  margin-top:12px; font-size:10px; letter-spacing:0.08em; text-transform:uppercase;
-  color:#c0392b; background:none; border:none; cursor:pointer; padding:0;
-  font-weight:500; align-self:flex-start; transition:opacity 0.2s;
-}
-.review-remove-btn:hover { opacity:0.7; }
-.no-reviews {
-  grid-column:1/-1; text-align:center; padding:3rem;
-  font-family:var(--ff-serif); font-size:1.4rem; font-weight:300; color:var(--ink-3);
-}
-.no-reviews i { display:block; font-size:28px; color:var(--gold-light); margin-bottom:12px; }
-
-/* ══════════════════════════════════════
-   RELATED LISTINGS
-══════════════════════════════════════ */
-.related-section { padding: 0 0 5rem; }
-.related-grid {
-  display:grid; grid-template-columns:repeat(auto-fill,minmax(270px,1fr)); gap:22px;
-}
-.rel-card {
-  background:var(--white); border-radius:14px; overflow:hidden;
-  border:1px solid var(--border); text-decoration:none; color:inherit;
-  display:block; transition:transform 0.4s var(--ease), box-shadow 0.4s ease, border-color 0.25s;
-  opacity:0; transform:translateY(24px);
-}
-.rel-card.revealed {
-  opacity:1; transform:translateY(0);
-  transition:opacity 0.55s ease, transform 0.55s var(--ease), box-shadow 0.4s ease, border-color 0.25s;
-}
-.rel-card.fl { transform:translateX(-28px); opacity:0; }
-.rel-card.fr { transform:translateX(28px); opacity:0; }
-.rel-card:hover { transform:translateY(-6px) scale(1.012) !important; box-shadow:0 16px 48px rgba(24,22,15,0.1); border-color:var(--gold-light); }
-.rel-img { position:relative; overflow:hidden; aspect-ratio:4/3; }
-.rel-img img { width:100%; height:100%; object-fit:cover; transition:transform 0.7s var(--ease); display:block; }
-.rel-card:hover .rel-img img { transform:scale(1.06); }
-.rel-badge {
-  position:absolute; top:10px; left:10px;
-  background:rgba(255,255,255,0.92); font-size:9px; letter-spacing:0.08em;
-  text-transform:uppercase; font-weight:500; padding:3px 9px; border-radius:16px; color:var(--gold);
-}
-.rel-rating {
-  position:absolute; bottom:10px; left:10px;
-  background:rgba(24,22,15,0.7); color:var(--gold-light);
-  font-size:11px; font-weight:500; padding:3px 9px; border-radius:16px;
-  display:flex; align-items:center; gap:4px;
-}
-.rel-rating i { font-size:9px; color:var(--gold); }
-.rel-wishlist {
-  position:absolute; top:10px; right:10px;
-  width:30px; height:30px; border-radius:50%;
-  background:rgba(255,255,255,0.85); border:none;
-  display:flex; align-items:center; justify-content:center;
-  font-size:13px; color:#ccc; cursor:pointer; transition:transform 0.2s, color 0.2s;
-}
-.rel-wishlist:hover { transform:scale(1.2); }
-.rel-wishlist.saved { color:#e85c5c; }
-.rel-body { padding:13px 15px 15px; }
-.rel-loc { font-size:10px; letter-spacing:0.06em; text-transform:uppercase; color:var(--ink-3); margin-bottom:4px; display:flex; align-items:center; gap:4px; }
-.rel-loc i { font-size:9px; color:var(--gold); }
-.rel-title { font-family:var(--ff-serif); font-size:16px; font-weight:400; color:var(--ink); line-height:1.3; margin-bottom:10px; }
-.rel-footer { display:flex; align-items:flex-end; justify-content:space-between; border-top:1px solid var(--border); padding-top:10px; }
-.rel-price { font-family:var(--ff-serif); font-size:18px; color:var(--ink); }
-.rel-price sub { font-family:var(--ff-sans); font-size:10px; color:var(--ink-3); font-weight:400; vertical-align:baseline; }
-.rel-cta {
-  font-size:10px; letter-spacing:0.07em; text-transform:uppercase; font-weight:500;
-  color:var(--gold); background:none; border:1px solid var(--gold-light);
-  padding:5px 11px; border-radius:20px; cursor:pointer;
-  transition:background 0.2s, color 0.2s; text-decoration:none;
-  display:inline-flex; align-items:center; gap:4px;
-}
-.rel-cta:hover { background:var(--gold); color:var(--white); border-color:var(--gold); }
-
-/* ══════════════════════════════════════
-   FOOTER
-══════════════════════════════════════ */
-.site-footer {
-  background:var(--ink); padding:2rem 2.5rem;
-  display:flex; align-items:center; justify-content:space-between;
-  font-size:11px; color:rgba(255,255,255,0.4); gap:1rem; flex-wrap:wrap;
-}
-.footer-brand { font-family:var(--ff-serif); font-size:20px; color:var(--gold-light); font-style:italic; }
-.footer-links { display:flex; gap:18px; }
-.footer-links a { color:rgba(255,255,255,0.4); text-decoration:none; font-size:11px; letter-spacing:0.06em; text-transform:uppercase; transition:color 0.18s; }
-.footer-links a:hover { color:var(--gold-light); }
-
-/* ══════════════════════════════════════
-   RESPONSIVE
-══════════════════════════════════════ */
-@media (max-width: 992px) {
-  .lx-nav { padding:0 1.25rem; }
-  .nav-search { display:none; }
-  .show-wrapper { padding:1.5rem 1.25rem 0; }
-  .listing-hero { grid-template-columns:1fr; }
-  .hero-img-col { height:300px; }
-  .hero-content { padding:1.75rem; }
-  .reviews-layout { grid-template-columns:1fr; }
-  .review-form-card { position:static; }
-  .category-strip { padding:0 1.25rem; }
-  .related-section, .reviews-container { padding-left:1.25rem; padding-right:1.25rem; }
-}
-</style>
-
-<!-- ══════════════════════════════
+<!-- ════════════════════════════════════════
      NAVBAR
-══════════════════════════════ -->
+════════════════════════════════════════ -->
 <nav class="lx-nav">
+
   <a href="/" class="nav-brand">Travel<span>Nest</span></a>
 
+  <!-- Desktop search pill -->
   <div class="nav-search">
     <div class="search-seg">
       <label>Where</label>
-      <input type="text" placeholder="Any destination">
+      <input type="text" placeholder="Any destination" autocomplete="off">
     </div>
     <div class="search-seg">
       <label>When</label>
@@ -461,27 +31,86 @@ body { font-family: var(--ff-sans); background: var(--surface); color: var(--ink
       <label>Guests</label>
       <input type="text" placeholder="Add guests">
     </div>
-    <button class="search-btn" type="button"><i class="fa-solid fa-magnifying-glass"></i></button>
+    <button class="search-btn" type="button" id="desktopSearchBtn">
+      <i class="fa-solid fa-magnifying-glass"></i>
+    </button>
   </div>
+
+  <!-- Mobile compact trigger -->
+  <button class="nav-search-trigger" id="searchTrigger" type="button" aria-label="Open search">
+    <span class="trigger-icon"><i class="fa-solid fa-magnifying-glass"></i></span>
+    <span class="trigger-text">
+      <span class="tl">Search stays</span>
+      <span class="ts">Anywhere · Any time</span>
+    </span>
+  </button>
 
   <div class="nav-actions">
     <a href="/new" class="nav-link">List your property</a>
-    <a href="/wishlist" class="nav-link"><i class="fa-solid fa-heart" style="color: #e24b4a;"></i> Wishlist </a>
-
+    
     <% if (currUser) { %>
+      <a href="/wishlist" class="nav-link wishlist-link">
+        <i class="fa-solid fa-heart" style="color:#e24b4a"></i> Wishlist
+      </a>
       <a href="/user/profile" class="nav-link">
-        <i class="fa-regular fa-circle-user" style="font-size:17px"></i>
+        <i class="fa-regular fa-circle-user" style="font-size:16px"></i>
         <%= currUser.username %>
       </a>
     <% } else { %>
-      <a href="/user/login" class="nav-link cta">Sign in</a>
+      <a href="/user/login" class="nav-link ">Sign in</a>
+      <a href="/user/singup" class="nav-link cta">Join free</a>
     <% } %>
   </div>
+
 </nav>
 
-<!-- ══════════════════════════════
+
+<!-- ════════════════════════════════════════
+     SEARCH POPUP
+════════════════════════════════════════ -->
+<div class="search-overlay" id="searchOverlay">
+  <div class="search-popup" role="dialog" aria-modal="true" aria-label="Search stays">
+    <button class="popup-close" id="popupClose" type="button" aria-label="Close">
+      <i class="fa-solid fa-xmark"></i>
+    </button>
+    <div class="search-popup-inner">
+      <div class="popup-heading">Find your <em>perfect</em> stay</div>
+      <div class="popup-field">
+        <label for="popupWhere">Where</label>
+        <input type="text" id="popupWhere" class="popup-input" placeholder="City, country or area…" autocomplete="off">
+      </div>
+      <div class="popup-grid">
+        <div class="popup-field">
+          <label for="popupCheckIn">Check in</label>
+          <input type="date" id="popupCheckIn" class="popup-input">
+        </div>
+        <div class="popup-field">
+          <label for="popupCheckOut">Check out</label>
+          <input type="date" id="popupCheckOut" class="popup-input">
+        </div>
+      </div>
+      <div class="popup-field">
+        <label for="popupGuests">Guests</label>
+        <select id="popupGuests" class="popup-input">
+          <option>Add guests</option>
+          <option>1 guest</option>
+          <option>2 guests</option>
+          <option>3 guests</option>
+          <option>4+ guests</option>
+        </select>
+      </div>
+      <button class="popup-search-btn" id="popupSearchBtn" type="button">
+        <i class="fa-solid fa-magnifying-glass" style="font-size:12px"></i>
+        Search stays
+      </button>
+    </div>
+  </div>
+</div>
+
+
+<!-- ════════════════════════════════════════
      CATEGORY / BREADCRUMB STRIP
-══════════════════════════════ -->
+════════════════════════════════════════ -->
 <div class="category-strip">
   <div class="cat-crumb">
     <a href="/">Home</a>
@@ -511,9 +140,10 @@ body { font-family: var(--ff-sans); background: var(--surface); color: var(--ink
   </div>
 </div>
 
-<!-- ══════════════════════════════
+
+<!-- ════════════════════════════════════════
      MAIN HERO
-══════════════════════════════ -->
+════════════════════════════════════════ -->
 <div class="show-wrapper">
   <div class="listing-hero" id="mainHero">
 
@@ -533,7 +163,6 @@ body { font-family: var(--ff-sans); background: var(--surface); color: var(--ink
 
     <!-- Content column -->
     <div class="hero-content">
-
       <div>
         <div class="owner-tag">
           Exclusively curated by @<%= listing.owner.username %>
@@ -562,15 +191,19 @@ body { font-family: var(--ff-sans); background: var(--surface); color: var(--ink
       </div>
 
       <div>
+        <!-- Price (hidden on mobile — shown in sticky bar instead) -->
         <div class="price-section">
           <div class="price-label">Starting from</div>
           <div class="price-main">
             &#8377;<%= listing.price.toLocaleString('en-IN') %>
             <small>/ night</small>
           </div>
-          <div class="price-tax">&#8377;<%= Math.round(listing.price * 1.18).toLocaleString('en-IN') %> total incl. taxes</div>
+          <div class="price-tax">
+            &#8377;<%= Math.round(listing.price * 1.18).toLocaleString('en-IN') %> total incl. taxes
+          </div>
         </div>
 
+        <!-- Actions (hidden on mobile — replaced by sticky bar) -->
         <div class="action-row">
           <% if (currUser && currUser._id.equals(listing.owner._id)) { %>
             <a href="/<%= listing._id %>/edit" class="btn-primary-lux">
@@ -582,7 +215,8 @@ body { font-family: var(--ff-sans); background: var(--surface); color: var(--ink
               </button>
             </form>
           <% } else { %>
-            <button class="btn-primary-lux" onclick="document.getElementById('reviewForm').scrollIntoView({behavior:'smooth'})">
+            <button class="btn-primary-lux"
+              onclick="document.getElementById('reviewForm').scrollIntoView({behavior:'smooth'})">
               <i class="fa-solid fa-star" style="font-size:10px"></i> Book now
             </button>
             <button class="btn-ghost-lux" onclick="toggleHeroSave()">
@@ -591,14 +225,14 @@ body { font-family: var(--ff-sans); background: var(--surface); color: var(--ink
           <% } %>
         </div>
       </div>
-
     </div>
+
   </div><!-- /listing-hero -->
 
 
-  <!-- ══════════════════════════════
+  <!-- ════════════════════════════════════════
        REVIEWS SECTION
-  ══════════════════════════════ -->
+  ════════════════════════════════════════ -->
   <div class="section-divider"><span>Guest impressions</span></div>
 
   <div class="reviews-container">
@@ -609,7 +243,7 @@ body { font-family: var(--ff-sans); background: var(--surface); color: var(--ink
 
     <div class="reviews-layout">
 
-      <!-- Review form (only if logged in) -->
+      <!-- Review form -->
       <% if (currUser) { %>
         <div class="review-form-card" id="reviewForm">
           <div class="form-eyebrow">Share your stay</div>
@@ -631,10 +265,13 @@ body { font-family: var(--ff-sans); background: var(--surface); color: var(--ink
             <div style="margin-bottom:1.5rem">
               <label class="form-label-lux" for="comment">Your thoughts</label>
               <textarea
-                name="review[comment]" id="comment"
-                class="form-control-lux" rows="4"
-                placeholder="Share your experience with this stay…" required></textarea>
-                <input type="text" name="review[author]" value="<%= currUser._id %>" hidden>
+                name="review[comment]"
+                id="comment"
+                class="form-control-lux"
+                rows="4"
+                placeholder="Share your experience with this stay…"
+                required></textarea>
+              <input type="text" name="review[author]" value="<%= currUser._id %>" hidden>
             </div>
 
             <button type="submit" class="btn-primary-lux" style="width:100%;justify-content:center">
@@ -642,11 +279,16 @@ body { font-family: var(--ff-sans); background: var(--surface); color: var(--ink
             </button>
           </form>
         </div>
+
       <% } else { %>
-        <div style="background:var(--gold-pale);border:1px solid var(--gold-light);border-radius:18px;padding:2rem;text-align:center">
+        <div style="background:var(--gold-pale);border:1px solid var(--gold-light);border-radius:18px;padding:2rem;text-align:center" id="reviewForm">
           <i class="fa-regular fa-comment-dots" style="font-size:28px;color:var(--gold-light);margin-bottom:12px;display:block"></i>
-          <div style="font-family:var(--ff-serif);font-size:1.5rem;margin-bottom:8px">Share your <em style="color:var(--gold)">experience</em></div>
-          <p style="font-size:13px;color:var(--ink-3);margin-bottom:1.25rem">Sign in to leave a review for this stay.</p>
+          <div style="font-family:var(--ff-serif);font-size:1.5rem;margin-bottom:8px">
+            Share your <em style="color:var(--gold)">experience</em>
+          </div>
+          <p style="font-size:13px;color:var(--ink-3);margin-bottom:1.25rem">
+            Sign in to leave a review for this stay.
+          </p>
           <a href="/user/login" class="btn-primary-lux" style="display:inline-flex">Sign in to review</a>
         </div>
       <% } %>
@@ -697,14 +339,18 @@ body { font-family: var(--ff-sans); background: var(--surface); color: var(--ink
   </div><!-- /reviews-container -->
 
 
-  <!-- ══════════════════════════════
-       RELATED LISTINGS
-  ══════════════════════════════ -->
+  <!-- ════════════════════════════════════════
+       RELATED LISTINGS DIVIDER
+  ════════════════════════════════════════ -->
   <div class="section-divider"><span>More to explore</span></div>
 
 </div><!-- /show-wrapper -->
 
-<div class="related-section" style="padding:0 2.5rem 5rem">
+
+<!-- ════════════════════════════════════════
+     RELATED LISTINGS
+════════════════════════════════════════ -->
+<div class="related-section">
   <div class="section-header">
     <div class="section-eyebrow">You may also love</div>
     <h2 class="section-title">Other <em>Extraordinary</em> Stays</h2>
@@ -712,21 +358,15 @@ body { font-family: var(--ff-sans); background: var(--surface); color: var(--ink
 
   <div class="related-grid" id="relatedGrid">
     <%
-      /* ── RELATED LOGIC ──────────────────────────────────────────────────
-         Show listings that share the same country OR category as current,
-         excluding the current listing. Capped at 8 cards.
-         allListings must be passed from the route alongside listing.
-      ─────────────────────────────────────────────────────────────────── */
       let related = [];
       if (typeof allListings !== 'undefined' && allListings) {
         related = allListings.filter(l => {
           if (l._id.toString() === listing._id.toString()) return false;
-          const sameCountry  = l.country  === listing.country;
+          const sameCountry  = l.country === listing.country;
           const sameCategory = listing.category && l.category === listing.category;
           return sameCountry || sameCategory;
         }).slice(0, 8);
 
-        /* fallback: if fewer than 4 related, pad with any other listing */
         if (related.length < 4) {
           const extras = allListings.filter(l =>
             l._id.toString() !== listing._id.toString() &&
@@ -756,7 +396,9 @@ body { font-family: var(--ff-sans); background: var(--surface); color: var(--ink
           <% } %>
           <div class="rel-rating">
             <i class="fa-solid fa-star"></i>
-            <%= r.reviews && r.reviews.length > 0 ? (r.reviews.reduce((a,rv)=>a+rv.rating,0)/r.reviews.length).toFixed(1) : '4.9' %>
+            <%= r.reviews && r.reviews.length > 0
+              ? (r.reviews.reduce((a,rv) => a + rv.rating, 0) / r.reviews.length).toFixed(1)
+              : '4.9' %>
           </div>
           <button class="rel-wishlist" onclick="toggleWish(event,this)" type="button">
             <i class="fa-regular fa-heart"></i>
@@ -772,7 +414,9 @@ body { font-family: var(--ff-sans); background: var(--surface); color: var(--ink
             <div class="rel-price">
               &#8377;<%= r.price.toLocaleString('en-IN') %><sub>&nbsp;/ night</sub>
             </div>
-            <span class="rel-cta">Explore <i class="fa-solid fa-arrow-right" style="font-size:8px"></i></span>
+            <span class="rel-cta">
+              Explore <i class="fa-solid fa-arrow-right" style="font-size:8px"></i>
+            </span>
           </div>
         </div>
       </a>
@@ -786,9 +430,10 @@ body { font-family: var(--ff-sans); background: var(--surface); color: var(--ink
   </div>
 </div>
 
-<!-- ══════════════════════════════
+
+<!-- ════════════════════════════════════════
      FOOTER
-══════════════════════════════ -->
+════════════════════════════════════════ -->
 <footer class="site-footer">
   <div class="footer-brand">TravelNest</div>
   <div class="footer-links">
@@ -800,80 +445,40 @@ body { font-family: var(--ff-sans); background: var(--surface); color: var(--ink
   <div>&copy; <%= new Date().getFullYear() %> TravelNest. All rights reserved.</div>
 </footer>
 
-<script>
-/* ── ENTRY ANIMATION ── */
-window.addEventListener('load', () => {
-  document.getElementById('mainHero').classList.add('active');
-});
 
-/* ── SCROLL REVEAL ── */
-const revealIO = new IntersectionObserver((entries) => {
-  entries.forEach(e => {
-    if (e.isIntersecting) {
-      e.target.classList.add('revealed');
-      revealIO.unobserve(e.target);
-    }
-  });
-}, { threshold: 0.08 });
+<!-- ════════════════════════════════════════
+     MOBILE STICKY BOOKING BAR
+     (visible only on mobile, fixed at bottom)
+════════════════════════════════════════ -->
+<div class="mobile-book-bar" id="mobileBookBar">
+  <div class="mobile-book-price">
+    <div class="mprice">
+      &#8377;<%= listing.price.toLocaleString('en-IN') %><sub>&nbsp;/ night</sub>
+    </div>
+    <div class="mtax">
+      &#8377;<%= Math.round(listing.price * 1.18).toLocaleString('en-IN') %> incl. taxes
+    </div>
+  </div>
+  <div style="display:flex;gap:10px;align-items:center">
+    <!-- Save icon on mobile bar -->
+    <button type="button"
+      onclick="toggleHeroSave()"
+      style="width:42px;height:42px;border-radius:50%;background:var(--surface-2);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:16px;color:var(--ink-3);transition:color .2s,border-color .2s;flex-shrink:0"
+      aria-label="Save to wishlist">
+      <i class="fa-regular fa-heart" id="mobileSaveIcon"></i>
+    </button>
+    <% if (currUser && currUser._id.equals(listing.owner._id)) { %>
+      <a href="/<%= listing._id %>/edit" class="mobile-book-btn" style="text-decoration:none">
+        Edit stay
+      </a>
+    <% } else { %>
+      <button class="mobile-book-btn" id="mobileBookBtn" type="button">
+        Book now
+      </button>
+    <% } %>
+  </div>
+</div>
 
-document.querySelectorAll('.review-card, .rel-card').forEach(el => revealIO.observe(el));
 
-/* ── STAR RATING ── */
-const stars = document.querySelectorAll('.star-btn');
-const starInput = document.getElementById('starInput');
-let currentRating = 1;
-
-stars.forEach(btn => {
-  btn.addEventListener('mouseenter', () => highlightStars(+btn.dataset.val));
-  btn.addEventListener('mouseleave', () => highlightStars(currentRating));
-  btn.addEventListener('click', () => {
-    currentRating = +btn.dataset.val;
-    if (starInput) starInput.value = currentRating;
-    highlightStars(currentRating);
-  });
-});
-
-function highlightStars(val) {
-  stars.forEach(s => s.classList.toggle('active', +s.dataset.val <= val));
-}
-highlightStars(1);
-
-/* ── SAVE / WISHLIST (HERO) ── */
-let heroSaved = false;
-function toggleHeroSave() {
-  heroSaved = !heroSaved;
-  const btn  = document.getElementById('heroSaveBtn');
-  const icon = document.getElementById('saveIconBtn');
-  if (btn) {
-    btn.classList.toggle('saved', heroSaved);
-    btn.innerHTML = heroSaved
-      ? '<i class="fa-solid fa-heart"></i>'
-      : '<i class="fa-regular fa-heart"></i>';
-  }
-  if (icon) {
-    icon.className = heroSaved ? 'fa-solid fa-heart' : 'fa-regular fa-heart';
-  }
-}
-
-/* ── SAVE / WISHLIST (RELATED CARDS) ── */
-function toggleWish(e, btn) {
-  e.preventDefault(); e.stopPropagation();
-  const saved = btn.classList.toggle('saved');
-  btn.innerHTML = saved
-    ? '<i class="fa-solid fa-heart"></i>'
-    : '<i class="fa-regular fa-heart"></i>';
-  btn.style.transform = 'scale(1.35)';
-  setTimeout(() => btn.style.transform = '', 220);
-}
-
-/* ── FORM VALIDATION ── */
-(function () {
-  'use strict';
-  document.querySelectorAll('.needs-validation').forEach(form => {
-    form.addEventListener('submit', function (e) {
-      if (!form.checkValidity()) { e.preventDefault(); e.stopPropagation(); }
-      form.classList.add('was-validated');
-    }, false);
-  });
-})();
-</script>
+<!-- ── PAGE SCRIPT ── -->
+<script src="/js/show.js"></script>
