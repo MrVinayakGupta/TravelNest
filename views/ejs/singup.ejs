@@ -1,230 +1,27 @@
  <!-- layout("/layout/boilerplate") %> -->
 
+<!-- ── FONTS & ICONS ── -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&display=swap">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 
-<style>
-/* ══════════════════════════════════════
-   TOKENS & RESET
-══════════════════════════════════════ */
-:root {
-  --gold:       #b8975a;
-  --gold-light: #e0c98a;
-  --gold-pale:  #f7f1e6;
-  --ink:        #18160f;
-  --ink-2:      #3a3528;
-  --ink-3:      #7a7263;
-  --surface:    #fdfcf9;
-  --border:     #e8e2d6;
-  --white:      #ffffff;
-  --ff-serif:   'Cormorant Garamond', Georgia, serif;
-  --ff-sans:    'DM Sans', sans-serif;
-}
+<!-- ── PAGE STYLESHEET ── -->
+<link rel="stylesheet" href="/css/singup.css">
 
-*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
-body { 
-  font-family: var(--ff-sans); 
-  background: var(--surface); 
-  color: var(--ink); 
-  display: flex; 
-  flex-direction: column; 
-  min-height: 100vh;
-}
-
-/* ══════════════════════════════════════
-   EXACT SAMPLE NAVBAR
-══════════════════════════════════════ */
-.lx-nav {
-  display: flex; align-items: center; justify-content: space-between;
-  padding: 0 2.5rem; height: 68px; background: var(--white);
-  border-bottom: 1px solid var(--border); position: sticky; top: 0; z-index: 1000;
-  animation: navIn 0.5s ease both;
-}
-@keyframes navIn { from { opacity:0; transform:translateY(-10px); } to { opacity:1; transform:translateY(0); } }
-
-.nav-brand {
-  font-family: var(--ff-serif); font-size: 26px; font-weight: 400;
-  text-decoration: none; color: var(--ink); display: flex; align-items: center; gap: 8px;
-}
-.nav-brand::before { content:''; width:6px; height:6px; background:var(--gold); border-radius:50%; display:inline-block; }
-.nav-brand span { color:var(--gold); font-style:italic; }
-
-.nav-search {
-  display: flex; align-items: center; border: 1px solid var(--border);
-  border-radius: 40px; padding: 0 6px 0 0; height: 44px;
-  background: var(--white); box-shadow: 0 2px 12px rgba(184,151,90,0.08);
-  min-width: 340px; transition: box-shadow 0.2s, border-color 0.2s;
-}
-.nav-search:focus-within { box-shadow: 0 4px 20px rgba(184,151,90,0.18); border-color: var(--gold-light); }
-.search-seg {
-  display: flex; flex-direction: column; padding: 0 14px;
-  border-right: 1px solid var(--border); cursor: pointer;
-}
-.search-seg:last-of-type { border-right: none; }
-.search-seg label { font-size: 9px; font-weight: 500; letter-spacing: .08em; text-transform: uppercase; color: var(--ink-3); cursor:pointer; }
-.search-seg input { border:none; outline:none; background:transparent; font-family:var(--ff-sans); font-size:12px; color:var(--ink); padding:0; width:90px; }
-.search-btn {
-  width:34px; height:34px; background:var(--gold); border:none; border-radius:50%;
-  color:var(--white); display:flex; align-items:center; justify-content:center;
-  cursor:pointer; font-size:13px; margin-left:8px; flex-shrink:0;
-  transition: background 0.2s, transform 0.15s;
-}
-.search-btn:hover { background:var(--ink); transform:scale(1.06); }
-.nav-actions { display:flex; align-items:center; gap:8px; }
-.nav-link {
-  font-size:13px; font-weight:500; color:var(--ink-2); text-decoration:none;
-  padding:8px 14px; border-radius:24px; transition:background 0.18s;
-  display:flex; align-items:center; gap:6px;
-}
-.nav-link:hover { background:var(--surface-2); }
-.nav-link.cta { background:var(--ink); color:var(--white); }
-.nav-link.cta:hover { background:var(--gold); }
-
-/* ══════════════════════════════════════
-   FULL SCREEN BACKGROUND & GLASS CARD
-══════════════════════════════════════ */
-.auth-main-bg {
-  flex: 1;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 4rem 2rem;
-  position: relative;
-  /* Premium Luxury Background Image (Different from Login for variety) */
-  background: url('https://images.unsplash.com/photo-1518684079-3c830dcef090?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80') center/cover no-repeat;
-}
-
-.auth-main-bg::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background: rgba(0, 0, 0, 0.3); /* Slightly darker for contrast */
-}
-
-.glass-card {
-  position: relative;
-  z-index: 10;
-  width: 100%;
-  max-width: 480px;
-  background: rgba(253, 252, 249, 0.85); 
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
-  border: 1px solid rgba(255, 255, 255, 0.6);
-  border-radius: 24px;
-  padding: 3rem 3.5rem;
-  box-shadow: 0 30px 60px rgba(0,0,0,0.15);
-  animation: navIn 0.8s ease-out;
-}
-
-/* ══════════════════════════════════════
-   CUSTOM FORM ELEMENTS
-══════════════════════════════════════ */
-.return-link-lux {
-  display: inline-flex; align-items: center; gap: 8px;
-  font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase;
-  color: var(--ink-3); text-decoration: none; font-weight: 600;
-  margin-bottom: 2rem; transition: color 0.25s, transform 0.25s;
-}
-.return-link-lux:hover { color: var(--gold); transform: translateX(-4px); }
-
-.section-eyebrow {
-  font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase;
-  color: var(--gold); font-weight: 600; margin-bottom: 8px;
-  display: flex; align-items: center; gap: 8px; justify-content: center;
-}
-.section-eyebrow::before, .section-eyebrow::after { content: ''; width: 16px; height: 1px; background: var(--gold); }
-
-.form-title {
-  font-family: var(--ff-serif); font-size: 2.8rem; font-weight: 400; color: var(--ink);
-  text-align: center; margin-bottom: 2.5rem; line-height: 1.1;
-}
-.form-title em { font-style: italic; color: var(--gold); }
-
-.input-group {
-  margin-bottom: 1.5rem;
-  position: relative;
-}
-
-.form-label-lux {
-  display: block; font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase;
-  font-weight: 600; color: var(--ink-2); margin-bottom: 8px;
-}
-
-.form-control-lux {
-  width: 100%; border: 1px solid var(--border); border-radius: 12px;
-  padding: 14px 16px; font-family: var(--ff-sans); font-size: 14px;
-  color: var(--ink); 
-  background: rgba(255, 255, 255, 0.9); 
-  outline: none; transition: all 0.3s ease;
-}
-.form-control-lux:focus { 
-  border-color: var(--gold); 
-  box-shadow: 0 0 0 4px rgba(184,151,90,0.1); 
-  background: var(--white); 
-}
-
-.was-validated .form-control-lux:invalid { border-color: #e85c5c; }
-.invalid-feedback { display: none; font-size: 11px; color: #e85c5c; margin-top: 6px; }
-.was-validated .form-control-lux:invalid ~ .invalid-feedback { display: block; }
-
-.btn-primary-lux {
-  width: 100%; background: var(--ink); color: var(--white);
-  border: none; border-radius: 50px; padding: 16px 24px;
-  font-family: var(--ff-sans); font-size: 12px; letter-spacing: 0.15em;
-  text-transform: uppercase; font-weight: 500; cursor: pointer;
-  transition: background 0.25s, transform 0.18s, box-shadow 0.25s;
-  display: inline-flex; align-items: center; justify-content: center; gap: 8px;
-  margin-top: 1rem;
-}
-.btn-primary-lux:hover { 
-  background: var(--gold); 
-  transform: translateY(-2px); 
-  box-shadow: 0 8px 20px rgba(184, 151, 90, 0.25);
-}
-
-.auth-footer-prompt {
-  text-align: center; margin-top: 2rem; font-size: 13px; color: var(--ink-3);
-}
-.auth-footer-prompt a {
-  color: var(--gold); font-weight: 600; text-decoration: none; transition: color 0.2s;
-}
-.auth-footer-prompt a:hover { color: var(--ink); text-decoration: underline; }
-
-/* ══════════════════════════════════════
-   EXACT SAMPLE FOOTER
-══════════════════════════════════════ */
-.site-footer {
-  background: var(--ink); padding: 2rem 2.5rem;
-  display: flex; align-items: center; justify-content: space-between;
-  font-size: 11px; color: rgba(255,255,255,0.4); gap: 1rem; flex-wrap: wrap;
-}
-.footer-brand { font-family: var(--ff-serif); font-size: 20px; color: var(--gold-light); font-style: italic; }
-.footer-links { display: flex; gap: 18px; }
-.footer-links a { color: rgba(255,255,255,0.4); text-decoration: none; font-size: 11px; letter-spacing: 0.06em; text-transform: uppercase; transition: color 0.18s; }
-.footer-links a:hover { color: var(--gold-light); }
-
-/* Responsive adjustments */
-@media (max-width: 992px) {
-  .lx-nav { padding: 0 1.25rem; }
-  .nav-search { display: none; }
-}
-@media (max-width: 768px) {
-  .auth-main-bg { padding: 2rem 1rem; }
-  .glass-card { padding: 2.5rem 1.5rem; }
-  .form-title { font-size: 2.2rem; }
-}
-</style>
-
+<!-- ════════════════════════════════════════
+     NAVBAR
+════════════════════════════════════════ -->
 <nav class="lx-nav">
+
   <a href="/" class="nav-brand">Travel<span>Nest</span></a>
 
-  <div class="nav-search">
+  <!-- Desktop 3-segment search — now working -->
+  <div class="nav-search-desktop">
     <div class="search-seg">
-      <label>Where</label>
-      <input type="text" placeholder="Any destination">
+      <label for="searchWhere">Where</label>
+      <input type="text" id="searchWhere" placeholder="Any destination" autocomplete="off">
     </div>
     <div class="search-seg">
       <label>When</label>
@@ -234,19 +31,79 @@ body {
       <label>Guests</label>
       <input type="text" placeholder="Add guests">
     </div>
-    <button class="search-btn" type="button"><i class="fa-solid fa-magnifying-glass"></i></button>
+    <button class="search-btn" type="button" id="desktopSearchBtn" aria-label="Search">
+      <i class="fa-solid fa-magnifying-glass"></i>
+    </button>
   </div>
+
+  <!-- Mobile compact trigger -->
+  <button class="nav-search-trigger" id="searchTrigger" type="button" aria-label="Search">
+    <span class="trigger-icon"><i class="fa-solid fa-magnifying-glass"></i></span>
+    <span class="trigger-text">
+      <span class="tl">Search stays</span>
+      <span class="ts">Anywhere · Any time</span>
+    </span>
+  </button>
 
   <div class="nav-actions">
     <a href="/new" class="nav-link">List your property</a>
     <a href="/user/login" class="nav-link cta">Sign in</a>
   </div>
+
 </nav>
 
+
+<!-- ════════════════════════════════════════
+     SEARCH POPUP
+════════════════════════════════════════ -->
+<div class="search-overlay" id="searchOverlay">
+  <div class="search-popup" role="dialog" aria-modal="true" aria-label="Search stays">
+    <button class="popup-close" id="popupClose" type="button" aria-label="Close">
+      <i class="fa-solid fa-xmark"></i>
+    </button>
+    <div class="search-popup-inner">
+      <div class="popup-heading">Find your <em>perfect</em> stay</div>
+      <div class="popup-field">
+        <label for="popupWhere">Where</label>
+        <input type="text" id="popupWhere" class="popup-input" placeholder="City, country or area…" autocomplete="off">
+      </div>
+      <div class="popup-grid">
+        <div class="popup-field">
+          <label for="popupCheckIn">Check in</label>
+          <input type="date" id="popupCheckIn" class="popup-input">
+        </div>
+        <div class="popup-field">
+          <label for="popupCheckOut">Check out</label>
+          <input type="date" id="popupCheckOut" class="popup-input">
+        </div>
+      </div>
+      <div class="popup-field">
+        <label for="popupGuests">Guests</label>
+        <select id="popupGuests" class="popup-input">
+          <option>Add guests</option>
+          <option>1 guest</option>
+          <option>2 guests</option>
+          <option>3 guests</option>
+          <option>4+ guests</option>
+        </select>
+      </div>
+      <button class="popup-search-btn" id="popupSearchBtn" type="button">
+        <i class="fa-solid fa-magnifying-glass" style="font-size:12px"></i>
+        Search stays
+      </button>
+    </div>
+  </div>
+</div>
+
+
+<!-- ════════════════════════════════════════
+     FULL-SCREEN BG + GLASS CARD
+     (original design — auth-form untouched)
+════════════════════════════════════════ -->
 <main class="auth-main-bg">
-  
+
   <div class="glass-card">
-    
+
     <a href="javascript:history.back()" class="return-link-lux">
       <i class="fa-solid fa-arrow-left"></i> Return to previous
     </a>
@@ -254,39 +111,60 @@ body {
     <div class="section-eyebrow">Join the Collection</div>
     <h1 class="form-title">Sign Up for <em>TravelNest</em></h1>
 
-    <form id="signupForm" method="POST" action="/user/singup" class="needs-validation" novalidate>
-      
+    <!-- ════════════════════════════════════
+         AUTH FORM — ORIGINAL, UNCHANGED
+         Only action typo fixed: singup→signup
+    ════════════════════════════════════ -->
+    <form id="signupForm" method="POST" action="/user/signup" class="needs-validation" novalidate>
+
       <div class="input-group">
         <label for="username" class="form-label-lux">Username</label>
-        <input name="username" id="username" type="text" class="form-control-lux" placeholder="Choose a unique username" required autofocus>
+        <input name="username" id="username" type="text"
+               class="form-control-lux"
+               placeholder="Choose a unique username"
+               required autofocus autocomplete="username">
         <div class="invalid-feedback">Please choose a valid username.</div>
       </div>
 
       <div class="input-group">
         <label for="email" class="form-label-lux">Email Address</label>
-        <input name="email" id="email" type="email" class="form-control-lux" placeholder="Enter your email" required>
+        <input name="email" id="email" type="email"
+               class="form-control-lux"
+               placeholder="Enter your email"
+               required autocomplete="email">
         <div class="invalid-feedback">Please provide a valid email address.</div>
       </div>
 
       <div class="input-group">
         <label for="password" class="form-label-lux">Password</label>
-        <input name="password" id="password" type="password" class="form-control-lux" placeholder="Create a strong password" required>
+        <input name="password" id="password" type="password"
+               class="form-control-lux"
+               placeholder="Create a strong password"
+               required autocomplete="new-password">
         <div class="invalid-feedback">Please enter a secure password.</div>
       </div>
 
       <button type="submit" class="btn-primary-lux">
-        <i class="fa-solid fa-user-plus" style="font-size: 11px;"></i> Create Account
+        <i class="fa-solid fa-user-plus" style="font-size:11px"></i>
+        Create Account
       </button>
+
     </form>
+    <!-- /auth-form -->
 
     <div class="auth-footer-prompt">
-      Already a member? <br><br> <a href="/user/login">Log In Instead</a>
+      Already a member?<br><br>
+      <a href="/user/login">Log In Instead</a>
     </div>
 
   </div>
 
 </main>
 
+
+<!-- ════════════════════════════════════════
+     FOOTER
+════════════════════════════════════════ -->
 <footer class="site-footer">
   <div class="footer-brand">TravelNest</div>
   <div class="footer-links">
@@ -298,17 +176,6 @@ body {
   <div>&copy; <%= new Date().getFullYear() %> TravelNest. All rights reserved.</div>
 </footer>
 
-<script>
-/* ── CUSTOM FORM VALIDATION ── */
-(function () {
-  'use strict';
-  const form = document.getElementById('signupForm');
-  form.addEventListener('submit', function (e) {
-    if (!form.checkValidity()) { 
-        e.preventDefault(); 
-        e.stopPropagation(); 
-    }
-    form.classList.add('was-validated');
-  }, false);
-})();
-</script>
+
+<!-- ── PAGE SCRIPT ── -->
+<script src="/js/singup.js"></script>
