@@ -1,250 +1,199 @@
- <!-- layout("/layout/boilerplate") %> -->
+<% layout("/layout/boilerplate") %>
 
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=DM+Sans:wght@300;400;500&display=swap">
+<!-- ── PAGE STYLESHEET ── -->
+<link rel="stylesheet" href="/css/new.css">
 
-<style>
-  :root {
-    --gold:       #b8975a;
-    --gold-light: #e0c98a;
-    --ink:        #18160f;
-    --ink-2:      #3a3528;
-    --ink-3:      #7a7263;
-    --surface:    #fdfcf9;
-    --border:     #e8e2d6;
-    --white:      #ffffff;
-    --font-serif: 'Cormorant Garamond', Georgia, serif;
-    --font-sans:  'DM Sans', sans-serif;
-  }
 
-  body {
-    background: var(--surface);
-    font-family: var(--font-sans);
-    color: var(--ink);
-  }
+<!-- ════════════════════════════════════════
+     PAGE CONTENT
+════════════════════════════════════════ -->
+<div class="page-wrapper">
 
-  /* Back Button Styling */
-  .back-nav {
-    margin-top: 2rem;
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    color: var(--ink-3);
-    text-decoration: none;
-    font-size: 13px;
-    font-weight: 500;
-    text-transform: uppercase;
-    letter-spacing: 0.1em;
-    transition: color 0.2s;
-  }
-  .back-nav:hover { color: var(--gold); }
-  .back-nav i { font-size: 10px; transition: transform 0.2s; }
-  .back-nav:hover i { transform: translateX(-4px); }
+  <!-- Back link -->
+  <a href="javascript:history.back()" class="back-nav">
+    <i class="fa-solid fa-arrow-left"></i> Return to previous
+  </a>
 
-  .form-container {
-    background: var(--white);
-    padding: 3rem;
-    border-radius: 20px;
-    border: 1px solid var(--border);
-    box-shadow: 0 10px 40px rgba(24, 22, 15, 0.05);
-    margin-top: 1.5rem;
-    margin-bottom: 4rem;
-  }
+  <!-- Form card -->
+  <div class="form-container">
 
-  .form-header {
-    text-align: center;
-    margin-bottom: 2.5rem;
-  }
+    <!-- Dark header band -->
+    <div class="form-header">
+      <div class="form-eyebrow">Host Portal</div>
+      <h1 class="form-title">
+        Create an <em>Extraordinary</em> Listing
+      </h1>
+    </div>
 
-  .form-header h3 {
-    font-family: var(--font-serif);
-    font-size: 42px;
-    font-weight: 300;
-  }
+    <!-- Form body -->
+    <div class="form-body">
 
-  .form-header h3 em { color: var(--gold); font-style: italic; }
+      <form
+        method="POST"
+        action="/listings"
+        class="needs-validation"
+        novalidate
+        enctype="multipart/form-data"
+      >
 
-  .form-label {
-    font-size: 11px;
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 0.08em;
-    color: var(--ink-2);
-    margin-bottom: 8px;
-  }
-
-  .form-control, .form-select {
-    border: 1px solid var(--border);
-    border-radius: 10px;
-    padding: 12px 16px;
-    font-size: 14px;
-  }
-
-  .form-control:focus {
-    border-color: var(--gold);
-    box-shadow: 0 0 0 4px rgba(184, 151, 90, 0.1);
-    outline: none;
-  }
-
-  /* Image Preview Box */
-  #image-preview-wrapper {
-    position: relative;
-    border-radius: 15px;
-    overflow: hidden;
-    border: 2px dashed var(--border);
-    background: var(--surface);
-    display: none; /* Hidden by default */
-  }
-
-  #image-preview {
-    width: 100%;
-    max-height: 350px;
-    object-fit: cover;
-    display: block;
-  }
-
-  .btn-create {
-    background: var(--ink);
-    color: var(--white);
-    border: none;
-    padding: 16px;
-    border-radius: 50px;
-    font-size: 12px;
-    font-weight: 600;
-    letter-spacing: 0.15em;
-    text-transform: uppercase;
-    width: 100%;
-    margin-top: 1rem;
-    transition: all 0.3s ease;
-  }
-
-  .btn-create:hover {
-    background: var(--gold);
-    transform: translateY(-2px);
-  }
-
-  @media (max-width: 768px) {
-    .form-container { padding: 2rem 1.5rem; }
-  }
-</style>
-
-<div class="container">
-  <div class="row">
-    <div class="col-lg-8 offset-lg-2">
-      
-      <a href="javascript:history.back()" class="back-nav">
-        <i class="fa-solid fa-chevron-left"></i> Return to previous
-      </a>
-
-      <div class="form-container">
-        <div class="form-header">
-          <p style="font-size: 11px; text-transform: uppercase; letter-spacing: 2px; color: var(--gold);">Host Portal</p>
-          <h3>Create <em>Extraordinary</em> Listing</h3>
+        <!-- Title -->
+        <div class="field-group">
+          <label for="title" class="form-label">Property Title</label>
+          <input
+            name="listing[title]"
+            type="text"
+            class="form-control"
+            id="title"
+            placeholder="e.g. The Glass House above the clouds"
+            required
+          >
+          <div class="invalid-feedback">Please give your property a title.</div>
         </div>
 
-        <form method="POST" action="/listings" class="needs-validation" novalidate enctype="multipart/form-data">
-          
-          <div class="mb-4">
-            <label for="title" class="form-label">Property Title</label>
-            <input name="listing[title]" placeholder="e.g. The Glass House" type="text" class="form-control" id="title" required>
+        <!-- Description -->
+        <div class="field-group">
+          <label for="description" class="form-label">Description</label>
+          <textarea
+            name="listing[description]"
+            rows="4"
+            class="form-control"
+            id="description"
+            placeholder="Describe the soul of this place — what makes it unforgettable?"
+            required
+          ></textarea>
+          <div class="invalid-feedback">Please add a description.</div>
+        </div>
+
+        <!-- Image upload -->
+        <div class="field-group">
+          <div class="img-section-label">
+            <i class="fa-regular fa-image" style="color:var(--gold);font-size:13px"></i>
+            Property Photography
           </div>
 
-          <div class="mb-4">
-            <label for="description" class="form-label">Description</label>
-            <textarea name="listing[description]" placeholder="Describe the soul of this place..." rows="4" class="form-control" id="description" required></textarea>
-          </div>
-
-          <div class="mb-4">
-            <label for="image" class="form-label">Property Photography</label>
-            
-            <div id="image-preview-wrapper" class="mb-3">
-                <img id="image-preview" src="#" alt="Upload Preview">
+          <!-- Preview (hidden until file chosen) -->
+          <div class="preview-box" id="imagePreviewBox">
+            <img id="imagePreview" src="#" alt="Preview">
+            <div class="preview-badge" id="previewBadge">
+              <i class="fa-solid fa-check" style="font-size:9px"></i> Ready to upload
             </div>
-
-            <input name="listing[image]" type="file" class="form-control" id="image" onchange="runPreview(event)">
-            <small class="text-muted" style="font-size: 10px;">Select a high-quality .jpg or .png file</small>
+            <button
+              type="button"
+              class="preview-remove"
+              id="previewRemove"
+              aria-label="Remove image"
+            >
+              <i class="fa-solid fa-xmark"></i>
+            </button>
           </div>
 
-          <div class="mb-4">
-            <label for="category" class="form-label">Curated Category</label>
+          <!-- Upload zone (drag & drop or click) -->
+          <div class="upload-zone" id="uploadZone">
+            <i class="fa-solid fa-cloud-arrow-up"></i>
+            <div class="uz-title">Drop your photo here, or click to browse</div>
+            <div class="uz-sub">High-quality .jpg or .png · Recommended 1920×1080+</div>
+            <!-- real file input sits over the zone -->
+            <input
+              name="listing[image]"
+              type="file"
+              id="image"
+              accept="image/*"
+              onchange="runPreview(event)"
+            >
+          </div>
+
+          <!-- File name chip -->
+          <div class="file-chip" id="fileChip">
+            <i class="fa-regular fa-file-image"></i>
+            <span id="chipName"></span>
+          </div>
+        </div>
+
+        <!-- Category -->
+        <div class="field-group">
+          <label for="category" class="form-label">Curated Category</label>
+          <div class="select-wrap">
             <select name="listing[category]" class="form-select" id="category" required>
-                <option value="" selected disabled>Select atmosphere...</option>
-                <option value="Trending">Trending</option>
-                <option value="Rooms">Rooms</option>
-                <option value="Iconic Cities">Iconic Cities</option>
-                <option value="Mountains">Mountains</option>
-                <option value="Amazing Pools">Amazing Pools</option>
-                <option value="Beachfront">Beachfront</option>
-                <option value="Farms">Farms</option>
-                <option value="Arctic">Arctic</option>
-                <option value="Lakefront">Lakefront</option>
-                <option value="Camping">Camping</option>
-                <option value="Castles">Castles</option>
+              <option value="" selected disabled>Select atmosphere…</option>
+              <option value="Trending">Trending</option>
+              <option value="Rooms">Rooms</option>
+              <option value="Iconic Cities">Iconic Cities</option>
+              <option value="Mountains">Mountains</option>
+              <option value="Amazing Pools">Amazing Pools</option>
+              <option value="Beachfront">Beachfront</option>
+              <option value="Farms">Farms</option>
+              <option value="Arctic">Arctic</option>
+              <option value="Lakefront">Lakefront</option>
+              <option value="Camping">Camping</option>
+              <option value="Castles">Castles</option>
             </select>
           </div>
+          <div class="invalid-feedback">Please select a category.</div>
+        </div>
 
-          <div class="row">
-            <div class="mb-4 col-md-5">
-              <label for="price" class="form-label">Price / Night</label>
-              <div class="input-group">
-                <span class="input-group-text bg-white border-end-0" style="border-radius: 10px 0 0 10px; border-color: var(--border);">&#8377;</span>
-                <input name="listing[price]" placeholder="1500" type="number" class="form-control border-start-0" id="price" style="border-radius: 0 10px 10px 0;" required>
-              </div>
-            </div>
+        <!-- Price + Location row -->
+        <div class="form-row">
 
-            <div class="mb-4 col-md-7">
-              <label for="location" class="form-label">Location</label>
-              <input name="listing[location]" placeholder="City, State" type="text" class="form-control" id="location" required>
+          <div class="field-group">
+            <label for="price" class="form-label">Price / Night</label>
+            <div class="price-wrap">
+              <span class="price-symbol">&#8377;</span>
+              <input
+                name="listing[price]"
+                type="number"
+                class="form-control"
+                id="price"
+                placeholder="1500"
+                min="1"
+                required
+              >
             </div>
+            <div class="invalid-feedback">Please enter a valid price.</div>
           </div>
 
-          <div class="mb-4">
-            <label for="country" class="form-label">Country</label>
-            <input name="listing[country]" placeholder="e.g. India" type="text" class="form-control" id="country" required>
+          <div class="field-group">
+            <label for="location" class="form-label">City / State</label>
+            <input
+              name="listing[location]"
+              type="text"
+              class="form-control"
+              id="location"
+              placeholder="e.g. Jaipur, Rajasthan"
+              required
+            >
+            <div class="invalid-feedback">Please enter the location.</div>
           </div>
 
-          <button class="btn-create" type="submit">Publish to WanderStay</button>
+        </div>
 
-        </form>
-      </div>
-    </div>
-  </div>
-</div>
+        <!-- Country -->
+        <div class="field-group">
+          <label for="country" class="form-label">Country</label>
+          <input
+            name="listing[country]"
+            type="text"
+            class="form-control"
+            id="country"
+            placeholder="e.g. India"
+            required
+          >
+          <div class="invalid-feedback">Please enter the country.</div>
+        </div>
 
-<script>
-  // Image Preview Function
-  function runPreview(event) {
-    const reader = new FileReader();
-    const wrapper = document.getElementById('image-preview-wrapper');
-    const output = document.getElementById('image-preview');
+        <div class="form-divider"></div>
 
-    reader.onload = function() {
-      if (reader.readyState === 2) {
-        output.src = reader.result;
-        wrapper.style.display = "block";
-      }
-    }
+        <button class="btn-create" type="submit">
+          <i class="fa-solid fa-circle-plus" style="font-size:14px"></i>
+          Publish to TravelNest
+        </button>
 
-    if (event.target.files[0]) {
-      reader.readAsDataURL(event.target.files[0]);
-    } else {
-      wrapper.style.display = "none";
-    }
-  }
+      </form>
 
-  // Bootstrap Validation (standard from your bootstrapForm.js)
-  (() => {
-    'use strict'
-    const forms = document.querySelectorAll('.needs-validation')
-    Array.from(forms).forEach(form => {
-      form.addEventListener('submit', event => {
-        if (!form.checkValidity()) {
-          event.preventDefault()
-          event.stopPropagation()
-        }
-        form.classList.add('was-validated')
-      }, false)
-    })
-  })()
-</script>
+    </div><!-- /form-body -->
+  </div><!-- /form-container -->
+
+</div><!-- /page-wrapper -->
+
+
+<!-- ── PAGE SCRIPT ── -->
+<script src="/js/new.js"></script>
