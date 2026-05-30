@@ -31,16 +31,7 @@ router.get("/api/search", async (req, res) => {
         ).sort({ score: { $meta: "textScore" } }); // Sort by best match
 
         res.render("ejs/searchResult.ejs", { results, query: q });
-    // } catch (err) {
-    //     console.error("Search Error:", err);
-    //     res.status(500).render("ejs/err.ejs", { message: "Search failed." });
-    // }
 });
-// router.get("/api/search", wrapAsync( async (req, res) => {
-//     let { q } = req.query;
-//     let listings = await Listing.find({ location: new RegExp(q, 'i') });
-//     res.json(listings);
-// }));
 
 // Home Route
 router.get("/", wrapAsync(listingController.Home));
