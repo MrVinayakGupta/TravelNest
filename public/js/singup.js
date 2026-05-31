@@ -40,12 +40,12 @@
   if (desktopBtn && desktopWhere) {
     desktopBtn.addEventListener('click', function () {
       var q = desktopWhere.value.trim();
-      if (q) window.location.href = '/search?q=' + encodeURIComponent(q);
+      if (q) window.location.href = '/api/search?q=' + encodeURIComponent(q);
     });
     desktopWhere.addEventListener('keydown', function (e) {
       if (e.key === 'Enter') {
         var q = desktopWhere.value.trim();
-        if (q) window.location.href = '/search?q=' + encodeURIComponent(q);
+        if (q) window.location.href = '/api/search?q=' + encodeURIComponent(q);
       }
     });
   }
@@ -54,7 +54,7 @@
   if (popupBtn && popupWhere) {
     popupBtn.addEventListener('click', function () {
       var q = popupWhere.value.trim();
-      if (q) { closePopup(); window.location.href = '/search?q=' + encodeURIComponent(q); }
+      if (q) { closePopup(); window.location.href = '/api/search?q=' + encodeURIComponent(q); }
     });
     popupWhere.addEventListener('keydown', function (e) {
       if (e.key === 'Enter') popupBtn.click();
